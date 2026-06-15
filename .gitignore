@@ -1,0 +1,41 @@
+# Environment variables（機密情報保護。このアプリは未使用だが安全のため除外）
+.env
+.env.local
+.env.production
+.env*.local
+
+# Dependencies
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Build outputs
+build/
+dist/
+.next/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Playwright
+playwright-report/
+test-results/
+
+# Logs
+*.log
+
+# Coverage
+coverage/
+.coverage
+
+# 作業用一時ディレクトリ（成果物ではない）
+.appgenius_temp/

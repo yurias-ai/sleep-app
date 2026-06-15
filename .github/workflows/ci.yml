@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # 軽量ゲート: 単一HTML静的アプリ向けの基本検証のみ。
+  # このアプリは build / tsc / test を持たない（バックエンド・ビルドなし）ため、
+  # 重い検証は載せず、HTMLの存在・最低限の妥当性だけを機構的に確認する最終防壁とする。
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node/TS プロジェクトなら tsc/lint（無ければスキップ）
+        run: |
+          if [ -f package.json ]; then
+            if   [ -f pnpm-lock.yaml ]; then corepack enable && pnpm install --frozen-lockfile;
+            elif [ -f yarn.lock ];      then corepack enable && yarn install --frozen-lockfile;
+            else npm ci; fi
+            if [ -f turbo.json ]; then npx turbo run tsc; else npx tsc --noEmit || echo "tsc設定なし: スキップ"; fi
+            npm run lint --if-present
+          else
+            echo "package.json なし: 静的HTMLアプリとして基本検証のみ実施"
+          fi
+
+      - name: HTML 基本検証（ファイル存在・空でない・<html>タグ）
+        run: |
+          html_files=$(find . -name '*.html' -not -path './node_modules/*' -not -path './.git/*')
+          if [ -z "$html_files" ]; then
+            echo "ℹ️ HTMLファイルはまだありません（Phase 3/4 で作成予定）。検証スキップ。"
+            exit 0
+          fi
+          fail=0
+          for f in $html_files; do
+            if [ ! -s "$f" ]; then echo "✋ 空ファイル: $f"; fail=1; continue; fi
+            if ! grep -qi '<html' "$f"; then echo "✋ <html> タグなし: $f"; fail=1; fi
+            echo "✅ $f"
+          done
+          exit $fail

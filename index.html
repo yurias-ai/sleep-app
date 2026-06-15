@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<!-- セキュリティ基盤: 外部通信を機構的に遮断（完全自己完結・外部送信なしの担保）。
+     connect-src 'none' で fetch/XHR/beacon を全面禁止。外部script/style/CDNも読み込み不可。
+     inline は単一HTML自己完結のため許可。 -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#f1e8da">
+<meta name="description" content="眠りの森学園 体験版 — 完全無料の睡眠×リズム カレンダー">
+<title>眠りの森学園 体験版</title>
+<style>
+  /* ============================================================
+     デザイントークン（テーマ: ミルクラテ）— 真実の源は :root のみ
+     色を直接書かず、必ず var() を参照すること
+     ============================================================ */
+  :root {
+    /* 背景・面 */
+    --c-bg:        #f1e8da;  /* 画面背景（濃いめベージュ） */
+    --c-surface:   #fdfbf5;  /* カード面 */
+    --c-surface-2: #f6efe1;  /* 一段沈んだ面 */
+    /* テキスト */
+    --c-text:      #5c5142;  /* 本文 */
+    --c-text-sub:  #a89a82;  /* 補助テキスト */
+    /* アクセント（抹茶ラテグリーン） */
+    --c-accent:      #8fa06f;
+    --c-accent-deep: #65713f;
+    --c-accent-soft: #dfe7c6;
+    /* 機能色 */
+    --c-line:    #e3d8c3;  /* 罫線・枠 */
+    --c-danger:  #c08552;  /* 注意・警告（過度に赤くしない温かい色） */
+    /* フェーズ別アクセント（Phase 4で利用） */
+    --c-phase-menstrual: #d09a9a;
+    --c-phase-follicular:#9ab38a;
+    --c-phase-ovulation: #d3c074;
+    --c-phase-luteal:    #b39ec0;
+    /* 形状・余白・影 */
+    --radius-sm: 10px;
+    --radius:    16px;
+    --radius-lg: 22px;
+    --space:     16px;
+    --shadow:    0 6px 20px rgba(92,81,66,.10);
+    --shadow-sm: 0 2px 8px rgba(92,81,66,.08);
+    /* タイポ */
+    --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+            "Yu Gothic", "Noto Sans JP", sans-serif;
+    /* レイアウト */
+    --app-max: 430px;       /* スマホ縦型の最大幅 */
+    --nav-h:   64px;        /* 下部ナビ高さ */
+  }
+
+  /* ============================================================
+     リセット（最小限）
+     ============================================================ */
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: var(--font);
+    color: var(--c-text);
+    background: var(--c-bg);
+    line-height: 1.7;
+    font-size: 15px;
+    overscroll-behavior-y: none;
+  }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  /* ============================================================
+     アプリ枠（スマホ縦型・中央寄せ・9:16意識）
+     ============================================================ */
+  #app {
+    max-width: var(--app-max);
+    min-height: 100%;
+    margin: 0 auto;
+    background: var(--c-bg);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 0 40px rgba(92,81,66,.06);
+  }
+  /* スクロールする本文（下部ナビ分の余白を確保） */
+  .view {
+    flex: 1;
+    padding: 22px var(--space) calc(var(--nav-h) + 24px);
+    display: none;
+    animation: fade .25s ease;
+  }
+  .view.is-active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ============================================================
+     共通コンポーネント
+     ============================================================ */
+  .app-title { text-align: center; margin-bottom: 18px; }
+  .app-title h1 { font-size: 17px; letter-spacing: .06em; font-weight: 700; }
+  .app-title p  { font-size: 11.5px; color: var(--c-text-sub); margin-top: 2px; }
+
+  .card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 16px;
+    margin-bottom: 16px;
+  }
+
+  .badge-free {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11.5px; font-weight: 700;
+    color: var(--c-accent-deep);
+    background: var(--c-accent-soft);
+    border-radius: 999px;
+    padding: 5px 12px;
+  }
+
+  .btn-primary {
+    display: block; width: 100%;
+    background: var(--c-accent);
+    color: #fff; font-weight: 700; font-size: 15px;
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow-sm);
+    transition: filter .15s, transform .05s;
+  }
+  .btn-primary:active { filter: brightness(.95); transform: scale(.99); }
+
+  .note {
+    font-size: 11px; line-height: 1.8; color: var(--c-text-sub);
+    background: var(--c-surface-2);
+    border-radius: var(--radius-sm);
+    padding: 12px 13px;
+  }
+  .note strong { color: var(--c-danger); font-weight: 700; }
+
+  .placeholder {
+    text-align: center; color: var(--c-text-sub);
+    padding: 28px 12px; font-size: 13px;
+  }
+  .placeholder .ico { font-size: 34px; display: block; margin-bottom: 8px; }
+
+  /* ============================================================
+     下部ナビ（3タブ）
+     ============================================================ */
+  .bottom-nav {
+    position: sticky; bottom: 0;
+    max-width: var(--app-max);
+    margin: 0 auto;
+    width: 100%;
+    height: var(--nav-h);
+    display: flex;
+    background: var(--c-surface);
+    border-top: 1px solid var(--c-line);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .bottom-nav button {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px;
+    font-size: 10.5px; color: var(--c-text-sub);
+    transition: color .15s;
+  }
+  .bottom-nav button .ic { font-size: 21px; }
+  .bottom-nav button.is-active { color: var(--c-accent-deep); font-weight: 700; }
+
+  /* オンボーディング中はナビを隠す */
+  body.onboarding .bottom-nav { display: none; }
+</style>
+</head>
+<body>
+  <div id="app">
+
+    <!-- ===== 初回キャラ判定（オンボーディング）: Phase 4で中身実装 ===== -->
+    <section id="view-onboarding" class="view" data-view="onboarding">
+      <div class="app-title">
+        <h1>🌙 眠りの森学園</h1>
+        <p>体験版へようこそ</p>
+      </div>
+      <div class="card">
+        <div class="placeholder">
+          <span class="ico">🐾</span>
+          初回キャラ判定（生年月日入力）<br>※ Phase 4 で実装
+        </div>
+      </div>
+      <p class="note">
+        このアプリは<strong>完全無料</strong>です。料金は一切かかりません。<br>
+        記録データはこの端末内のみで扱い、外部に送信されません。
+      </p>
+    </section>
+
+    <!-- ===== P-001 トップ ===== -->
+    <section id="view-top" class="view" data-view="top">
+      <div class="app-title">
+        <h1>🌙 眠りの森学園</h1>
+        <p>体験版</p>
+      </div>
+      <div style="text-align:center; margin-bottom:14px;">
+        <span class="badge-free">🌿 完全無料／料金は一切かかりません</span>
+      </div>
+      <div class="card">
+        <div class="placeholder">
+          <span class="ico">🦌</span>
+          今日のフェーズ・動物キャラ・今日のひとこと<br>※ Phase 4 で実装
+        </div>
+      </div>
+      <p class="note">
+        <strong>完全無料です。料金は一切かかりません。</strong><br>
+        医療行為ではありません。体調に不安がある場合は医療機関にご相談ください。<br>
+        記録データはこの端末内のみで扱い、外部に送信されません。
+      </p>
+    </section>
+
+    <!-- ===== P-002 記録 ===== -->
+    <section id="view-record" class="view" data-view="record">
+      <div class="app-title"><h1>📝 記録</h1></div>
+      <div class="card">
+        <div class="placeholder">
+          <span class="ico">🗓️</span>
+          生理開始日の記録・甘いもの欲・グラフ<br>※ Phase 4 で実装
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== P-003 予告 ===== -->
+    <section id="view-forecast" class="view" data-view="forecast">
+      <div class="app-title"><h1>🔒 予告</h1></div>
+      <div class="card">
+        <div class="placeholder">
+          <span class="ico">🎓</span>
+          講座で解放される機能・LINE特典案内<br>※ Phase 4 で実装
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 下部ナビ（3タブ） ===== -->
+    <nav class="bottom-nav" aria-label="メインナビゲーション">
+      <button data-nav="top">       <span class="ic">🏠</span>トップ</button>
+      <button data-nav="record">    <span class="ic">📝</span>記録</button>
+      <button data-nav="forecast">  <span class="ic">🔒</span>予告</button>
+    </nav>
+  </div>
+
+  <!-- ============================================================
+       JavaScript — 機能単位で分割（storage層 / state / router）
+       中身ロジック（フェーズ判定・キャラ判定・描画）は Phase 4
+       ============================================================ -->
+
+  <!-- [1] storage 抽象層: localStorage→失敗時メモリMapへフォールバック -->
+  <script>
+  "use strict";
+  const Storage = (() => {
+    const NS = "nemorino:";              // キー名前空間
+    const mem = new Map();               // フォールバック用メモリ
+    let usable = false;
+    try {
+      const t = NS + "__t";
+      window.localStorage.setItem(t, "1");
+      window.localStorage.removeItem(t);
+      usable = true;                     // LINE内ブラウザ等で例外なら false
+    } catch (_) { usable = false; }
+
+    function get(key, fallback = null) {
+      try {
+        const raw = usable ? window.localStorage.getItem(NS + key) : mem.get(key);
+        return raw == null ? fallback : JSON.parse(raw);
+      } catch (_) { return fallback; }
+    }
+    function set(key, value) {
+      const raw = JSON.stringify(value);
+      try {
+        if (usable) window.localStorage.setItem(NS + key, raw);
+        else mem.set(key, raw);
+      } catch (_) { mem.set(key, raw); } // 途中失敗もメモリへ退避
+    }
+    function remove(key) {
+      try { usable ? window.localStorage.removeItem(NS + key) : mem.delete(key); }
+      catch (_) { mem.delete(key); }
+    }
+    return { get, set, remove, get isPersistent() { return usable; } };
+  })();
+  </script>
+
+  <!-- [2] DOM安全ヘルパー（XSS対策: textContent 経由のみ） -->
+  <script>
+  "use strict";
+  const Dom = {
+    qs:  (sel, root = document) => root.querySelector(sel),
+    qsa: (sel, root = document) => Array.from(root.querySelectorAll(sel)),
+    // ユーザー入力を含む文字列は必ずこれで挿入（innerHTML 生挿入を禁止）
+    setText: (el, text) => { if (el) el.textContent = text == null ? "" : String(text); },
+  };
+  </script>
+
+  <!-- [3] ルーター: タブ切替 + 初回オンボーディング分岐 -->
+  <script>
+  "use strict";
+  const App = (() => {
+    const PROFILE_KEY = "profile";       // { birthdate, charaId } を保持予定（Phase 4）
+    const views = {};
+    let navButtons = [];
+
+    function showView(name) {
+      Dom.qsa(".view").forEach((v) => v.classList.toggle("is-active", v.dataset.view === name));
+      navButtons.forEach((b) => b.classList.toggle("is-active", b.dataset.nav === name));
+      const main = Dom.qs("#app");
+      if (main) main.scrollTop = 0;
+    }
+
+    function isOnboarded() {
+      const p = Storage.get(PROFILE_KEY);
+      return !!(p && p.charaId);          // キャラ判定済みか
+    }
+
+    function start() {
+      navButtons = Dom.qsa(".bottom-nav button");
+      navButtons.forEach((b) => b.addEventListener("click", () => showView(b.dataset.nav)));
+
+      if (isOnboarded()) {
+        document.body.classList.remove("onboarding");
+        showView("top");
+      } else {
+        document.body.classList.add("onboarding"); // ナビを隠して判定画面のみ
+        showView("onboarding");
+      }
+    }
+
+    return { start, showView, isOnboarded, PROFILE_KEY };
+  })();
+
+  document.addEventListener("DOMContentLoaded", App.start);
+  </script>
+</body>
+</html>

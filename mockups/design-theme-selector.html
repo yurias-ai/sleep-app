@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>デザインテーマ選択 - 眠りの森学園</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Hiragino Sans", "Yu Gothic", sans-serif;
+    background: #efe9e1;
+    color: #4a463f;
+    padding: 28px 16px 48px;
+    line-height: 1.6;
+  }
+  .head { text-align: center; max-width: 880px; margin: 0 auto 28px; }
+  .head h1 { font-size: 20px; letter-spacing: .04em; }
+  .head p { font-size: 13px; color: #8a8478; margin-top: 8px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 22px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .card { display: flex; flex-direction: column; align-items: center; }
+  .num {
+    font-size: 13px; font-weight: 700; letter-spacing: .1em;
+    color: #8a8478; margin-bottom: 10px;
+  }
+  /* スマホ枠 */
+  .phone {
+    width: 234px; height: 416px; border-radius: 30px;
+    padding: 10px; background: #2f2b25;
+    box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  }
+  .screen {
+    width: 100%; height: 100%; border-radius: 22px; overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .top { padding: 18px 16px 10px; text-align: center; }
+  .top .phase { font-size: 11px; letter-spacing: .12em; }
+  .chara {
+    margin: 10px auto; width: 88px; height: 88px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 40px;
+  }
+  .chara-name { font-size: 14px; font-weight: 700; }
+  .body { flex: 1; padding: 4px 14px; }
+  .hitokoto {
+    border-radius: 16px; padding: 12px 13px; font-size: 11.5px; line-height: 1.7;
+  }
+  .free {
+    display: inline-block; font-size: 10px; padding: 4px 10px;
+    border-radius: 999px; margin-top: 10px;
+  }
+  .nav {
+    display: flex; border-top: 1px solid rgba(0,0,0,.06);
+    padding: 8px 0 10px;
+  }
+  .nav div { flex: 1; text-align: center; font-size: 10px; }
+  .nav .ic { font-size: 16px; display: block; margin-bottom: 2px; }
+  .meta { margin-top: 12px; text-align: center; }
+  .meta .tname { font-size: 15px; font-weight: 700; }
+  .meta .tdesc { font-size: 11.5px; color: #8a8478; margin-top: 4px; max-width: 220px; }
+  .swatches { display: flex; gap: 6px; justify-content: center; margin-top: 8px; }
+  .sw { width: 18px; height: 18px; border-radius: 50%; border: 1px solid rgba(0,0,0,.08); }
+</style>
+</head>
+<body>
+  <div class="head">
+    <h1>🌿 デザインテーマを選んでください</h1>
+    <p>「眠りの森学園 体験版」トップ画面のイメージ4案です。すべてベージュ×淡グリーンの癒し系。番号でお選びください。</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- 1 森のひだまり -->
+    <div class="card">
+      <div class="num">案 1</div>
+      <div class="phone"><div class="screen" style="background:#f6f1e7;color:#5b5547;">
+        <div class="top">
+          <div class="phase" style="color:#9aa87f;">🌙 黄体期</div>
+          <div class="chara" style="background:#e7efd8;">🦌</div>
+          <div class="chara-name">おっとり鹿さん</div>
+        </div>
+        <div class="body">
+          <div class="hitokoto" style="background:#fff;border:1px solid #ece4d2;">
+            今日は甘いものが恋しくなる時期。早めの就寝でリズムを整えましょう🌿
+          </div>
+          <div style="text-align:center;"><span class="free" style="background:#e7efd8;color:#6f7d52;">完全無料</span></div>
+        </div>
+        <div class="nav" style="background:#fff;color:#9a937f;">
+          <div style="color:#7d8a5a;"><span class="ic">🏠</span>トップ</div>
+          <div><span class="ic">📝</span>記録</div>
+          <div><span class="ic">🔒</span>予告</div>
+        </div>
+      </div></div>
+      <div class="meta">
+        <div class="tname">森のひだまり</div>
+        <div class="tdesc">ベージュ基調＋淡グリーン差し色。丸み強めで、いちばん"ぬくもり"重視。</div>
+        <div class="swatches"><span class="sw" style="background:#f6f1e7;"></span><span class="sw" style="background:#e7efd8;"></span><span class="sw" style="background:#9aa87f;"></span><span class="sw" style="background:#5b5547;"></span></div>
+      </div>
+    </div>
+
+    <!-- 2 朝もや -->
+    <div class="card">
+      <div class="num">案 2</div>
+      <div class="phone"><div class="screen" style="background:#fbfaf6;color:#52564c;">
+        <div class="top">
+          <div class="phase" style="color:#a3b39a;">朝もや · 黄体期</div>
+          <div class="chara" style="background:#eef2ea;border:1px solid #dde6d8;">🐇</div>
+          <div class="chara-name">しずか兎さん</div>
+        </div>
+        <div class="body">
+          <div class="hitokoto" style="background:#f4f6f1;">
+            甘いものが恋しい時期。あたたかい白湯と早めの就寝でやさしく整えて。
+          </div>
+          <div style="text-align:center;"><span class="free" style="background:#eef2ea;color:#7e9075;">完全無料</span></div>
+        </div>
+        <div class="nav" style="background:#fbfaf6;color:#b0b3a8;">
+          <div style="color:#8a9a80;"><span class="ic">🏠</span>トップ</div>
+          <div><span class="ic">📝</span>記録</div>
+          <div><span class="ic">🔒</span>予告</div>
+        </div>
+      </div></div>
+      <div class="meta">
+        <div class="tname">朝もや</div>
+        <div class="tdesc">オフホワイト×セージグリーン。余白多めのミニマルで上品。軽さ最優先。</div>
+        <div class="swatches"><span class="sw" style="background:#fbfaf6;"></span><span class="sw" style="background:#eef2ea;"></span><span class="sw" style="background:#a3b39a;"></span><span class="sw" style="background:#52564c;"></span></div>
+      </div>
+    </div>
+
+    <!-- 3 ミルクラテ -->
+    <div class="card">
+      <div class="num">案 3</div>
+      <div class="phone"><div class="screen" style="background:#f1e8da;color:#5c5142;">
+        <div class="top">
+          <div class="phase" style="color:#8fa06f;">🌿 黄体期</div>
+          <div class="chara" style="background:#dfe7c6;">🐑</div>
+          <div class="chara-name">まったり羊さん</div>
+        </div>
+        <div class="body">
+          <div class="hitokoto" style="background:#fdfbf5;border:1px solid #e3d8c3;">
+            甘いもの欲が高まる週。温かい飲み物とゆったり就寝でいたわって🌙
+          </div>
+          <div style="text-align:center;"><span class="free" style="background:#dfe7c6;color:#65713f;">完全無料</span></div>
+        </div>
+        <div class="nav" style="background:#fdfbf5;color:#a89a82;">
+          <div style="color:#7e8f55;"><span class="ic">🏠</span>トップ</div>
+          <div><span class="ic">📝</span>記録</div>
+          <div><span class="ic">🔒</span>予告</div>
+        </div>
+      </div></div>
+      <div class="meta">
+        <div class="tname">ミルクラテ</div>
+        <div class="tdesc">こっくりミルクベージュ×抹茶ラテグリーン。深め配色で安心感・濃いぬくもり。</div>
+        <div class="swatches"><span class="sw" style="background:#f1e8da;"></span><span class="sw" style="background:#dfe7c6;"></span><span class="sw" style="background:#8fa06f;"></span><span class="sw" style="background:#5c5142;"></span></div>
+      </div>
+    </div>
+
+    <!-- 4 ねむりの夜明け -->
+    <div class="card">
+      <div class="num">案 4</div>
+      <div class="phone"><div class="screen" style="background:#f7f3ec;color:#56514b;">
+        <div class="top">
+          <div class="phase" style="color:#9c93b3;">🌙 黄体期</div>
+          <div class="chara" style="background:#e9e6f1;">🦉</div>
+          <div class="chara-name">ねむり梟さん</div>
+        </div>
+        <div class="body">
+          <div class="hitokoto" style="background:#fff;border:1px solid #e8e2d6;">
+            甘いものが恋しい夜は、ラベンダーの香りと早めの就寝でやさしく一息🌿
+          </div>
+          <div style="text-align:center;"><span class="free" style="background:#e9e6f1;color:#736a8c;">完全無料</span></div>
+        </div>
+        <div class="nav" style="background:#fff;color:#a79f93;">
+          <div style="color:#8a80a3;"><span class="ic">🏠</span>トップ</div>
+          <div><span class="ic">📝</span>記録</div>
+          <div><span class="ic">🔒</span>予告</div>
+        </div>
+      </div></div>
+      <div class="meta">
+        <div class="tname">ねむりの夜明け</div>
+        <div class="tdesc">ベージュ×淡グリーンに淡ラベンダーの差し色。"睡眠"らしい安らぎを一匙。</div>
+        <div class="swatches"><span class="sw" style="background:#f7f3ec;"></span><span class="sw" style="background:#e7efd8;"></span><span class="sw" style="background:#9c93b3;"></span><span class="sw" style="background:#56514b;"></span></div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

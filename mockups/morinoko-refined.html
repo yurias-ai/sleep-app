@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>もりのこ 上品版</title>
+<style>
+  :root{
+    --bg:#efe7d8; --surface:#fbf8f1; --surface2:#f4ede0;
+    --text:#5b5346; --sub:#a99e8a; --line:#e4dac8;
+    --sage:#9aa987; --sage-deep:#6f7d5c; --sage-soft:#d9e0cb;
+    --dust-rose:#cdb1ab; --bloom:#e6cfd0; --ivory:#fcf8ef;
+    --font:-apple-system,BlinkMacSystemFont,"Hiragino Mincho ProN","Hiragino Sans","Noto Serif JP",serif;
+    --font-ui:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:var(--font-ui);background:var(--bg);color:var(--text);line-height:1.8;padding:26px 16px 44px;}
+  h1{text-align:center;font-family:var(--font);font-size:19px;letter-spacing:.06em;margin-bottom:4px;}
+  .lead{text-align:center;font-size:12px;color:var(--sub);margin-bottom:24px;}
+  .wrap{max-width:720px;margin:0 auto;}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    box-shadow:0 6px 18px rgba(91,83,70,.07);padding:22px 18px;margin-bottom:18px;}
+  .sec-ttl{font-family:var(--font);font-size:14.5px;letter-spacing:.04em;margin-bottom:14px;color:var(--sage-deep);}
+  .crt{width:108px;height:108px;}
+  .crt-sm{width:78px;height:78px;}
+  /* 比較 */
+  .compare{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;}
+  .col{flex:1;min-width:200px;text-align:center;border-radius:16px;padding:16px 8px;}
+  .col.before{background:var(--surface2);}
+  .col.after{background:linear-gradient(180deg,#f7f3ea,#f1ece0);border:1px solid var(--sage-soft);}
+  .col h3{font-size:12.5px;color:var(--sub);font-weight:700;margin-bottom:8px;}
+  .col.after h3{color:var(--sage-deep);}
+  .pt{font-size:11.5px;color:var(--text);margin-top:6px;}
+  /* 成長 */
+  .stages{display:flex;justify-content:space-between;align-items:flex-end;gap:6px;flex-wrap:nowrap;overflow-x:auto;}
+  .stage{text-align:center;flex:1;min-width:84px;}
+  .stage .lbl{font-size:11px;color:var(--sub);margin-top:2px;}
+  .stage .step{font-size:10px;color:var(--sage-deep);font-weight:700;}
+  /* 着せ替え */
+  .dress{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;align-items:flex-end;}
+  .ditem{text-align:center;} .ditem .lbl{font-size:11px;color:var(--sub);margin-top:4px;}
+  .pal{display:flex;justify-content:center;gap:10px;margin-top:14px;}
+  .sw{width:30px;height:30px;border-radius:50%;border:1px solid rgba(0,0,0,.06);}
+  .pal .cap{font-size:10px;color:var(--sub);text-align:center;}
+</style>
+</head>
+<body>
+  <h1>🌱 もりのこ ― 大人可愛い・上品版</h1>
+  <p class="lead">色味を落ち着かせ、表情を穏やかに、花を繊細に。眠りの森にふさわしい"癒しの相棒"へ</p>
+
+  <div class="wrap">
+
+    <!-- 比較 -->
+    <div class="card">
+      <div class="sec-ttl">Before / After</div>
+      <div class="compare">
+        <div class="col before">
+          <h3>元の案（ポップ寄り）</h3>
+          <svg class="crt" viewBox="0 0 108 108">
+            <path d="M54 24 q-3-11 5-16 q-2 9 2 14" fill="#9ab38a"/>
+            <path d="M54 24 q3-10 -5-15 q2 8 -2 13" fill="#8fa06f"/>
+            <ellipse cx="54" cy="64" rx="32" ry="30" fill="#fdf7ea" stroke="#e3d8c3"/>
+            <circle cx="43" cy="62" r="3.5" fill="#5c5142"/><circle cx="65" cy="62" r="3.5" fill="#5c5142"/>
+            <ellipse cx="37" cy="70" rx="5" ry="3" fill="#e8b6ad" opacity=".75"/>
+            <ellipse cx="71" cy="70" rx="5" ry="3" fill="#e8b6ad" opacity=".75"/>
+            <path d="M49 70 q5 5 10 0" fill="none" stroke="#5c5142" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+          <p class="pt">はっきりした色・ぱっちり目<br>＝元気で可愛いが少し若い印象</p>
+        </div>
+        <div class="col after">
+          <h3>上品版（大人可愛い）</h3>
+          <svg class="crt" viewBox="0 0 108 108">
+            <!-- 双葉：繊細に、つぼみ付き -->
+            <path d="M54 30 C50 18 44 16 41 19 C44 22 48 26 53 31" fill="#aeba98"/>
+            <path d="M54 30 C58 19 64 17 67 20 C64 23 60 27 55 31" fill="#9aa987"/>
+            <circle cx="54" cy="17" r="3" fill="#dcc6c7"/>
+            <!-- 体：くすみアイボリー -->
+            <ellipse cx="54" cy="66" rx="31" ry="29" fill="#f6efe1" stroke="#e7dcc8"/>
+            <!-- 穏やかな半月目 -->
+            <path d="M42 64 q4 4 8 0" fill="none" stroke="#6b5f4d" stroke-width="2" stroke-linecap="round"/>
+            <path d="M58 64 q4 4 8 0" fill="none" stroke="#6b5f4d" stroke-width="2" stroke-linecap="round"/>
+            <!-- 控えめな頬 -->
+            <ellipse cx="38" cy="71" rx="4" ry="2.3" fill="#d9b8b2" opacity=".5"/>
+            <ellipse cx="70" cy="71" rx="4" ry="2.3" fill="#d9b8b2" opacity=".5"/>
+            <!-- 小さな口 -->
+            <path d="M51 71 q3 2.5 6 0" fill="none" stroke="#7a6e5b" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <p class="pt">くすみカラー・穏やかな表情・<br>つぼみ付きの繊細な芽＝上質な癒し</p>
+        </div>
+      </div>
+      <div class="pal">
+        <div><div class="sw" style="background:#f6efe1"></div><div class="cap">体</div></div>
+        <div><div class="sw" style="background:#9aa987"></div><div class="cap">葉</div></div>
+        <div><div class="sw" style="background:#dcc6c7"></div><div class="cap">つぼみ</div></div>
+        <div><div class="sw" style="background:#d9b8b2"></div><div class="cap">頬</div></div>
+        <div><div class="sw" style="background:#6f7d5c"></div><div class="cap">差し色</div></div>
+      </div>
+    </div>
+
+    <!-- 成長段階 -->
+    <div class="card">
+      <div class="sec-ttl">毎日ひらくと育つ ― 成長段階（例）</div>
+      <div class="stages">
+        <!-- 卵 -->
+        <div class="stage">
+          <svg class="crt-sm" viewBox="0 0 78 78">
+            <ellipse cx="39" cy="44" rx="22" ry="26" fill="#f4ede0" stroke="#e7dcc8"/>
+            <path d="M20 38 q6 5 10 0 q5 5 10 0 q5 5 10 0" fill="none" stroke="#cdbf9f" stroke-width="1.8"/>
+          </svg>
+          <div class="step">Day 1</div><div class="lbl">たまご</div>
+        </div>
+        <!-- 芽生え -->
+        <div class="stage">
+          <svg class="crt-sm" viewBox="0 0 78 78">
+            <ellipse cx="39" cy="48" rx="21" ry="23" fill="#f6efe1" stroke="#e7dcc8"/>
+            <path d="M39 34 C36 26 31 25 29 27 C31 30 35 33 38 35" fill="#9aa987"/>
+            <path d="M44 50 q3 3 6 0" fill="none" stroke="#6b5f4d" stroke-width="1.6" stroke-linecap="round" transform="translate(-15,0)"/>
+            <path d="M44 50 q3 3 6 0" fill="none" stroke="#6b5f4d" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <div class="step">孵化</div><div class="lbl">芽生え</div>
+        </div>
+        <!-- 若葉 -->
+        <div class="stage">
+          <svg class="crt-sm" viewBox="0 0 78 78">
+            <path d="M39 30 C36 22 31 21 29 23 C31 26 35 30 38 32" fill="#aeba98"/>
+            <path d="M39 30 C42 22 47 21 49 23 C47 26 43 30 40 32" fill="#9aa987"/>
+            <ellipse cx="39" cy="50" rx="22" ry="22" fill="#f6efe1" stroke="#e7dcc8"/>
+            <path d="M31 49 q3 3 6 0" fill="none" stroke="#6b5f4d" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M43 49 q3 3 6 0" fill="none" stroke="#6b5f4d" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          <div class="step">継続</div><div class="lbl">若葉</div>
+        </div>
+        <!-- 花咲く -->
+        <div class="stage">
+          <svg class="crt-sm" viewBox="0 0 78 78">
+            <path d="M39 30 C36 22 31 21 29 23 C31 26 35 30 38 32" fill="#aeba98"/>
+            <path d="M39 30 C42 22 47 21 49 23 C47 26 43 30 40 32" fill="#9aa987"/>
+            <g transform="translate(39,18)">
+              <circle r="4.5" fill="#e6cfd0"/><circle cx="-5" cy="-2" r="3.4" fill="#efdcdd"/>
+              <circle cx="5" cy="-2" r="3.4" fill="#efdcdd"/><circle cx="-3" cy="4" r="3.4" fill="#efdcdd"/>
+              <circle cx="3" cy="4" r="3.4" fill="#efdcdd"/><circle r="2" fill="#d9b08a"/>
+            </g>
+            <ellipse cx="39" cy="52" rx="22" ry="22" fill="#f6efe1" stroke="#e7dcc8"/>
+            <path d="M31 51 q3 3 6 0" fill="none" stroke="#6b5f4d" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M43 51 q3 3 6 0" fill="none" stroke="#6b5f4d" stroke-width="1.7" stroke-linecap="round"/>
+            <ellipse cx="32" cy="57" rx="3.2" ry="1.9" fill="#d9b8b2" opacity=".5"/>
+            <ellipse cx="46" cy="57" rx="3.2" ry="1.9" fill="#d9b8b2" opacity=".5"/>
+          </svg>
+          <div class="step">満開</div><div class="lbl">花ひらく</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 上品な着せ替え -->
+    <div class="card">
+      <div class="sec-ttl">上品な着せ替え（クイズ正解でGET）</div>
+      <div class="dress">
+        <div class="ditem">
+          <svg class="crt" viewBox="0 0 108 108">
+            <path d="M54 30 C50 18 44 16 41 19 C44 22 48 26 53 31" fill="#aeba98"/>
+            <path d="M54 30 C58 19 64 17 67 20 C64 23 60 27 55 31" fill="#9aa987"/>
+            <ellipse cx="54" cy="66" rx="31" ry="29" fill="#f6efe1" stroke="#e7dcc8"/>
+            <path d="M42 64 q4 4 8 0" fill="none" stroke="#6b5f4d" stroke-width="2" stroke-linecap="round"/>
+            <path d="M58 64 q4 4 8 0" fill="none" stroke="#6b5f4d" stroke-width="2" stroke-linecap="round"/>
+            <path d="M51 71 q3 2.5 6 0" fill="none" stroke="#7a6e5b" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <div class="lbl">そのまま</div>
+        </div>
+        <div class="ditem">
+          <svg class="crt" viewBox="0 0 108 108">
+            <path d="M54 30 C50 18 44 16 41 19 C44 22 48 26 53 31" fill="#aeba98"/>
+            <path d="M54 30 C58 19 64 17 67 20 C64 23 60 27 55 31" fill="#9aa987"/>
+            <ellipse cx="54" cy="66" rx="31" ry="29" fill="#f6efe1" stroke="#e7dcc8"/>
+            <!-- 小花の冠 -->
+            <g fill="#e6cfd0"><circle cx="34" cy="42" r="3.2"/><circle cx="44" cy="38" r="3.2"/><circle cx="54" cy="37" r="3.2"/><circle cx="64" cy="38" r="3.2"/><circle cx="74" cy="42" r="3.2"/></g>
+            <g fill="#d9b08a"><circle cx="34" cy="42" r="1.2"/><circle cx="44" cy="38" r="1.2"/><circle cx="54" cy="37" r="1.2"/><circle cx="64" cy="38" r="1.2"/><circle cx="74" cy="42" r="1.2"/></g>
+            <path d="M42 64 q4 4 8 0" fill="none" stroke="#6b5f4d" stroke-width="2" stroke-linecap="round"/>
+            <path d="M58 64 q4 4 8 0" fill="none" stroke="#6b5f4d" stroke-width="2" stroke-linecap="round"/>
+            <path d="M51 71 q3 2.5 6 0" fill="none" stroke="#7a6e5b" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <div class="lbl">＋小花の冠</div>
+        </div>
+        <div class="ditem">
+          <svg class="crt" viewBox="0 0 108 108">
+            <path d="M54 30 C50 18 44 16 41 19 C44 22 48 26 53 31" fill="#aeba98"/>
+            <path d="M54 30 C58 19 64 17 67 20 C64 23 60 27 55 31" fill="#9aa987"/>
+            <ellipse cx="54" cy="66" rx="31" ry="29" fill="#f6efe1" stroke="#e7dcc8"/>
+            <!-- やわらかストール -->
+            <path d="M26 76 q28 14 56 0 l-3 8 q-25 11 -50 0 z" fill="#d9e0cb"/>
+            <path d="M26 76 q28 12 56 0" fill="none" stroke="#9aa987" stroke-width="1.4"/>
+            <path d="M42 64 q4 4 8 0" fill="none" stroke="#6b5f4d" stroke-width="2" stroke-linecap="round"/>
+            <path d="M58 64 q4 4 8 0" fill="none" stroke="#6b5f4d" stroke-width="2" stroke-linecap="round"/>
+            <path d="M51 71 q3 2.5 6 0" fill="none" stroke="#7a6e5b" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <div class="lbl">＋やわらかストール</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

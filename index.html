@@ -167,23 +167,646 @@
 
   /* オンボーディング中はナビを隠す */
   body.onboarding .bottom-nav { display: none; }
+
+  /* ============================================================
+     P-000 オンボーディング（初回キャラ判定）
+     ============================================================ */
+  .ob-lead {
+    text-align: center; font-size: 13.5px; color: var(--c-text);
+    margin-bottom: 18px;
+  }
+  .ob-dob { display: flex; gap: 8px; margin-bottom: 12px; }
+  .ob-field { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  .ob-field > span { font-size: 11.5px; color: var(--c-text-sub); padding-left: 2px; }
+  .ob-field select {
+    width: 100%;
+    font-family: inherit; font-size: 15px; color: var(--c-text);
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-sm);
+    padding: 11px 10px;
+    appearance: none; -webkit-appearance: none;
+    text-align: center; text-align-last: center;
+  }
+  .ob-field select:focus { outline: 2px solid var(--c-accent-soft); border-color: var(--c-accent); }
+  .ob-error {
+    font-size: 12px; color: var(--c-danger); font-weight: 700;
+    text-align: center; margin-bottom: 12px;
+  }
+  #ob-judge { margin-top: 6px; }
+
+  .ob-result { text-align: center; }
+  .ob-emoji { font-size: 58px; display: block; line-height: 1.2; margin-bottom: 4px; }
+  .ob-result-label { font-size: 12px; color: var(--c-text-sub); }
+  .ob-name {
+    font-size: 21px; font-weight: 700; color: var(--c-accent-deep);
+    letter-spacing: .04em; margin: 2px 0 16px;
+  }
+  .ob-traits { text-align: left; margin-bottom: 18px; }
+  .ob-traits > div {
+    background: var(--c-surface-2);
+    border-radius: var(--radius-sm);
+    padding: 11px 13px;
+  }
+  .ob-traits > div + div { margin-top: 8px; }
+  .ob-traits dt { font-size: 11px; font-weight: 700; color: var(--c-accent-deep); margin-bottom: 2px; }
+  .ob-traits dd { font-size: 13.5px; color: var(--c-text); }
+
+  /* ============================================================
+     P-001 トップ（フェーズ / 動物キャラ / 今日のひとこと）
+     ============================================================ */
+  /* フェーズ別アクセント（card 左帯 + ラベル色）。--phase はJSで差し込む */
+  .top-phase {
+    border-left: 5px solid var(--phase, var(--c-accent));
+    text-align: center;
+  }
+  .top-phase-label { font-size: 11.5px; color: var(--c-text-sub); }
+  .top-phase-name {
+    font-size: 22px; font-weight: 700; letter-spacing: .06em;
+    color: var(--phase, var(--c-accent-deep));
+    margin: 2px 0;
+  }
+  .top-chara { display: flex; align-items: center; gap: 14px; }
+  .top-chara-emoji { font-size: 44px; line-height: 1; }
+  .top-chara-meta { flex: 1; min-width: 0; }
+  .top-chara-role { font-size: 11px; color: var(--c-text-sub); }
+  .top-chara-name {
+    font-size: 17px; font-weight: 700; color: var(--c-accent-deep);
+    letter-spacing: .03em;
+  }
+  .top-chara-rhythm { font-size: 12px; color: var(--c-text-sub); margin-top: 3px; }
+
+  .top-msg-title {
+    font-size: 12px; font-weight: 700; color: var(--c-accent-deep);
+    display: flex; align-items: center; gap: 5px; margin-bottom: 8px;
+  }
+  .top-msg-body { font-size: 14px; color: var(--c-text); }
+
+  /* ============================================================
+     P-002 記録（生理開始日 / 甘いもの欲 / グラフ）
+     ============================================================ */
+  .rec-label { font-size: 13px; font-weight: 700; color: var(--c-accent-deep); margin-bottom: 4px; }
+  .rec-sub   { font-size: 11.5px; color: var(--c-text-sub); margin-bottom: 12px; }
+
+  .rec-date-row { display: flex; gap: 8px; margin-bottom: 12px; }
+  .rec-date {
+    flex: 1; min-width: 0;
+    font-family: inherit; font-size: 15px; color: var(--c-text);
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-sm);
+    padding: 11px 10px;
+    appearance: none; -webkit-appearance: none;
+  }
+  .rec-date:focus { outline: 2px solid var(--c-accent-soft); border-color: var(--c-accent); }
+  .rec-error { font-size: 12px; color: var(--c-danger); font-weight: 700; margin-bottom: 10px; }
+  .rec-done {
+    font-size: 12.5px; color: var(--c-accent-deep); font-weight: 700;
+    background: var(--c-accent-soft);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px; margin-top: 10px;
+  }
+
+  /* 閉経の選択 / 解除リンク（控えめなテキストボタン） */
+  .rec-meno-link {
+    display: block; width: 100%;
+    font-size: 12px; font-weight: 700; color: var(--c-text-sub);
+    text-align: center;
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-sm);
+    padding: 11px 10px; margin-top: 12px;
+    transition: background .15s, color .15s;
+  }
+  .rec-meno-link:active { background: var(--c-accent-soft); color: var(--c-accent-deep); }
+
+  /* 甘いもの欲 4段階タップ（文言が長いため縦並びの選択肢リスト） */
+  .rec-sweet-list { display: flex; flex-direction: column; gap: 8px; }
+  .rec-sweet {
+    display: flex; align-items: center; gap: 10px; width: 100%;
+    text-align: left;
+    font-size: 13px; font-weight: 700; color: var(--c-text-sub);
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .rec-sweet .face { font-size: 22px; line-height: 1; flex-shrink: 0; }
+  .rec-sweet[aria-pressed="true"] {
+    background: var(--c-accent-soft);
+    color: var(--c-accent-deep);
+    border-color: var(--c-accent);
+  }
+  .rec-sweet:active { transform: scale(.99); }
+
+  /* 甘いもの欲グラフ（CSS bar・外部ライブラリ非依存） */
+  .rec-chart {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 3px; height: 120px;
+    padding: 8px 4px 0;
+  }
+  .rec-bar-cell { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; }
+  .rec-bar-track { flex: 1; width: 100%; display: flex; align-items: flex-end; }
+  .rec-bar {
+    width: 100%;
+    background: var(--c-accent-soft);
+    border-radius: 4px 4px 2px 2px;
+    min-height: 3px;
+  }
+  /* 4段階の濃淡（弱→強）。黄体期の高まりが視覚的に分かるよう段階的に濃く。 */
+  .rec-bar.lv1 { background: var(--c-accent-soft); }
+  .rec-bar.lv2 { background: var(--c-accent); }
+  .rec-bar.lv3 { background: var(--c-phase-luteal); }
+  .rec-bar.lv4 { background: var(--c-danger); }
+  .rec-bar.empty { background: var(--c-line); min-height: 3px; }
+  .rec-bar-day { font-size: 8.5px; color: var(--c-text-sub); line-height: 1; }
+  .rec-legend {
+    display: flex; flex-wrap: wrap; gap: 6px 12px; justify-content: center;
+    margin-top: 8px; font-size: 10.5px; color: var(--c-text-sub);
+  }
+  .rec-legend span { display: inline-flex; align-items: center; gap: 4px; }
+  .rec-legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .rec-legend .l1 { background: var(--c-accent-soft); }
+  .rec-legend .l2 { background: var(--c-accent); }
+  .rec-legend .l3 { background: var(--c-phase-luteal); }
+  .rec-legend .l4 { background: var(--c-danger); }
+
+  /* 傾向インサイト（§13.7・甘いもの欲×フェーズの気づき＋控えめ導線） */
+  .rec-insight-ttl {
+    font-size: 13px; font-weight: 700; color: var(--c-accent-deep);
+    display: flex; align-items: center; gap: 5px; margin-bottom: 8px;
+  }
+  .rec-insight-body {
+    font-size: 13.5px; color: var(--c-text); line-height: 1.75;
+    background: var(--c-surface-2);
+    border-left: 4px solid var(--c-accent);
+    border-radius: var(--radius-sm);
+    padding: 11px 13px;
+  }
+  .rec-insight-nudge {
+    margin-top: 12px;
+    font-size: 12px; color: var(--c-text); line-height: 1.7;
+  }
+  .rec-insight-link {
+    display: inline-block; margin-top: 6px;
+    font-size: 12px; font-weight: 700; color: var(--c-accent-deep);
+    text-decoration: none;
+  }
+
+  /* やり直す（データリセット）：discreet なテキストリンク＋2段階確認カード */
+  .reset-zone { text-align: center; margin: 4px 0 8px; }
+  .reset-link {
+    font-size: 11.5px; color: var(--c-text-sub);
+    text-decoration: underline; text-underline-offset: 2px;
+    background: none; padding: 6px 10px;
+  }
+  .reset-link:active { color: var(--c-accent-deep); }
+  .reset-confirm {
+    border: 1px solid var(--c-danger);
+    border-radius: var(--radius);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-sm);
+    padding: 16px 14px; margin-bottom: 16px; text-align: center;
+  }
+  .reset-confirm-ttl {
+    font-size: 13px; font-weight: 700; color: var(--c-danger); margin-bottom: 6px;
+  }
+  .reset-confirm-body { font-size: 12.5px; color: var(--c-text); line-height: 1.7; margin-bottom: 14px; }
+  .reset-confirm-row { display: flex; gap: 10px; }
+  .reset-btn {
+    flex: 1; font-size: 13px; font-weight: 700;
+    border-radius: var(--radius-sm); padding: 11px;
+  }
+  .reset-btn.no {
+    color: var(--c-text-sub); background: var(--c-surface-2); border: 1px solid var(--c-line);
+  }
+  .reset-btn.yes { color: #fff; background: var(--c-danger); }
+  .reset-btn:active { filter: brightness(.96); }
+
+  /* ============================================================
+     P-003 予告（ロックカード / LINE導線）
+     ============================================================ */
+  .fc-lead { font-size: 13px; color: var(--c-text); text-align: center; margin-bottom: 16px; }
+
+  /* ロックカード：淡くトーンダウン・鍵アイコン */
+  .fc-lock {
+    position: relative;
+    display: flex; align-items: center; gap: 12px;
+    background: var(--c-surface-2);
+    border: 1px dashed var(--c-line);
+    border-radius: var(--radius);
+    padding: 14px 14px;
+    margin-bottom: 12px;
+    opacity: .72;
+  }
+  .fc-lock-emoji { font-size: 28px; line-height: 1; filter: grayscale(.35); }
+  .fc-lock-meta { flex: 1; min-width: 0; }
+  .fc-lock-name { font-size: 14px; font-weight: 700; color: var(--c-text); }
+  .fc-lock-desc { font-size: 11.5px; color: var(--c-text-sub); margin-top: 2px; }
+  .fc-lock-key {
+    font-size: 16px; color: var(--c-text-sub);
+    align-self: flex-start;
+  }
+  .fc-lock-hint {
+    font-size: 11.5px; font-weight: 700; color: var(--c-accent-deep);
+    text-align: center; margin: 4px 0 18px;
+  }
+
+  /* LINE案内カード（常設・黄体期等で強調） */
+  .fc-line {
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    padding: 18px 16px;
+    margin-bottom: 16px;
+    transition: box-shadow .2s, border-color .2s;
+  }
+  .fc-line.is-emphasized {
+    border: 2px solid var(--c-accent);
+    box-shadow: var(--shadow);
+  }
+  .fc-line-flag {
+    display: none;
+    font-size: 11.5px; font-weight: 700; color: var(--c-accent-deep);
+    background: var(--c-accent-soft);
+    border-radius: 999px;
+    padding: 5px 12px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .fc-line.is-emphasized .fc-line-flag { display: block; }
+  .fc-line-body { font-size: 14px; color: var(--c-text); white-space: pre-line; }
+  .fc-line-id {
+    display: block;
+    font-size: 18px; font-weight: 700; color: var(--c-accent-deep);
+    text-align: center; letter-spacing: .04em;
+    background: var(--c-accent-soft);
+    border-radius: var(--radius);
+    padding: 12px;
+    margin-top: 14px;
+    text-decoration: none;
+  }
+  .fc-line-id:active { filter: brightness(.96); }
+
+  /* ============================================================
+     P-004 そだてる（もりのこ育成）／ もりのこSVG共通
+     ============================================================ */
+  /* もりのこ描画の色トークン（上品版：くすみカラー）。直書き禁止のため var() に集約 */
+  :root {
+    --m-body:    #f6efe1;  /* 体（くすみアイボリー） */
+    --m-body-ln: #e7dcc8;  /* 体の輪郭 */
+    --m-leaf:    #9aa987;  /* 葉 */
+    --m-leaf-2:  #aeba98;  /* 葉（明るい側） */
+    --m-bud:     #dcc6c7;  /* つぼみ */
+    --m-petal:   #e6cfd0;  /* 花びら */
+    --m-petal-2: #efdcdd;  /* 花びら（淡い） */
+    --m-pollen:  #d9b08a;  /* 花芯 */
+    --m-cheek:   #d9b8b2;  /* 頬 */
+    --m-face:    #6b5f4d;  /* 目・口 */
+    --m-shell:   #cdbf9f;  /* たまごの殻模様 */
+    --m-dew:     #cfe0e6;  /* 朝露のきらめき */
+    /* 着せ替えアイテムの色トークン（直書き禁止のため var() に集約） */
+    --i-flower:    #e6cfd0;  /* 小花（淡ピンク） */
+    --i-flower-2:  #d9b08a;  /* 花芯 */
+    --i-stole:     #cdbf9f;  /* やわらかストール */
+    --i-ribbon:    #d6a9ad;  /* リボン */
+    --i-leaf:      #9aa987;  /* 葉っぱ帽子 */
+    --i-acorn:     #b59169;  /* 木の実 */
+    --i-star:      #d3c074;  /* 星のピアス */
+    --i-blue:      #9ab3c4;  /* ブルー小物 */
+    --i-sakura:    #f0d4dc;  /* 桜 */
+    --i-straw:     #ddc58b;  /* 麦わら */
+    --i-maple:     #c98a5a;  /* 紅葉 */
+    --i-snow:      #e7eef2;  /* 雪 */
+    --i-gold:      #e3c25a;  /* 金の花冠（限定） */
+    --i-gold-2:    #f0d98a;  /* 金（明） */
+  }
+  .morinoko { display: block; }
+
+  /* お庭：育成中のもりのこ（大きめ） */
+  .grow-hero { text-align: center; }
+  .grow-hero .morinoko { width: 150px; height: 150px; margin: 2px auto 6px; }
+  .grow-stage-label {
+    font-size: 17px; font-weight: 700; letter-spacing: .05em;
+    color: var(--c-accent-deep); margin-bottom: 2px;
+  }
+  .grow-stage-step { font-size: 11.5px; color: var(--c-text-sub); }
+  .grow-hero-msg {
+    font-size: 13px; color: var(--c-text);
+    background: var(--c-surface-2);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px; margin-top: 12px;
+  }
+
+  /* お庭のコレクション（巣立った子たち） */
+  .grow-garden-ttl {
+    font-size: 12.5px; font-weight: 700; color: var(--c-accent-deep);
+    margin-bottom: 10px;
+  }
+  .grow-garden {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-start;
+  }
+  .grow-garden .morinoko { width: 58px; height: 58px; }
+  .grow-garden-item {
+    background: var(--c-surface-2);
+    border: 1px solid var(--c-line);
+    border-radius: var(--radius-sm);
+    padding: 8px;
+  }
+  .grow-garden-empty { font-size: 12px; color: var(--c-text-sub); }
+
+  /* プレースホルダ枠（クイズ／アイテム：D・Fで差し込む） */
+  .grow-slot-ttl {
+    font-size: 13px; font-weight: 700; color: var(--c-accent-deep);
+    display: flex; align-items: center; gap: 5px; margin-bottom: 10px;
+  }
+  .grow-slot-body .placeholder { padding: 20px 12px; }
+
+  /* トップの「今日のもりのこ」小ウィジェット */
+  .top-grow { display: flex; align-items: center; gap: 14px; }
+  .top-grow .morinoko { width: 60px; height: 60px; flex-shrink: 0; }
+  .top-grow-meta { flex: 1; min-width: 0; }
+  .top-grow-label { font-size: 11px; color: var(--c-text-sub); }
+  .top-grow-stage { font-size: 15px; font-weight: 700; color: var(--c-accent-deep); }
+  .top-grow-msg { font-size: 12px; color: var(--c-text-sub); margin-top: 2px; }
+  .top-grow-go {
+    flex-shrink: 0; align-self: center;
+    font-size: 12px; font-weight: 700; color: var(--c-accent-deep);
+    background: var(--c-accent-soft);
+    border-radius: 999px; padding: 8px 12px;
+  }
+  .top-grow-go:active { filter: brightness(.96); }
+
+  /* ============================================================
+     着せ替え・アイテム（そだてるタブ #grow-item-slot）
+     ============================================================ */
+  .du-now-season {
+    font-size: 11.5px; color: var(--c-text-sub);
+    background: var(--c-surface-2);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px; margin-bottom: 12px; text-align: center;
+  }
+  .du-now-season strong { color: var(--c-accent-deep); font-weight: 700; }
+
+  .du-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px;
+  }
+  /* アイテムタイル：サムネ(SVG)＋名前。装着中はハイライト、未所持はロック。 */
+  .du-tile {
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    background: var(--c-surface-2);
+    border: 1.5px solid var(--c-line);
+    border-radius: var(--radius-sm);
+    padding: 9px 5px 8px;
+    transition: background .15s, border-color .15s, opacity .15s;
+  }
+  .du-tile-thumb { width: 46px; height: 46px; position: relative; }
+  .du-tile-thumb svg { width: 100%; height: 100%; display: block; }
+  .du-tile-name {
+    font-size: 10.5px; line-height: 1.3; color: var(--c-text-sub);
+    text-align: center; font-weight: 700;
+  }
+  /* 装着中 */
+  .du-tile.is-worn {
+    background: var(--c-accent-soft);
+    border-color: var(--c-accent);
+  }
+  .du-tile.is-worn .du-tile-name { color: var(--c-accent-deep); }
+  .du-tile:active { transform: scale(.98); }
+  /* 未所持・ロック */
+  .du-tile.is-locked { opacity: .55; cursor: default; }
+  .du-tile.is-locked .du-tile-thumb svg { filter: grayscale(.7); }
+  .du-lock-key {
+    position: absolute; right: -2px; top: -2px;
+    font-size: 14px; line-height: 1;
+  }
+  /* 季節バッジ（今の季節かどうか） */
+  .du-badge {
+    font-size: 9px; font-weight: 700; line-height: 1;
+    border-radius: 999px; padding: 3px 6px;
+    background: var(--c-line); color: var(--c-text-sub);
+  }
+  .du-badge.is-now { background: var(--c-accent); color: #fff; }
+  .du-badge.is-special { background: var(--i-gold); color: #fff; }
+  .du-hint { font-size: 11px; color: var(--c-text-sub); margin-top: 12px; text-align: center; }
+
+  /* ============================================================
+     睡眠ミニクイズ（そだてるタブ #grow-quiz-slot）
+     ============================================================ */
+  /* 進捗（◯/40 正解）— 控えめに */
+  .qz-progress {
+    font-size: 11.5px; color: var(--c-text-sub);
+    background: var(--c-surface-2);
+    border-radius: var(--radius-sm);
+    padding: 7px 12px; margin-bottom: 12px; text-align: center;
+  }
+  .qz-progress strong { color: var(--c-accent-deep); font-weight: 700; }
+
+  /* 出題カード（カテゴリ見出し＋問題文＋3択） */
+  .qz-cat {
+    display: inline-block;
+    font-size: 10.5px; font-weight: 700; color: var(--c-accent-deep);
+    background: var(--c-accent-soft);
+    border-radius: 999px; padding: 4px 11px; margin-bottom: 10px;
+  }
+  .qz-cat.is-review { background: var(--c-phase-luteal); color: #fff; }
+  .qz-q {
+    font-size: 14.5px; font-weight: 700; color: var(--c-text);
+    line-height: 1.65; margin-bottom: 14px;
+  }
+  .qz-choices { display: flex; flex-direction: column; gap: 9px; }
+  .qz-choice {
+    width: 100%; text-align: left;
+    font-size: 13.5px; font-weight: 700; color: var(--c-text);
+    background: var(--c-surface-2);
+    border: 1.5px solid var(--c-line);
+    border-radius: var(--radius-sm);
+    padding: 13px 14px;
+    transition: background .15s, border-color .15s, color .15s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .qz-choice .mk {
+    flex-shrink: 0; width: 22px; height: 22px; border-radius: 999px;
+    background: var(--c-surface); border: 1.5px solid var(--c-line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: var(--c-text-sub);
+  }
+  .qz-choice:active { transform: scale(.99); }
+  /* 回答後の色付け（正解＝アクセント／誤答＝注意色）。answered時は押下不可 */
+  .qz-choice.is-correct {
+    background: var(--c-accent-soft); border-color: var(--c-accent); color: var(--c-accent-deep);
+  }
+  .qz-choice.is-correct .mk { background: var(--c-accent); border-color: var(--c-accent); color: #fff; }
+  .qz-choice.is-wrong {
+    background: var(--c-surface-2); border-color: var(--c-danger); color: var(--c-danger);
+  }
+  .qz-choice.is-wrong .mk { border-color: var(--c-danger); color: var(--c-danger); }
+  .qz-choice.is-dim { opacity: .6; }
+
+  /* 回答結果（正誤・解説・ワンポイント・アイテム） */
+  .qz-result { margin-top: 14px; }
+  .qz-verdict {
+    font-size: 14px; font-weight: 700; text-align: center;
+    border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 12px;
+  }
+  .qz-verdict.ok  { color: var(--c-accent-deep); background: var(--c-accent-soft); }
+  .qz-verdict.ng  { color: var(--c-danger); background: var(--c-surface-2); }
+  .qz-block { margin-bottom: 12px; }
+  .qz-block-ttl {
+    font-size: 11.5px; font-weight: 700; color: var(--c-accent-deep);
+    display: flex; align-items: center; gap: 5px; margin-bottom: 5px;
+  }
+  .qz-block-body { font-size: 13px; color: var(--c-text); line-height: 1.7; }
+  .qz-onepoint {
+    background: var(--c-surface-2);
+    border-left: 4px solid var(--c-accent);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+  /* もらったアイテム表示（サムネ＋名前） */
+  .qz-reward {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--c-accent-soft);
+    border-radius: var(--radius-sm);
+    padding: 11px 13px; margin-bottom: 12px;
+  }
+  .qz-reward .du-tile-thumb { width: 42px; height: 42px; flex-shrink: 0; }
+  .qz-reward-meta { min-width: 0; }
+  .qz-reward-label { font-size: 11px; color: var(--c-accent-deep); font-weight: 700; }
+  .qz-reward-name { font-size: 14px; font-weight: 700; color: var(--c-accent-deep); }
+
+  /* 当日回答済み・また明日 */
+  .qz-tomorrow {
+    text-align: center; color: var(--c-text-sub); font-size: 12.5px;
+    background: var(--c-surface-2); border-radius: var(--radius-sm);
+    padding: 12px; margin-top: 12px;
+  }
+
+  /* コンプリート（全問正解）のお祝い */
+  .qz-complete {
+    text-align: center;
+    border: 2px solid var(--c-accent);
+    border-radius: var(--radius);
+    padding: 18px 14px;
+  }
+  .qz-complete .ico { font-size: 38px; display: block; margin-bottom: 6px; }
+  .qz-complete-ttl {
+    font-size: 15px; font-weight: 700; color: var(--c-accent-deep); margin-bottom: 6px;
+  }
+  .qz-complete-body { font-size: 13px; color: var(--c-text); line-height: 1.7; }
+
+  /* 節目の導線メッセージ（§13.6・押し売りしない・控えめ） */
+  .qz-nudge {
+    margin-top: 12px;
+    font-size: 12px; color: var(--c-text); line-height: 1.7;
+    background: var(--c-surface-2);
+    border-radius: var(--radius-sm);
+    padding: 11px 13px;
+  }
+  .qz-nudge a {
+    display: inline-block; margin-top: 6px;
+    font-size: 12px; font-weight: 700; color: var(--c-accent-deep);
+    text-decoration: none;
+  }
+
+  /* トップの「今日のクイズがあります」軽い誘導 */
+  .top-quiz-nudge {
+    display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+    background: var(--c-accent-soft);
+    border: 1px solid var(--c-accent);
+    border-radius: var(--radius);
+    padding: 12px 14px; margin-bottom: 16px;
+  }
+  .top-quiz-nudge .ic { font-size: 22px; flex-shrink: 0; }
+  .top-quiz-nudge-meta { flex: 1; min-width: 0; }
+  .top-quiz-nudge-ttl { font-size: 13px; font-weight: 700; color: var(--c-accent-deep); }
+  .top-quiz-nudge-sub { font-size: 11px; color: var(--c-text-sub); }
+  .top-quiz-nudge-go {
+    flex-shrink: 0; font-size: 12px; font-weight: 700; color: #fff;
+    background: var(--c-accent); border-radius: 999px; padding: 7px 12px;
+  }
+  .top-quiz-nudge:active { filter: brightness(.98); }
+
+  /* ============================================================
+     ボーナスクイズ（§13.4・節目で出る特別問題・通常クイズと区別）
+     ============================================================ */
+  /* 特別感のある枠：金トーンの縁取り＋淡い金背景で「✨ボーナス✨」を演出 */
+  .qz-bonus {
+    border: 2px solid var(--i-gold);
+    border-radius: var(--radius);
+    background: var(--c-surface);
+    box-shadow: var(--shadow-sm);
+    padding: 16px 14px;
+    margin-bottom: 16px;
+  }
+  .qz-bonus-flag {
+    display: inline-block;
+    font-size: 11px; font-weight: 700; color: #fff;
+    background: var(--i-gold);
+    border-radius: 999px; padding: 5px 13px; margin-bottom: 10px;
+  }
+  .qz-bonus-lead {
+    font-size: 12px; color: var(--c-accent-deep); font-weight: 700;
+    margin-bottom: 10px;
+  }
+  /* ボーナス正解の祝福（金トーン） */
+  .qz-verdict.bonus {
+    color: var(--c-accent-deep); background: var(--i-gold-2);
+  }
+  /* もらった2アイテムを横並びで表示 */
+  .qz-reward-multi {
+    display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;
+  }
 </style>
 </head>
 <body>
   <div id="app">
 
-    <!-- ===== 初回キャラ判定（オンボーディング）: Phase 4で中身実装 ===== -->
+    <!-- ===== 初回キャラ判定（オンボーディング） ===== -->
     <section id="view-onboarding" class="view" data-view="onboarding">
       <div class="app-title">
         <h1>🌙 眠りの森学園</h1>
         <p>体験版へようこそ</p>
       </div>
-      <div class="card">
-        <div class="placeholder">
-          <span class="ico">🐾</span>
-          初回キャラ判定（生年月日入力）<br>※ Phase 4 で実装
-        </div>
+      <div style="text-align:center; margin-bottom:14px;">
+        <span class="badge-free">🌿 完全無料／料金は一切かかりません</span>
       </div>
+
+      <!-- 入力ステップ -->
+      <div class="card" id="ob-input">
+        <p class="ob-lead">生まれた日から、あなたを見守る<br>森の動物キャラをお届けします🐾</p>
+        <div class="ob-dob" role="group" aria-label="生年月日">
+          <label class="ob-field">
+            <span>年</span>
+            <select id="ob-year" aria-label="年"></select>
+          </label>
+          <label class="ob-field">
+            <span>月</span>
+            <select id="ob-month" aria-label="月"></select>
+          </label>
+          <label class="ob-field">
+            <span>日</span>
+            <select id="ob-day" aria-label="日"></select>
+          </label>
+        </div>
+        <p class="ob-error" id="ob-error" role="alert" hidden></p>
+        <button class="btn-primary" id="ob-judge" type="button">判定する</button>
+      </div>
+
+      <!-- 結果ステップ -->
+      <div class="card ob-result" id="ob-result" hidden>
+        <span class="ob-emoji" id="ob-emoji" aria-hidden="true">🐾</span>
+        <p class="ob-result-label">あなたを見守る森の動物は</p>
+        <h2 class="ob-name" id="ob-name"></h2>
+        <dl class="ob-traits">
+          <div><dt>性格</dt><dd id="ob-personality"></dd></div>
+          <div><dt>リズム</dt><dd id="ob-rhythm"></dd></div>
+        </dl>
+        <button class="btn-primary" id="ob-start" type="button">はじめる</button>
+      </div>
+
       <p class="note">
         このアプリは<strong>完全無料</strong>です。料金は一切かかりません。<br>
         記録データはこの端末内のみで扱い、外部に送信されません。
@@ -199,45 +822,260 @@
       <div style="text-align:center; margin-bottom:14px;">
         <span class="badge-free">🌿 完全無料／料金は一切かかりません</span>
       </div>
-      <div class="card">
-        <div class="placeholder">
-          <span class="ico">🦌</span>
-          今日のフェーズ・動物キャラ・今日のひとこと<br>※ Phase 4 で実装
+
+      <!-- 動物キャラ（profile から表示） -->
+      <div class="card top-chara">
+        <span class="top-chara-emoji" id="top-emoji" aria-hidden="true">🐾</span>
+        <div class="top-chara-meta">
+          <p class="top-chara-role">あなたを見守る森の動物</p>
+          <p class="top-chara-name" id="top-name"></p>
+          <p class="top-chara-rhythm" id="top-rhythm"></p>
         </div>
       </div>
+
+      <!-- 今日のもりのこ（現在段階の小表示＋そだてるへの導線） -->
+      <div class="card top-grow">
+        <div class="morinoko" id="top-grow-art" aria-hidden="true"></div>
+        <div class="top-grow-meta">
+          <p class="top-grow-label">今日のもりのこ</p>
+          <p class="top-grow-stage" id="top-grow-stage"></p>
+          <p class="top-grow-msg" id="top-grow-msg"></p>
+        </div>
+        <button class="top-grow-go" id="top-grow-go" type="button">そだてる →</button>
+      </div>
+
+      <!-- 今日のクイズ誘導（未回答のときだけ表示・そだてるへ） -->
+      <button class="top-quiz-nudge" id="top-quiz-nudge" type="button" hidden>
+        <span class="ic" aria-hidden="true">📝</span>
+        <span class="top-quiz-nudge-meta">
+          <span class="top-quiz-nudge-ttl">今日のクイズがあります</span>
+          <span class="top-quiz-nudge-sub" id="top-quiz-nudge-sub">睡眠のミニ知識を1問🌿</span>
+        </span>
+        <span class="top-quiz-nudge-go">挑戦 →</span>
+      </button>
+
+      <!-- フェーズ＋今日のひとこと（生理開始日 記録済みのとき表示） -->
+      <div class="card top-phase" id="top-phase" hidden>
+        <p class="top-phase-label">今日のリズム</p>
+        <p class="top-phase-name" id="top-phase-name"></p>
+      </div>
+      <div class="card" id="top-msg" hidden>
+        <p class="top-msg-title"><span aria-hidden="true">💬</span>今日のひとこと</p>
+        <p class="top-msg-body" id="top-msg-body"></p>
+      </div>
+
+      <!-- 黄体期の小バナー（LINE案内へ誘導・予告タブを開く） -->
+      <button class="fc-line is-emphasized" id="top-line-banner" type="button" hidden
+              style="width:100%; text-align:left; margin-bottom:16px;">
+        <p class="fc-line-flag" style="display:block;">🌙 ゆらぎやすい時期。LINE特典を見る →</p>
+      </button>
+
+      <!-- 生理開始日 未記録のときの優しい誘導 -->
+      <div class="card" id="top-no-record" hidden>
+        <div class="placeholder">
+          <span class="ico">🗓️</span>
+          まず記録してみましょう。<br>
+          生理が始まった日を記録すると、今日のリズムと<br>ひとことが表示されます。
+        </div>
+        <button class="btn-primary" id="top-to-record" type="button">記録画面へ</button>
+      </div>
+
       <p class="note">
         <strong>完全無料です。料金は一切かかりません。</strong><br>
         医療行為ではありません。体調に不安がある場合は医療機関にご相談ください。<br>
         記録データはこの端末内のみで扱い、外部に送信されません。
       </p>
+
+      <!-- やり直す（データリセット）：discreet なリンク → 2段階確認 → オンボーディングへ -->
+      <div class="reset-confirm" id="top-reset-confirm" hidden>
+        <p class="reset-confirm-ttl">本当にやり直しますか？</p>
+        <p class="reset-confirm-body">記録をすべて消して、最初から始めます。<br>この操作は取り消せません。</p>
+        <div class="reset-confirm-row">
+          <button class="reset-btn no" id="top-reset-no" type="button">やめておく</button>
+          <button class="reset-btn yes" id="top-reset-yes" type="button">はい、やり直す</button>
+        </div>
+      </div>
+      <div class="reset-zone">
+        <button class="reset-link" id="top-reset-link" type="button">やり直す（はじめからにする）</button>
+      </div>
     </section>
 
     <!-- ===== P-002 記録 ===== -->
     <section id="view-record" class="view" data-view="record">
       <div class="app-title"><h1>📝 記録</h1></div>
+
+      <!-- 生理開始日の記録 -->
       <div class="card">
-        <div class="placeholder">
-          <span class="ico">🗓️</span>
-          生理開始日の記録・甘いもの欲・グラフ<br>※ Phase 4 で実装
+        <p class="rec-label">🩸 生理が始まった日</p>
+
+        <!-- 通常モード：生理開始日の入力UI -->
+        <div id="rec-period-input">
+          <p class="rec-sub">記録すると、今日のリズム（フェーズ）が自動で判定されます。</p>
+          <div class="rec-date-row">
+            <input class="rec-date" id="rec-date" type="date" aria-label="生理が始まった日">
+            <button class="btn-primary" id="rec-save" type="button" style="width:auto; padding:11px 18px;">記録</button>
+          </div>
+          <p class="rec-error" id="rec-error" role="alert" hidden></p>
+          <div class="rec-done" id="rec-done" hidden></div>
+          <button class="rec-meno-link" id="rec-meno-on" type="button">閉経した（生理周期の記録を終える）</button>
+        </div>
+
+        <!-- 閉経モード：入力を隠し、解除できる -->
+        <div id="rec-meno-state" hidden>
+          <p class="rec-sub">閉経済みとして記録しています。生理周期の記録はお休み中です🌿</p>
+          <div class="rec-done" style="margin-top:0;">🌸 閉経モード：周期の記録を終えています。</div>
+          <button class="rec-meno-link" id="rec-meno-off" type="button">閉経の設定を解除する</button>
         </div>
       </div>
+
+      <!-- 甘いもの欲（任意） -->
+      <div class="card">
+        <p class="rec-label">🍰 今日の甘いもの欲 <span style="color:var(--c-text-sub); font-weight:400;">(任意)</span></p>
+        <p class="rec-sub">1日1回、当てはまるものをタップ。黄体期に高まりやすい傾向を下のグラフで見られます。</p>
+        <div class="rec-sweet-list" id="rec-sweet-list" role="group" aria-label="甘いもの欲レベル"></div>
+      </div>
+
+      <!-- 甘いもの欲グラフ（直近14日・CSS bar） -->
+      <div class="card">
+        <p class="rec-label">📊 甘いもの欲の波（直近14日）</p>
+        <div id="rec-chart-wrap">
+          <div class="rec-chart" id="rec-chart" aria-label="甘いもの欲グラフ"></div>
+          <div class="rec-legend" aria-hidden="true">
+            <span><i class="l1"></i>食べたくない</span>
+            <span><i class="l2"></i>我慢できる</span>
+            <span><i class="l3"></i>ついつい</span>
+            <span><i class="l4"></i>止まらない</span>
+          </div>
+        </div>
+        <div class="placeholder" id="rec-chart-empty" hidden>
+          <span class="ico">🌱</span>
+          まだ記録がありません。<br>甘いもの欲をタップすると、ここに波が描かれます。
+        </div>
+      </div>
+
+      <!-- §13.7 あなたの傾向インサイト（甘いもの欲＋フェーズから決定論で算出） -->
+      <div class="card rec-insight">
+        <p class="rec-insight-ttl"><span aria-hidden="true">🌱</span>あなたの傾向</p>
+        <p class="rec-insight-body" id="rec-insight-body"></p>
+        <!-- §13.6 控えめな自己理解→導線（傾向が出たときだけ・押し売りしない） -->
+        <div class="rec-insight-nudge" id="rec-insight-nudge" hidden>
+          <span id="rec-insight-nudge-text"></span>
+          <a class="rec-insight-link" id="rec-insight-link"
+             href="https://line.me/R/ti/p/@l.hidamari" rel="noreferrer noopener">→ LINE / 体験入学を見る</a>
+        </div>
+      </div>
+
+      <p class="note">
+        <strong>完全無料です。料金は一切かかりません。</strong><br>
+        記録データはこの端末内のみで扱い、外部に送信されません。
+      </p>
     </section>
 
-    <!-- ===== P-003 予告 ===== -->
+    <!-- ===== P-003 予告（おあずけ機能 / LINE導線） ===== -->
     <section id="view-forecast" class="view" data-view="forecast">
       <div class="app-title"><h1>🔒 予告</h1></div>
-      <div class="card">
-        <div class="placeholder">
-          <span class="ico">🎓</span>
-          講座で解放される機能・LINE特典案内<br>※ Phase 4 で実装
+      <p class="fc-lead">体験版ではここまで。<br>講座に入るとここまで分かります🌿</p>
+
+      <!-- ロックカード（実装せず・予告のみ） -->
+      <div class="fc-lock">
+        <span class="fc-lock-emoji" aria-hidden="true">😴</span>
+        <div class="fc-lock-meta">
+          <p class="fc-lock-name">睡眠スコア自動算出</p>
+          <p class="fc-lock-desc">毎日の眠りを点数で見える化</p>
         </div>
+        <span class="fc-lock-key" aria-hidden="true">🔒</span>
       </div>
+      <div class="fc-lock">
+        <span class="fc-lock-emoji" aria-hidden="true">📷</span>
+        <div class="fc-lock-meta">
+          <p class="fc-lock-name">食事の写真アップロード分析</p>
+          <p class="fc-lock-desc">食べたものから整え方を提案</p>
+        </div>
+        <span class="fc-lock-key" aria-hidden="true">🔒</span>
+      </div>
+      <div class="fc-lock">
+        <span class="fc-lock-emoji" aria-hidden="true">☀️</span>
+        <div class="fc-lock-meta">
+          <p class="fc-lock-name">朝のスッキリ感チェック</p>
+          <p class="fc-lock-desc">目覚めの質を毎朝かんたん記録</p>
+        </div>
+        <span class="fc-lock-key" aria-hidden="true">🔒</span>
+      </div>
+      <div class="fc-lock">
+        <span class="fc-lock-emoji" aria-hidden="true">🔗</span>
+        <div class="fc-lock-meta">
+          <p class="fc-lock-name">行動記録と睡眠の相関分析</p>
+          <p class="fc-lock-desc">何をした日がよく眠れたかを発見</p>
+        </div>
+        <span class="fc-lock-key" aria-hidden="true">🔒</span>
+      </div>
+      <p class="fc-lock-hint">🎓 講座に入るとここまで分かります</p>
+
+      <!-- LINE導線（常設・黄体期/記録が貯まると強調） -->
+      <div class="fc-line" id="fc-line">
+        <p class="fc-line-flag" id="fc-line-flag"></p>
+        <p class="fc-line-body" id="fc-line-body"></p>
+        <a class="fc-line-id" id="fc-line-id" href="https://line.me/R/ti/p/@l.hidamari"
+           rel="noreferrer noopener">→ @l.hidamari</a>
+      </div>
+
+      <p class="note">
+        <strong>完全無料です。料金は一切かかりません。</strong><br>
+        記録データはこの端末内のみで扱い、外部に送信されません。
+      </p>
     </section>
 
-    <!-- ===== 下部ナビ（3タブ） ===== -->
+    <!-- ===== P-004 そだてる（もりのこ育成） ===== -->
+    <section id="view-grow" class="view" data-view="grow">
+      <div class="app-title"><h1>🌱 そだてる</h1></div>
+      <div style="text-align:center; margin-bottom:14px;">
+        <span class="badge-free">🌿 完全無料／料金は一切かかりません</span>
+      </div>
+
+      <!-- もりのこのお庭：育成中の子（大きめ＋段階＋小メッセージ） -->
+      <div class="card grow-hero">
+        <div class="morinoko" id="grow-hero-art" aria-hidden="true"></div>
+        <p class="grow-stage-label" id="grow-stage-label"></p>
+        <p class="grow-stage-step" id="grow-stage-step"></p>
+        <p class="grow-hero-msg" id="grow-hero-msg"></p>
+      </div>
+
+      <!-- お庭（巣立った子たちのコレクション） -->
+      <div class="card">
+        <p class="grow-garden-ttl">🪴 もりのこのお庭</p>
+        <div class="grow-garden" id="grow-garden" aria-label="育てた子たち"></div>
+        <p class="grow-garden-empty" id="grow-garden-empty" hidden>
+          まだお庭は空っぽ。毎日ひらいて満開まで育てると、ここに子が増えていきます🌸
+        </p>
+      </div>
+
+      <!-- 今日のクイズ枠（プレースホルダ：Dで実装） -->
+      <div class="card">
+        <p class="grow-slot-ttl"><span aria-hidden="true">📝</span>今日の睡眠クイズ</p>
+        <div class="grow-slot-body" id="grow-quiz-slot"></div>
+      </div>
+
+      <!-- アイテム／着せ替え枠（プレースホルダ：Fで実装） -->
+      <div class="card">
+        <p class="grow-slot-ttl"><span aria-hidden="true">🎀</span>着せ替え・アイテム</p>
+        <div class="grow-slot-body" id="grow-item-slot">
+          <p class="du-now-season" id="du-now-season"></p>
+          <div class="du-grid" id="du-grid" aria-label="着せ替えアイテム"></div>
+          <p class="du-hint">タップで着せ替え／もう一度タップで外せます🌿</p>
+        </div>
+      </div>
+
+      <p class="note">
+        <strong>完全無料です。料金は一切かかりません。</strong><br>
+        記録データはこの端末内のみで扱い、外部に送信されません。
+      </p>
+    </section>
+
+    <!-- ===== 下部ナビ（4タブ） ===== -->
     <nav class="bottom-nav" aria-label="メインナビゲーション">
       <button data-nav="top">       <span class="ic">🏠</span>トップ</button>
       <button data-nav="record">    <span class="ic">📝</span>記録</button>
+      <button data-nav="grow">      <span class="ic">🌱</span>そだてる</button>
       <button data-nav="forecast">  <span class="ic">🔒</span>予告</button>
     </nav>
   </div>
@@ -293,15 +1131,914 @@
   };
   </script>
 
-  <!-- [3] ルーター: タブ切替 + 初回オンボーディング分岐 -->
+  <!-- [3] 共有ドメイン層: キャラ定数 / キャラ判定 / フェーズ判定（決定論・単一の源） -->
+  <script>
+  "use strict";
+  const Domain = (() => {
+    // 完全オリジナルの動物キャラ12種（和風で温かい名前・助産師×睡眠コーチのトーン）。
+    // 既存キャラ名は使わず著作権リスクを避ける。順序＝判定インデックス（固定）。
+    const CHARACTERS = Object.freeze([
+      { id: 0,  name: "ねむり子鹿",   emoji: "🦌", personality: "やさしく感受性ゆたかな甘えん坊", rhythm: "眠りが浅め。夜は照明を落として安心づくりを" },
+      { id: 1,  name: "まどろみ仔猫", emoji: "🐱", personality: "気まぐれで自由、ひとりの時間を大切にする", rhythm: "宵っ張り型。短い昼寝で回復するのが上手" },
+      { id: 2,  name: "ふくろう先生", emoji: "🦉", personality: "思慮深く落ち着いた、頼れる賢者肌",       rhythm: "夜に冴える夜型。朝は陽の光でリセットを" },
+      { id: 3,  name: "こもれびリス", emoji: "🐿️", personality: "好奇心いっぱいで小まめに動く働き者",     rhythm: "短時間睡眠でも元気。こまめな休息が鍵" },
+      { id: 4,  name: "ひだまり仔羊", emoji: "🐑", personality: "おだやかで平和を愛する癒やし上手",       rhythm: "規則正しい安眠型。同じ時間に休むと整う" },
+      { id: 5,  name: "もりの子熊",   emoji: "🐻", personality: "おおらかで包容力のある甘党さん",         rhythm: "ぐっすり深眠型。寒い時季は早寝でぽかぽかに" },
+      { id: 6,  name: "せせらぎ仔狐", emoji: "🦊", personality: "聡明で機転がきく、しなやかな策士",       rhythm: "切り替え上手。就寝前のスマホ断ちが効く" },
+      { id: 7,  name: "ねぼすけ亀",   emoji: "🐢", personality: "マイペースで芯の強い、地に足のついた人", rhythm: "たっぷり長眠型。焦らず自分の時間軸で休んで" },
+      { id: 8,  name: "そよかぜ小鳥", emoji: "🐦", personality: "明るく社交的でフットワークが軽い",       rhythm: "早寝早起きの朝型。朝日を浴びると絶好調" },
+      { id: 9,  name: "しずく仔兎",   emoji: "🐰", personality: "繊細でがんばり屋、人にやさしい努力家",   rhythm: "緊張で寝つきにくい日も。深呼吸で力を抜いて" },
+      { id: 10, name: "ゆきうさ白狼", emoji: "🐺", personality: "情熱的で意志が強い、まっすぐな一匹狼",   rhythm: "走りすぎ注意。意識的なクールダウンが安眠に" },
+      { id: 11, name: "ねむのき仔象", emoji: "🐘", personality: "おっとり優しく記憶力ゆたかな世話好き",   rhythm: "安定の安眠型。湯船で温まると眠りが深まる" },
+    ]);
+
+    // 生年月日 → 決定論的に1キャラへ。同じ生年月日なら必ず同じキャラ（ランダム禁止）。
+    // 式: charaId = (年 + 月 + 日) mod 12
+    function charaIndexOf(year, month, day) {
+      return (((year + month + day) % CHARACTERS.length) + CHARACTERS.length) % CHARACTERS.length;
+    }
+    function getCharacter(year, month, day) {
+      return CHARACTERS[charaIndexOf(year, month, day)];
+    }
+    function getCharacterById(id) {
+      return CHARACTERS[id] || null;
+    }
+
+    // 実在日付チェック（うるう年・月末を厳密に判定）
+    function isValidDate(year, month, day) {
+      if (![year, month, day].every(Number.isInteger)) return false;
+      const d = new Date(year, month - 1, day);
+      return d.getFullYear() === year && d.getMonth() === month - 1 && d.getDate() === day;
+    }
+    // 未来日でない（今日まで許可）
+    function isNotFuture(year, month, day) {
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      return new Date(year, month - 1, day) <= today;
+    }
+
+    // §6 月経フェーズ判定（経過日数 d: 開始日=1日目）。P-001で利用。
+    const PHASES = Object.freeze({
+      menstrual:  { id: "menstrual",  label: "月経期" },
+      follicular: { id: "follicular", label: "卵胞期" },
+      ovulation:  { id: "ovulation",  label: "排卵期" },
+      luteal:     { id: "luteal",     label: "黄体期" },
+    });
+    function getPhaseByDay(d) {
+      if (d <= 5)  return PHASES.menstrual;   // 1〜5
+      if (d <= 13) return PHASES.follicular;  // 6〜13
+      if (d <= 16) return PHASES.ovulation;   // 14〜16
+      return PHASES.luteal;                   // 17日目以降（長引きも黄体期で案内）
+    }
+    // 最新の生理開始日(Date)から今日までの経過日数で判定（開始日=1日目）
+    function getPhaseFromStart(startDate, today = new Date()) {
+      const a = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+      const b = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const days = Math.floor((b - a) / 86400000) + 1;
+      if (days < 1) return null;
+      return getPhaseByDay(days);
+    }
+
+    // §5 月経記録: 生理開始日の配列（"YYYY-MM-DD"）を保持し最新を採用。
+    // P-002 記録ページが同キーへ push する前提。P-001 はここを読むのみ。
+    const PERIOD_KEY = "periodStarts";
+    // 配列から最新の開始日(Date)を取得（未記録なら null）。決定論。
+    function latestPeriodStart(starts) {
+      if (!Array.isArray(starts) || starts.length === 0) return null;
+      let best = null;
+      for (const s of starts) {
+        const t = Date.parse(s);
+        if (Number.isNaN(t)) continue;
+        if (best === null || t > best) best = t;
+      }
+      return best === null ? null : new Date(best);
+    }
+    // 生理開始日 "YYYY-MM-DD" を配列へ追記（重複日は無視）。新しい配列を返す。
+    function addPeriodStart(starts, ymd) {
+      const list = Array.isArray(starts) ? starts.slice() : [];
+      if (list.includes(ymd)) return list;
+      list.push(ymd);
+      return list;
+    }
+
+    // §5 甘いもの欲: { date:"YYYY-MM-DD", level:1-4 } の配列。同日は上書き。
+    const SWEET_KEY = "sweetCravings";
+    // 4段階の文言（弱→強）。体感が伝わる表現に集約（単一の源）。順序＝level-1。
+    const SWEET_LEVELS = Object.freeze([
+      { level: 1, emoji: "🙂", label: "食べたくない" },
+      { level: 2, emoji: "😋", label: "食べたいけど我慢できる" },
+      { level: 3, emoji: "🤤", label: "我慢したいのについつい食べちゃう" },
+      { level: 4, emoji: "🍰", label: "食べても止まらない" },
+    ]);
+    // レベル妥当性（1〜4）
+    function isSweetLevel(level) {
+      return Number.isInteger(level) && level >= 1 && level <= SWEET_LEVELS.length;
+    }
+    // 指定日のレベルを上書き登録（同日があれば置換）。新しい配列を返す。
+    function setSweetCraving(records, ymd, level) {
+      const list = Array.isArray(records) ? records.filter((r) => r && r.date !== ymd) : [];
+      list.push({ date: ymd, level });
+      return list;
+    }
+    // 指定日の記録レベルを取得（無ければ null）
+    function getSweetLevel(records, ymd) {
+      if (!Array.isArray(records)) return null;
+      const hit = records.find((r) => r && r.date === ymd);
+      return hit ? hit.level : null;
+    }
+
+    // §13.7 あなたの傾向インサイト（純関数・決定論）。
+    // 甘いもの欲の各記録日を最新の生理開始日からのフェーズで分類し、フェーズ別平均レベルを集計。
+    // 最も平均が高いフェーズを「○○期に甘いもの欲が高まりやすいタイプ」として返す。
+    // records が閾値未満なら { enough:false }。閉経時はフェーズ非依存の傾向に切替える。
+    const INSIGHT_MIN = 5;                  // 傾向を出すのに必要な甘いもの欲の記録数
+    // 甘いもの欲レベルの平均から強弱の一言を返す（フェーズ非依存・閉経用）。
+    function sweetTendencyWord(avg) {
+      if (avg >= 3) return "甘いもの欲が高まりやすい";
+      if (avg >= 2) return "ほどほどに甘いものが恋しくなる";
+      return "甘いもの欲はおだやかな";
+    }
+    // フェーズ別平均を集計（フェーズ非依存の全体平均も返す）。決定論。
+    function sweetPhaseStats(records, start, today = new Date()) {
+      const sum = {}, cnt = {};
+      let total = 0, totalCnt = 0;
+      (Array.isArray(records) ? records : []).forEach((r) => {
+        if (!r || !r.date || !isSweetLevel(r.level)) return;
+        total += r.level; totalCnt += 1;
+        if (!start) return;
+        const phase = getPhaseFromStart(start, new Date(r.date));
+        if (!phase) return;
+        sum[phase.id] = (sum[phase.id] || 0) + r.level;
+        cnt[phase.id] = (cnt[phase.id] || 0) + 1;
+      });
+      let topId = null, topAvg = -1;
+      Object.keys(cnt).forEach((id) => {
+        const avg = sum[id] / cnt[id];
+        if (avg > topAvg) { topAvg = avg; topId = id; }
+      });
+      const overall = totalCnt > 0 ? total / totalCnt : 0;
+      return { topId, topAvg, count: totalCnt, overall };
+    }
+    // §13.7 傾向インサイトを算出（決定論・純関数）。表示文言まで含めて返す。
+    function computeSweetInsight(records, starts, menopause, today = new Date()) {
+      const valid = (Array.isArray(records) ? records : []).filter((r) => r && isSweetLevel(r.level));
+      if (valid.length < INSIGHT_MIN) {
+        return { enough: false, count: valid.length, need: INSIGHT_MIN };
+      }
+      const start = menopause ? null : latestPeriodStart(starts);
+      const stats = sweetPhaseStats(valid, start, today);
+      if (menopause || !stats.topId) {
+        const word = sweetTendencyWord(stats.overall);
+        return { enough: true, menopause: true, count: valid.length,
+          message: "これまでの記録では、" + word + "傾向が見られます。"
+            + "記録を続けるほど、あなたのリズムが見えてきます🌿" };
+      }
+      const label = (PHASES[stats.topId] || {}).label || "";
+      return { enough: true, menopause: false, count: valid.length,
+        topPhase: stats.topId,
+        message: label + "に甘いもの欲が高まりやすいタイプのようです。"
+          + "それは自然な体のリズム。責めずに、やさしくいたわってあげて🌷" };
+    }
+
+    // §13.1 今日のリズム（誕生日バイオリズム風・日替わり・お楽しみ）。
+    // 誕生日から today までの経過日数を独自のサイン波合成で4状態に区分。
+    // 医療を主張せず・「個性心理学」に触れない。決定論（同じ誕生日・同じ日→同じ結果）。
+    const RHYTHM_STATES = Object.freeze([
+      { key: "vivid", lead: "今日は流れに乗りやすい一日。" },     // 好調
+      { key: "calm",  lead: "おだやかに整いやすい一日。" },       // おだやか
+      { key: "sway",  lead: "少しゆらぎやすい一日。" },           // ゆらぎ
+      { key: "rest",  lead: "今日はそっと休みたい一日。" },       // 休息
+    ]);
+    // 誕生日からの経過日数（決定論・ローカル日付）
+    function daysSinceBirth(birthdate, today) {
+      const t = Date.parse(birthdate);
+      if (Number.isNaN(t)) return 0;
+      const b = new Date(t);
+      const a = new Date(b.getFullYear(), b.getMonth(), b.getDate());
+      const c = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      return Math.floor((c - a) / 86400000);
+    }
+    // 経過日数 → 4状態に決定論的に区分（身体23日・感情28日のサイン波を合成）。
+    function getDailyRhythm(birthdate, today = new Date()) {
+      const n = daysSinceBirth(birthdate, today);
+      const phys = Math.sin((2 * Math.PI * n) / 23);
+      const emo = Math.sin((2 * Math.PI * n) / 28);
+      const score = (phys + emo) / 2;       // -1〜+1
+      let idx;
+      if (score >= 0.4) idx = 0;            // 好調
+      else if (score >= 0) idx = 1;         // おだやか
+      else if (score >= -0.4) idx = 2;      // ゆらぎ
+      else idx = 3;                         // 休息
+      return RHYTHM_STATES[idx];
+    }
+
+    // §13.1 当日の日付由来インデックス（変奏を決定論で1つ選ぶ）。
+    // "YYYY-MM-DD" の数値和を mod。同じ日→同じ値、日が変われば変わる。
+    function dayIndex(today = new Date(), mod = 1) {
+      const sum = today.getFullYear() + (today.getMonth() + 1) + today.getDate();
+      return mod > 0 ? sum % mod : 0;
+    }
+
+    // §13.1 フェーズ別アドバイス（各3〜4文の変奏）。睡眠・体調・甘いもの欲を
+    // 織り込む温かい専門トーン。当日インデックスで決定論的に1つ選ぶ。
+    const PHASE_MESSAGES = Object.freeze({
+      menstrual: [
+        "今日は心と体をいたわる日。眠りを少し長めにとって、温かい飲み物でほっと一息を。",
+        "経血で疲れやすい時期。無理に動かず、早めの就寝で体を回復させてあげて。",
+        "甘いものが欲しくなったら少しだけ。自分を責めず、やさしく甘やかして。",
+        "お腹を温めると眠りが深まります。湯たんぽや腹巻きで芯からぽかぽかに。",
+      ],
+      follicular: [
+        "心も体も軽くなる時期。朝の光をしっかり浴びると眠りのリズムが整います。",
+        "エネルギーが満ちてくる頃。新しいことを始めるのにぴったりの数日です。",
+        "甘いもの欲は穏やかなはず。栄養バランスを整えて軽やかに過ごして。",
+        "睡眠の質が上がりやすい時期。寝る前のスマホを少し控えてみましょう。",
+      ],
+      ovulation: [
+        "気力も体力も高まりやすい時期。活動的になりすぎたら夜は早めに休息を。",
+        "体が一番元気な数日。水分と栄養をていねいに摂って巡りを大切に。",
+        "頭が冴える時期だからこそ、就寝前は照明を落として切り替えを。",
+        "心が前向きになりやすい頃。深い眠りでエネルギーを蓄えましょう。",
+      ],
+      luteal: [
+        "甘いものが恋しくなりやすい時期。それは自然なこと、責めないで。",
+        "睡眠を深く保つほど食欲の波はやわらぎます。ゆったり湯船で温まって。",
+        "ゆらぎやすい時期。完璧を目指さず、できた自分をほめてあげて。",
+        "むくみや眠気が出やすい頃。温かい食事と早めの就寝で整えましょう。",
+      ],
+    });
+    // キャラ別トーン補正（語尾の一言。CHARACTERS と同順・固定）。
+    const CHARA_TONES = Object.freeze([
+      "繊細なあなたへ、無理せずそっと過ごして。",   // 0 ねむり子鹿
+      "気の向くままに、自分のペースを大切に。",     // 1 まどろみ仔猫
+      "落ち着いて、夜は自分時間を楽しんで。",       // 2 ふくろう先生
+      "こまめな休息で元気をチャージしてね。",       // 3 こもれびリス
+      "規則正しいリズムが、あなたを整えます。",     // 4 ひだまり仔羊
+      "あたたかくして、ぐっすり眠りましょう。",     // 5 もりの子熊
+      "上手に切り替えて、しなやかに過ごして。",     // 6 せせらぎ仔狐
+      "焦らずマイペースで、自分の時間軸で。",       // 7 ねぼすけ亀
+      "朝の光を味方に、軽やかにいきましょう。",     // 8 そよかぜ小鳥
+      "深呼吸して、肩の力をふっと抜いて。",         // 9 しずく仔兎
+      "がんばり屋さんこそ、休む勇気を持って。",     // 10 ゆきうさ白狼
+      "おっとり優しく、自分もいたわってあげて。",   // 11 ねむのき仔象
+    ]);
+    // フェーズ別アドバイスの変奏を当日インデックスで1つ選ぶ（決定論）
+    function pickPhaseAdvice(phaseId, today) {
+      const list = PHASE_MESSAGES[phaseId];
+      if (!Array.isArray(list) || list.length === 0) return "";
+      return list[dayIndex(today, list.length)];
+    }
+
+    // §13.1 合成: 今日のリズム導入 ＋ フェーズ別アドバイス(変奏) ＋ キャラトーン補正。
+    // 誕生日・フェーズ・当日・キャラから決定論的に1文（同条件→同表示・日替わり）。
+    function getDailyMessage(charaId, phaseId, birthdate, today = new Date()) {
+      const advice = pickPhaseAdvice(phaseId, today);
+      const tone = CHARA_TONES[charaId];
+      if (!advice || tone == null) return "";
+      const lead = getDailyRhythm(birthdate, today).lead;
+      return lead + advice + tone;
+    }
+
+    // §5 閉経フラグ: true=閉経済み（月経記録を終える）。既定 false。
+    const MENOPAUSE_KEY = "menopause";
+    function isMenopause() { return Storage.get(MENOPAUSE_KEY, false) === true; }
+    function setMenopause(bool) { Storage.set(MENOPAUSE_KEY, bool === true); }
+
+    // 閉経モードの今日のひとことアドバイス（更年期・閉経世代向けの変奏：睡眠・冷え・甘いもの欲）。
+    // フェーズに依らず、当日インデックスで1つ選ぶ（getDailyMessage と同方式・決定論）。
+    const MENOPAUSE_MESSAGES = Object.freeze([
+      "周期から卒業したあなたへ。冷えをためず、湯船で体を芯から温めて。",
+      "眠りが浅い夜も焦らないで。深呼吸とぬるめの白湯でそっと整えましょう。",
+      "甘いものが欲しくなったら少しだけ。自分をいたわる時間も大切に。",
+      "体は新しいリズムへ移ろう時期。今日できたことを静かにほめてあげて。",
+    ]);
+    // 閉経向け合成: 今日のリズム導入 ＋ 閉経アドバイス(変奏) ＋ キャラトーン補正。
+    // フェーズなしでも毎日変化（決定論・同条件→同表示）。
+    function getMenopauseMessage(charaId, birthdate, today = new Date()) {
+      const advice = MENOPAUSE_MESSAGES[dayIndex(today, MENOPAUSE_MESSAGES.length)];
+      const tone = CHARA_TONES[charaId];
+      const lead = getDailyRhythm(birthdate, today).lead;
+      return lead + advice + (tone == null ? "" : tone);
+    }
+
+    // "YYYY-MM-DD" 文字列ヘルパー（決定論・ローカル日付）
+    function toYmd(year, month, day) {
+      return [year, String(month).padStart(2, "0"), String(day).padStart(2, "0")].join("-");
+    }
+    function todayYmd(today = new Date()) {
+      return toYmd(today.getFullYear(), today.getMonth() + 1, today.getDate());
+    }
+
+    // §13.2 もりのこ育成: 毎日ひらく（参加）で育つ。正解数では育てない。
+    // GROW_KEY 構造: { startYmd, lastOpenYmd, openDays, collection:[{maturedYmd, stage}...] }
+    //   startYmd     : 現在育成中の子の育成開始日（リセットで更新）
+    //   lastOpenYmd  : 最後に開いた日（同日重複の+1防止＝決定論）
+    //   openDays     : 現在の子の累計来訪日数（成長段階の基準）
+    //   collection   : 満開を迎えて巣立った子たち（お庭に並ぶ）
+    const GROW_KEY = "grow";
+
+    // 成長段階の境界（openDays 基準・目安）。単一の源。
+    //   1-2 たまご / 3-6 芽生え(孵化) / 7-11 若葉 / 12-17 つぼみ / 18- 満開
+    const GROWTH_STAGES = Object.freeze([
+      { key: "egg",    label: "たまご",   min: 1,  step: "Day 1" },
+      { key: "sprout", label: "芽生え",   min: 3,  step: "孵化" },
+      { key: "leaf",   label: "若葉",     min: 7,  step: "継続" },
+      { key: "bud",    label: "つぼみ",   min: 12, step: "もうすぐ" },
+      { key: "bloom",  label: "満開",     min: 18, step: "満開" },
+    ]);
+    const MATURE_DAYS = 18;               // 満開（巣立ち到達）の openDays
+
+    // openDays → 成長段階（決定論・純関数）。0以下は たまご扱い。
+    function growthStage(openDays) {
+      const d = Number.isFinite(openDays) ? openDays : 0;
+      let stage = GROWTH_STAGES[0];
+      for (const s of GROWTH_STAGES) { if (d >= s.min) stage = s; }
+      return stage;
+    }
+
+    // 育成状態の初期値（新しいたまご）。startYmd は開始日記録用。
+    function initGrow(ymd) {
+      return { startYmd: ymd, lastOpenYmd: null, openDays: 0, collection: [] };
+    }
+
+    // 「毎日ひらく」前進ロジック（決定論・純関数）。
+    // 新しい日に初めて開いたら openDays+1。満開済みの子は collection へ送り
+    // 新しいたまごから再開（openDays リセット）。同日複数回は変化なし。
+    function advanceGrow(state, ymd) {
+      const s = state && typeof state === "object" ? state : initGrow(ymd);
+      const collection = Array.isArray(s.collection) ? s.collection.slice() : [];
+      if (s.lastOpenYmd === ymd) {         // 同日2回目以降：変化させない（決定論）
+        return { ...s, collection };
+      }
+      // 満開到達後に新しい日が来た → 巣立ち＋新たまご再開
+      if (s.openDays >= MATURE_DAYS) {
+        collection.push({ maturedYmd: ymd, stage: "bloom" });
+        return { startYmd: ymd, lastOpenYmd: ymd, openDays: 1, collection };
+      }
+      return { ...s, lastOpenYmd: ymd, openDays: (s.openDays || 0) + 1, collection };
+    }
+
+    // §13.2 毎日の小変化：段階内でも当日日付由来で小さく変化する装飾を決定論で出す。
+    // 朝露のきらめき位置(0-2)と有無を返す（同じ日→同じ・日が変われば変わる）。
+    function growthMicro(today = new Date()) {
+      const i = dayIndex(today, 6);
+      return { dewSpot: i % 3, dew: i >= 2 };
+    }
+
+    // §13.5 着せ替え・アイテム図鑑（単一の源）。
+    // 各SVGパーツは Morinoko の viewBox 0 0 78 78 基準。色は var() のみ（直書き禁止）。
+    // svg は accessoryParts が解釈する { parts:[spec...] } 形式。装着は slot ごと最大1。
+    const SEASONS = Object.freeze({
+      all:    { key: "all",    label: "通年" },
+      spring: { key: "spring", label: "春" },
+      summer: { key: "summer", label: "夏" },
+      autumn: { key: "autumn", label: "秋" },
+      winter: { key: "winter", label: "冬" },
+    });
+
+    // 当日日付 → 季節（決定論・端末日付）。3-5春/6-8夏/9-11秋/12-2冬。
+    function currentSeason(today = new Date()) {
+      const m = today.getMonth() + 1;
+      if (m >= 3 && m <= 5) return SEASONS.spring;
+      if (m >= 6 && m <= 8) return SEASONS.summer;
+      if (m >= 9 && m <= 11) return SEASONS.autumn;
+      return SEASONS.winter;
+    }
+
+    // SVGパーツ生成ヘルパー（簡潔に・座標は頭頂/首/手の位置に合わせる）
+    const dot = (cx, cy, r, fill) => ({ t: "circle", cx, cy, r, fill });
+    // 5枚花びらの花（cx,cyを中心に）
+    function flower(cx, cy, s, petal, core) {
+      return { t: "g", transform: "translate(" + cx + "," + cy + ")", children: [
+        dot(0, -s, s * 0.7, petal), dot(s, -s * 0.3, s * 0.7, petal),
+        dot(s * 0.6, s * 0.8, s * 0.7, petal), dot(-s * 0.6, s * 0.8, s * 0.7, petal),
+        dot(-s, -s * 0.3, s * 0.7, petal), dot(0, 0, s * 0.55, core),
+      ] };
+    }
+    // 頭の上に並ぶ小花の冠（3輪）
+    function crown(petal, core) {
+      return [flower(28, 26, 3, petal, core), flower(39, 22, 3.4, petal, core),
+        flower(50, 26, 3, petal, core)];
+    }
+
+    const ITEM_CATALOG = Object.freeze([
+      // ---- 通年（9個）----
+      { id: "flower_crown", name: "小花の冠", slot: "head", season: "all", special: false,
+        svg: { parts: crown("var(--i-flower)", "var(--i-flower-2)") } },
+      { id: "soft_stole", name: "やわらかストール", slot: "neck", season: "all", special: false,
+        svg: { parts: [{ t: "path", d: "M22 50 q17 12 34 0 l-3 6 q-14 9 -28 0 z", fill: "var(--i-stole)" }] } },
+      { id: "ribbon", name: "リボン", slot: "head", season: "all", special: false,
+        svg: { parts: [{ t: "g", transform: "translate(39,21)", children: [
+          { t: "path", d: "M0 0 L-9 -5 L-9 5 Z", fill: "var(--i-ribbon)" },
+          { t: "path", d: "M0 0 L9 -5 L9 5 Z", fill: "var(--i-ribbon)" }, dot(0, 0, 2, "var(--i-flower-2)") ] }] } },
+      { id: "leaf_hat", name: "葉っぱ帽子", slot: "head", season: "all", special: false,
+        svg: { parts: [{ t: "path", d: "M30 24 q9 -16 18 0 q-9 7 -18 0 z", fill: "var(--i-leaf)" },
+          { t: "path", d: "M39 8 L39 24", stroke: "var(--i-leaf)", "stroke-width": "1.4", fill: "none" }] } },
+      { id: "acorn_bag", name: "木の実バッグ", slot: "hand", season: "all", special: false,
+        svg: { parts: [{ t: "g", transform: "translate(60,52)", children: [
+          { t: "ellipse", cx: 0, cy: 2, rx: 5, ry: 6, fill: "var(--i-acorn)" },
+          { t: "path", d: "M-5 -2 q5 -4 10 0 z", fill: "var(--i-leaf)" },
+          { t: "path", d: "M-4 -3 q4 -6 8 0", stroke: "var(--i-acorn)", "stroke-width": "1", fill: "none" } ] }] } },
+      { id: "star_pierce", name: "星のピアス", slot: "ear", season: "all", special: false,
+        svg: { parts: [{ t: "path", d: "M17 52 l1.4 2.8 l3 .4 l-2.2 2.1 .5 3 -2.7-1.4 -2.7 1.4 .5-3 -2.2-2.1 3-.4 z",
+          fill: "var(--i-star)" },
+          { t: "path", d: "M61 52 l1.4 2.8 l3 .4 l-2.2 2.1 .5 3 -2.7-1.4 -2.7 1.4 .5-3 -2.2-2.1 3-.4 z",
+            fill: "var(--i-star)" }] } },
+      { id: "berry_crown", name: "木の実の冠", slot: "head", season: "all", special: false,
+        svg: { parts: [dot(30, 25, 2.6, "var(--i-maple)"), dot(39, 22, 2.8, "var(--i-acorn)"),
+          dot(48, 25, 2.6, "var(--i-maple)"), dot(34, 24, 1.6, "var(--i-leaf)"), dot(44, 24, 1.6, "var(--i-leaf)")] } },
+      { id: "blue_scarf", name: "そらいろスカーフ", slot: "neck", season: "all", special: false,
+        svg: { parts: [{ t: "path", d: "M24 49 q15 10 30 0 l-2 5 q-13 7 -26 0 z", fill: "var(--i-blue)" },
+          { t: "path", d: "M50 53 l4 8 l-5 -1 z", fill: "var(--i-blue)" }] } },
+      { id: "petal_pierce", name: "花びらピアス", slot: "ear", season: "all", special: false,
+        svg: { parts: [dot(17, 54, 2.4, "var(--i-flower)"), dot(61, 54, 2.4, "var(--i-flower)"),
+          dot(17, 54, 1, "var(--i-flower-2)"), dot(61, 54, 1, "var(--i-flower-2)")] } },
+      // ---- 季節もの（各1個）----
+      { id: "sakura_crown", name: "桜の花かんむり", slot: "head", season: "spring", special: false,
+        svg: { parts: crown("var(--i-sakura)", "var(--i-maple)") } },
+      { id: "straw_hat", name: "麦わら帽子", slot: "head", season: "summer", special: false,
+        svg: { parts: [{ t: "ellipse", cx: 39, cy: 27, rx: 16, ry: 4.5, fill: "var(--i-straw)" },
+          { t: "path", d: "M31 27 q8 -14 16 0 z", fill: "var(--i-straw)" },
+          { t: "path", d: "M31 25 q8 4 16 0", stroke: "var(--i-ribbon)", "stroke-width": "2", fill: "none" }] } },
+      { id: "maple_deco", name: "紅葉かざり", slot: "head", season: "autumn", special: false,
+        svg: { parts: [{ t: "path",
+          d: "M39 16 l3 5 5 -1 -3 5 4 4 -6 0 -1 6 -2 -6 -6 0 4 -4 -3 -5 5 1 z", fill: "var(--i-maple)" }] } },
+      { id: "snow_muffler", name: "雪のマフラー", slot: "neck", season: "winter", special: false,
+        svg: { parts: [{ t: "path", d: "M23 49 q16 11 32 0 l-2 6 q-14 8 -28 0 z", fill: "var(--i-snow)" },
+          dot(30, 53, 1.2, "var(--i-blue)"), dot(48, 53, 1.2, "var(--i-blue)")] } },
+      // ---- コンプリート限定（special）----
+      { id: "gold_crown", name: "金の花冠", slot: "head", season: "all", special: true,
+        svg: { parts: [flower(28, 25, 3.2, "var(--i-gold-2)", "var(--i-gold)"),
+          flower(39, 21, 3.8, "var(--i-gold)", "var(--i-flower-2)"),
+          flower(50, 25, 3.2, "var(--i-gold-2)", "var(--i-gold)"),
+          dot(33, 24, 1.4, "var(--i-gold)"), dot(45, 24, 1.4, "var(--i-gold)")] } },
+    ]);
+
+    function getItemById(id) { return ITEM_CATALOG.find((it) => it.id === id) || null; }
+
+    // §13.5 所持・装着の状態（端末内のみ・Storage経由・決定論）。
+    const INVENTORY_KEY = "inventory";    // 所持アイテムidの配列
+    const OUTFIT_KEY = "outfit";          // 装着中のidの配列（slotごと最大1）
+
+    function getInventory() {
+      const v = Storage.get(INVENTORY_KEY, []);
+      return Array.isArray(v) ? v : [];
+    }
+    function getOutfit() {
+      const v = Storage.get(OUTFIT_KEY, []);
+      return Array.isArray(v) ? v : [];
+    }
+    function hasItem(id) { return getInventory().includes(id); }
+
+    // クイズ(D)からも呼べる付与口：所持に追加（重複・不正idは無視）。所持配列を返す。
+    function grantItem(id) {
+      if (!getItemById(id)) return getInventory();
+      const inv = getInventory();
+      if (inv.includes(id)) return inv;
+      const next = inv.concat(id);
+      Storage.set(INVENTORY_KEY, next);
+      return next;
+    }
+
+    // 装着：同slotの既存を外して付け替え（未所持は無視）。outfit配列を返す。
+    function wearItem(id) {
+      const item = getItemById(id);
+      if (!item || !hasItem(id)) return getOutfit();
+      const next = getOutfit().filter((wid) => {
+        const w = getItemById(wid);
+        return w && w.slot !== item.slot;       // 同slotを除去して置換
+      });
+      next.push(id);
+      Storage.set(OUTFIT_KEY, next);
+      return next;
+    }
+
+    // 解除：id指定 or slot指定でその装着を外す。outfit配列を返す。
+    function takeOff(idOrSlot) {
+      const item = getItemById(idOrSlot);
+      const next = getOutfit().filter((wid) => {
+        if (wid === idOrSlot) return false;     // id一致で外す
+        const w = getItemById(wid);
+        return !(item && w && w.slot === item.slot); // 同slot指定でも外す
+      });
+      Storage.set(OUTFIT_KEY, next);
+      return next;
+    }
+
+    // 装着中アイテムを Morinoko.render の accessories 形式 [{parts}] に変換（slot順で安定）。
+    function outfitAccessories() {
+      const order = ["head", "ear", "neck", "hand"];
+      const worn = getOutfit().map(getItemById).filter(Boolean);
+      worn.sort((a, b) => order.indexOf(a.slot) - order.indexOf(b.slot));
+      return worn.map((it) => it.svg);
+    }
+
+    // §13.3 睡眠ミニクイズ（承認済み40問・単一の源として複製）。
+    // 各問: id / difficulty(1易2中3難) / category / question / choices(3) / answerIndex / explanation / onepoint。
+    const QUIZ_BANK = Object.freeze([
+    { id: "q01", difficulty: 1, category: "睡眠の役割",
+      question: "睡眠中、脳ではどのようなことが行われていると考えられていますか？",
+      choices: ["何も行われず完全に休止している", "日中の記憶の整理・定着が進む", "新しい知識を外から取り込んでいる"], answerIndex: 1,
+      explanation: "睡眠中の脳は休止しているわけではなく、日中に得た情報を整理し、必要な記憶を定着させる働きをしています。特に深い眠りと浅い眠りが交互に訪れることで、記憶や感情の整理が進むと考えられています。",
+      onepoint: "覚えたいことがある日は、夜更かしして詰め込むより、いったん眠ってしまうのがおすすめ。眠りが「整理の時間」になってくれます。今夜は安心して、脳に整理をおまかせしてみてくださいね。" },
+    { id: "q02", difficulty: 1, category: "睡眠の役割",
+      question: "成長ホルモンが多く分泌されやすいのは、どのタイミングと言われていますか？",
+      choices: ["眠り始めの深い睡眠のとき", "明け方の浅い眠りのとき", "睡眠とは関係なく日中に多い"], answerIndex: 0,
+      explanation: "成長ホルモンは、眠り始めに訪れる深い睡眠のときにまとまって分泌されやすいと言われています。肌や体の修復、疲労回復に関わるため、最初の深い眠りを大切にすることがポイントです。",
+      onepoint: "「最初の3時間」をどう眠るかが、その日の回復の鍵。寝る直前のスマホや明るい光を少し控えて、すっと深く眠りに入れる環境を整えてあげましょう。" },
+    { id: "q03", difficulty: 2, category: "睡眠の役割",
+      question: "睡眠が心（気持ち）に対して果たす役割として、最も適切なものはどれですか？",
+      choices: ["気持ちとは無関係で体だけを休める", "感情の整理を助け、心のバランスを保ちやすくする", "感情を強め、興奮しやすくする"], answerIndex: 1,
+      explanation: "睡眠は体だけでなく心の回復にも関わります。十分な眠りは日中の感情の整理を助け、ストレスへの耐性やメンタルの安定につながりやすいと考えられています。",
+      onepoint: "「なんだか心が疲れたな」という日ほど、早めの就寝を。眠りは心の名スタッフ。今夜の睡眠が、明日のあなたの機嫌をそっと支えてくれます。" },
+    { id: "q04", difficulty: 1, category: "睡眠の役割",
+      question: "睡眠と免疫(体を守る力)の関係について、正しいものはどれですか？",
+      choices: ["睡眠は免疫とは関係がない", "十分な睡眠は体を守る力の維持に役立つと考えられている", "眠れば眠るほど体を守る力はどんどん高まる"], answerIndex: 1,
+      explanation: "睡眠不足が続くと体調を崩しやすくなることが知られており、十分な睡眠は体を守る力（免疫機能）を保つうえで役立つと考えられています。眠りは「休養」だけでなく「守り」の役割も担っています。",
+      onepoint: "季節の変わり目や忙しい時期こそ、睡眠は最強の予防策。サプリより先に、まずは眠る時間を15分でも確保することから始めてみましょう。" },
+    { id: "q05", difficulty: 2, category: "睡眠の役割",
+      question: "「レム睡眠」と「ノンレム睡眠」について、正しい説明はどれですか？",
+      choices: ["一晩中ずっと同じ深さの眠りが続く", "深い眠りと浅い眠りが周期的に繰り返される", "深い眠りが長い方が、睡眠の質が良い"], answerIndex: 1,
+      explanation: "睡眠は一定の深さではなく、深いノンレム睡眠と、夢を見やすく浅いレム睡眠が、約90〜120分の周期で繰り返されます。この周期が体と心の回復をバランスよく支えています。",
+      onepoint: "目覚めをすっきりさせたいなら、眠りの周期の「浅いタイミング」で起きるのが理想。就寝・起床の時刻をなるべく一定に保つと、自然と整いやすくなりますよ。" },
+    { id: "q06", difficulty: 1, category: "睡眠不足による影響",
+      question: "睡眠不足が続くと、日中の集中力や判断力はどうなりやすいですか？",
+      choices: ["変わらない", "低下しやすくなる", "高まりやすくなる"], answerIndex: 1,
+      explanation: "睡眠が不足すると、注意力・集中力・判断力が低下しやすくなることが分かっています。本人は気づきにくいこともあり、「いつも通り」のつもりでもパフォーマンスが落ちている場合があります。",
+      onepoint: "大事な決断や打ち合わせの前夜こそ、しっかり眠るのが一番の準備。「気合い」より「睡眠」が、あなたの判断力を一番支えてくれます。" },
+    { id: "q07", difficulty: 2, category: "睡眠不足による影響",
+      question: "睡眠不足と食欲・体重の関係について、正しいものはどれですか？",
+      choices: ["睡眠不足は食欲を抑える", "睡眠不足は食欲が増しやすく、体重管理に影響することがある", "睡眠と食欲は無関係"], answerIndex: 1,
+      explanation: "睡眠が不足すると食欲に関わるホルモンのバランスが崩れ、食欲が増したり甘いもの・高カロリーなものを欲しやすくなることが知られています。体重管理にも睡眠は関わっています。",
+      onepoint: "「最近なんだか食べ過ぎちゃう」と感じたら、まず睡眠を見直すサインかも。我慢で抑えるより、眠りを整える方がずっとラクなことがありますよ。" },
+    { id: "q08", difficulty: 1, category: "睡眠不足による影響",
+      question: "睡眠不足が気分・感情に与える影響として、起こりやすいのはどれですか？",
+      choices: ["イライラしやすく、気分が不安定になりやすい", "常に穏やかになる", "感情に一切影響しない"], answerIndex: 0,
+      explanation: "睡眠が足りないと感情のコントロールが難しくなり、イライラ・不安・落ち込みなど気分が不安定になりやすいと考えられています。心の余裕は、眠りと深く結びついています。",
+      onepoint: "「今日はやけにカリカリするな」という日は、自分を責める前に睡眠を疑ってOK。今夜少し早く休むだけで、明日の心持ちが変わることがあります。" },
+    { id: "q09", difficulty: 2, category: "睡眠不足による影響",
+      question: "平日に睡眠不足を続け、週末に「寝だめ」する習慣について、適切な説明はどれですか？",
+      choices: ["寝だめで完全に取り戻せるので問題ない", "ある程度は補えるが、生活リズムが乱れる原因にもなりやすい", "寝だめはまったく意味がない"], answerIndex: 1,
+      explanation: "週末の長い寝坊は、ある程度は睡眠不足を補いますが、就寝・起床時刻が大きくずれることで体内リズムが乱れ、かえって月曜が辛くなる「社会的時差ぼけ」を招きやすくなります。",
+      onepoint: "週末に寝坊したいときは、いつもより「プラス1〜2時間まで」を目安に。リズムを大きく崩さない範囲なら、罪悪感なくゆっくり休めますよ。" },
+    { id: "q10", difficulty: 3, category: "睡眠不足による影響",
+      question: "慢性的な睡眠不足が長く続くと、健康面でどのようなリスクが指摘されていますか？",
+      choices: ["特にリスクはない", "生活習慣病などの健康リスクとの関連が指摘されている", "睡眠不足は健康に良いとされている"], answerIndex: 1,
+      explanation: "長期的な睡眠不足は、生活習慣病をはじめさまざまな健康リスクとの関連が指摘されています。短期的な眠気だけでなく、積み重ねが体に影響する点に注意が必要です。",
+      onepoint: "睡眠は「未来の自分への投資」。今日の頑張りも大切ですが、長く健やかに走り続けるために、眠りの時間を予定に組み込んであげましょう。" },
+    { id: "q11", difficulty: 1, category: "睡眠に必要な栄養",
+      question: "心を落ち着ける「セロトニン」や睡眠に関わる「メラトニン」の材料になる栄養素はどれですか？",
+      choices: ["ビタミンC", "トリプトファン（アミノ酸）", "食物繊維"], answerIndex: 1,
+      explanation: "トリプトファンは必須アミノ酸の一つで、日中はセロトニン、夜はメラトニンへと変化する材料になります。体内で作れないため、食事から摂ることが大切です。大豆製品・乳製品・バナナなどに含まれます。 特にメラトニンへ変化するまでには時間がかかるため、朝〜日中に摂っておくのがおすすめです。",
+      onepoint: "朝ごはんに納豆やヨーグルト、バナナを一品プラス。朝に材料を入れておくと、夜の眠りの準備につながります。難しく考えず「いつもの朝食に一品」でOKです。" },
+    { id: "q12", difficulty: 2, category: "睡眠に必要な栄養",
+      question: "「天然のリラックスミネラル」とも呼ばれ、神経の高ぶりを鎮めるのを助けるとされる栄養素はどれですか？",
+      choices: ["マグネシウム", "ナトリウム", "コレステロール"], answerIndex: 0,
+      explanation: "マグネシウムは神経や筋肉の働きを整えるのに関わるミネラルで、不足するとリラックスしにくくなることがあります。海藻・ナッツ・大豆製品・葉物野菜などに多く含まれます。",
+      onepoint: "間食をナッツ少量にしたり、味噌汁に海藻を加えるだけでも一歩前進。サプリに頼る前に、まずは「食卓に海藻とナッツ」を合言葉にしてみましょう。" },
+    { id: "q13", difficulty: 3, category: "睡眠に必要な栄養",
+      question: "トリプトファンからセロトニンが作られるのを助ける働きがあるビタミンはどれですか？",
+      choices: ["ビタミンB6", "ビタミンK", "ビタミンD"], answerIndex: 0,
+      explanation: "ビタミンB6は、トリプトファンからセロトニンを作る過程を助ける補酵素として働きます。魚（かつお・まぐろ等）・鶏肉・バナナなどに含まれ、材料と一緒に摂ることが意識のポイントです。",
+      onepoint: "「トリプトファン×ビタミンB6」はうれしいコンビ。お昼にお魚や鶏肉を選ぶと、両方を自然に摂れます。難しい栄養計算より、まずはこのペアを覚えておきましょう。" },
+    { id: "q14", difficulty: 2, category: "睡眠に必要な栄養",
+      question: "睡眠と栄養の関係について、最も適切な考え方はどれですか？",
+      choices: ["特定の食品ひとつで睡眠は完璧になる", "バランスのよい食事全体が、整った睡眠を支える土台になる", "栄養と睡眠はまったく関係ない"], answerIndex: 1,
+      explanation: "「これさえ食べれば眠れる」という万能食品はありません。トリプトファンやミネラル、ビタミンなどがそろったバランスのよい食事全体が、心地よい眠りの土台を支えます。",
+      onepoint: "完璧な食事を目指すより、「主食・主菜・副菜がそろっているかな？」とゆるく確認するだけで十分。整った食卓は、整った眠りへの近道です。" },
+    { id: "q15", difficulty: 3, category: "睡眠に必要な栄養",
+      question: "鉄分と睡眠・気分の関係について、知っておきたいことはどれですか？",
+      choices: ["鉄は睡眠や気分とは無関係", "鉄不足は気分の不調や眠りの質に影響することがある", "鉄は摂れば摂るほど眠れる"], answerIndex: 1,
+      explanation: "鉄は心を落ち着けるセロトニンなどを作る過程にも関わるミネラルです。特に女性は不足しやすく、鉄不足が気分の不調や睡眠の質に影響することがあります。気になる場合は医療機関での相談も大切です。",
+      onepoint: "赤身の肉・魚、レバー、ほうれん草などを意識してみて。なんとなく不調が続くときは、自己判断のサプリより、まず一度きちんと検査してもらうのが安心です。" },
+    { id: "q16", difficulty: 2, category: "その栄養を摂る時間帯",
+      question: "夜のメラトニン分泌につなげるために、セロトニンの材料（トリプトファン）を意識して摂りたいのは主にいつですか？",
+      choices: ["朝〜日中", "寝る直前", "深夜"], answerIndex: 0,
+      explanation: "トリプトファンは日中にセロトニンへ、夜にかけてメラトニンへと変化していきます。そのため、朝〜日中の食事で材料を摂っておくことが、夜の自然な眠気につながりやすいと考えられています。",
+      onepoint: "朝食を抜きがちな方は、まず「朝に少し食べる」ことから。朝のひと口が、夜のあなたの眠りをそっと準備してくれます。" },
+    { id: "q17", difficulty: 1, category: "その栄養を摂る時間帯",
+      question: "セロトニンを増やすために、栄養と合わせて朝に取り入れたい習慣はどれですか？",
+      choices: ["朝に太陽の光を浴びる", "朝はできるだけ暗い部屋で過ごす", "朝食後すぐに二度寝する"], answerIndex: 0,
+      explanation: "朝に太陽の光を浴びることはセロトニンの分泌を促し、体内時計をリセットする手助けになります。栄養（材料）と光（スイッチ）を朝にそろえることで、夜の眠りへとつながりやすくなります。",
+      onepoint: "起きたらまずカーテンを開けて、数分でも光を浴びましょう。ベランダや窓辺で深呼吸するだけでOK。朝の光は、無料で最高の睡眠サポーターです。" },
+    { id: "q18", difficulty: 2, category: "その栄養を摂る時間帯",
+      question: "夕食の理想的なタイミングについて、眠りの観点から適切なものはどれですか？",
+      choices: ["就寝の直前に済ませる", "就寝の2〜3時間前までに済ませるのが望ましい", "夕食は食べないほうが眠れる"], answerIndex: 1,
+      explanation: "就寝直前の食事は消化のために体が働き続け、深い眠りを妨げやすくなります。夕食は就寝の2〜3時間前までに済ませると、体が休息モードに入りやすくなります。",
+      onepoint: "夜が忙しい日は、夕方に軽く食べておき、夜は軽めにする「分け食べ」も手。お腹を落ち着かせてから布団に入ると、眠りの入り口がぐっとラクになります。" },
+    { id: "q19", difficulty: 2, category: "その栄養を摂る時間帯",
+      question: "夜遅くに口にする間食として、眠りの妨げになりにくいのはどれですか？",
+      choices: ["甘いお菓子やスナック菓子", "温かいハーブティーや白湯など軽いもの", "脂っこい揚げ物"], answerIndex: 1,
+      explanation: "就寝前の甘いものや脂っこいものは血糖や消化に負担をかけ、眠りを浅くしやすくなります。どうしても口寂しいときは、カフェインを含まない温かい飲み物など軽いものを選ぶと安心です。",
+      onepoint: "夜の小腹には、ノンカフェインの温かい一杯を。手のひらをカップで温めるひとときが、心も体も「おやすみモード」に切り替えてくれます。" },
+    { id: "q20", difficulty: 3, category: "その栄養を摂る時間帯",
+      question: "規則正しい食事の時間が睡眠に良いとされる理由として、適切なものはどれですか？",
+      choices: ["食事の時間も体内時計を整える手がかりになるため", "食事の時間と睡眠はまったく無関係なため", "毎食ばらばらの方がリズムが整うため"], answerIndex: 0,
+      explanation: "体内時計は光だけでなく、食事のタイミングからも影響を受けると考えられています。毎日できるだけ近い時間に食事をとることが、睡眠を含む生活リズム全体を整える助けになります。",
+      onepoint: "忙しくても「朝・昼・夜のだいたいの時間」を決めておくと、体が安心してリズムを刻みます。完璧でなくて大丈夫、「だいたい同じ」を目指しましょう。" },
+    { id: "q21", difficulty: 1, category: "睡眠を妨げる食べ物・飲み物",
+      question: "コーヒー・緑茶・エナジードリンクなどに含まれ、覚醒作用で眠りを妨げやすい成分はどれですか？",
+      choices: ["カフェイン", "カルシウム", "食物繊維"], answerIndex: 0,
+      explanation: "カフェインには覚醒作用があり、眠気を遠ざけます。効果は数時間続き、人によっては夕方以降に摂ると寝つきや眠りの深さに影響することがあります。コーヒーだけでなく緑茶や一部のお茶にも含まれます。",
+      onepoint: "「午後はカフェインを控えめに」を目安に。午後はカフェインレスのお茶や白湯に切り替えると、夜の寝つきがふっと軽くなることがありますよ。" },
+    { id: "q22", difficulty: 2, category: "睡眠を妨げる食べ物・飲み物",
+      question: "「寝酒（寝る前のお酒）」について、正しい説明はどれですか？",
+      choices: ["寝る前のお酒は睡眠の質を高める", "寝つきは良くなることがあるが、後半の眠りが浅くなりやすい", "お酒は睡眠にまったく影響しない"], answerIndex: 1,
+      explanation: "アルコールは一時的に寝つきを良くすることがありますが、夜後半になると眠りが浅くなったり、途中で目が覚めやすくなります。利尿作用もあり、結果として眠りの質を下げやすいと考えられています。",
+      onepoint: "「眠れないからお酒」は実は逆効果になりがち。お酒を楽しむなら早めの時間に、量はほどほどに。寝る前は温かいノンカフェインの一杯に切り替えてみましょう。" },
+    { id: "q23", difficulty: 2, category: "睡眠を妨げる食べ物・飲み物",
+      question: "カフェインを控えるなら、いつ以降を目安にするのがおすすめでしょうか？",
+      choices: ["寝る直前だけ控えれば十分", "夕食後から控えれば十分", "昼すぎ（14時ごろ）以降は控えるのがおすすめ"], answerIndex: 2,
+      explanation: "カフェインの影響は個人差はあるものの数時間続くことがあります。『夜だけ・寝る前だけ控えれば十分』と思われがちですが、午後の早い段階＝昼すぎ（14時ごろ）以降は控えておくと、夜の眠りを妨げにくくなります。",
+      onepoint: "『14時以降はカフェインを控える』と自分のラインを一本決めておくと迷いません。午後はノンカフェインのお茶や白湯に切り替えてみましょう。" },
+    { id: "q24", difficulty: 2, category: "睡眠を妨げる食べ物・飲み物",
+      question: "就寝前の食事内容として、眠りを妨げやすいのはどれですか？",
+      choices: ["脂っこい・量の多い食事", "消化のよい軽めの食事", "就寝3時間前までの普通の食事"], answerIndex: 0,
+      explanation: "脂っこいものや量の多い食事は消化に時間がかかり、寝ている間も胃腸が働き続けるため、眠りが浅くなりやすくなります。就寝前はできるだけ消化のよい軽めのものが望ましいとされています。",
+      onepoint: "遅い時間の食事は「軽く・消化よく」が合言葉。お味噌汁やおかゆ、湯豆腐などやさしいメニューが、夜のあなたの胃と眠りに寄り添ってくれます。" },
+    { id: "q25", difficulty: 3, category: "睡眠を妨げる食べ物・飲み物",
+      question: "辛すぎる・刺激の強い食べ物を就寝前にとると、眠りにどう影響しやすいですか？",
+      choices: ["影響はない", "胃腸への刺激や体温変化で寝つきにくくなることがある", "必ずぐっすり眠れるようになる"], answerIndex: 1,
+      explanation: "刺激の強い食べ物は胃腸に負担をかけたり、一時的に体を火照らせたりして、寝つきや眠りの深さに影響することがあります。就寝前はやさしい味わいの食事のほうが、体が落ち着きやすくなります。",
+      onepoint: "ピリ辛が好きな方は、ランチや早めの夕食で楽しむのがおすすめ。夜はやさしい味で体をなだめて、穏やかに一日を締めくくりましょう。" },
+    { id: "q26", difficulty: 1, category: "自律神経に影響を与えるもの",
+      question: "夜、心地よく眠りに入るために優位になってほしい自律神経はどちらですか？",
+      choices: ["交感神経（活動モード）", "副交感神経（リラックスモード）", "どちらも関係ない"], answerIndex: 1,
+      explanation: "自律神経には活動モードの交感神経と、休息モードの副交感神経があります。夜は副交感神経が優位になることで心身がリラックスし、眠りに入りやすくなります。夜の過ごし方は、この切り替えを助けるかどうかがポイントです。",
+      onepoint: "夜は「がんばるスイッチ」をそっとオフに。照明を少し落とし、深い呼吸を数回するだけでも、体はリラックスモードへ傾いていきます。" },
+    { id: "q27", difficulty: 2, category: "自律神経に影響を与えるもの",
+      question: "就寝前のスマホやパソコンの強い光が、眠りに影響しやすい理由はどれですか？",
+      choices: ["明るい光が脳を覚醒させ、眠りの準備を妨げやすいため", "画面の光には眠気を強める作用があるため", "光は睡眠とは無関係なため"], answerIndex: 0,
+      explanation: "就寝前の明るい光、特に画面から出る光は脳を覚醒させ、眠りを促すメラトニンの分泌を妨げやすいと考えられています。さらに情報による刺激も交感神経を高ぶらせ、寝つきを悪くします。",
+      onepoint: "寝る30分前は「画面オフタイム」にしてみましょう。代わりに軽いストレッチや読書を。手放すのが難しい日は、明るさを下げるだけでも一歩前進です。" },
+    { id: "q28", difficulty: 1, category: "自律神経に影響を与えるもの",
+      question: "入浴と自律神経・睡眠の関係について、眠りに良いとされる入り方はどれですか？",
+      choices: ["就寝直前に熱いお湯にさっと入る", "就寝の1〜2時間前にぬるめのお湯でゆっくり温まる", "夜は入浴しないほうが眠れる"], answerIndex: 1,
+      explanation: "ぬるめのお湯にゆっくり浸かると副交感神経が優位になり、リラックスできます。入浴で上がった体温が就寝に向けて下がっていく過程で眠気が訪れやすくなるため、就寝1〜2時間前の入浴が向いています。熱すぎるお湯は逆に体を興奮させやすくなります。",
+      onepoint: "38〜40度くらいのお湯にゆったり10〜15分。湯上がりのほてりが落ち着く頃が、布団に入る絶好のタイミング。今夜のお風呂を「眠りの準備時間」にしてみましょう。" },
+    { id: "q29", difficulty: 2, category: "自律神経に影響を与えるもの",
+      question: "深い呼吸（ゆっくりした腹式呼吸）が眠りに役立つとされる理由はどれですか？",
+      choices: ["呼吸は自律神経と無関係だから", "ゆっくりした呼吸が副交感神経を優位にしやすいから", "速い呼吸ほどリラックスするから"], answerIndex: 1,
+      explanation: "ゆっくりと深い呼吸は副交感神経を優位にしやすく、心身の緊張をゆるめる助けになります。意識的に息を長く吐くことで、高ぶった神経を落ち着けやすくなります。",
+      onepoint: "布団の中で、吸う4秒・吐く6秒くらいのゆったり呼吸を数回。「吐く息を長く」がコツです。考えごとが止まらない夜も、呼吸に意識を戻してあげましょう。" },
+    { id: "q30", difficulty: 3, category: "自律神経に影響を与えるもの",
+      question: "慢性的なストレスや緊張が続くと、自律神経や睡眠にどう影響しやすいですか？",
+      choices: ["影響はない", "交感神経が高ぶった状態が続き、寝つきや眠りの質に影響しやすい", "必ず深く眠れるようになる"], answerIndex: 1,
+      explanation: "ストレスや緊張が続くと活動モードの交感神経が優位な状態が続きやすく、夜になっても心身が休息モードに切り替わりにくくなります。その結果、寝つきの悪さや眠りの浅さにつながることがあります。",
+      onepoint: "忙しい日ほど、寝る前の5分を「自分をゆるめる時間」に。温かい飲み物や軽いストレッチで、頑張った神経をいたわってあげてくださいね。" },
+    { id: "q31", difficulty: 1, category: "姿勢に関すること",
+      question: "枕の高さ選びについて、一般的に望ましいとされる考え方はどれですか？",
+      choices: ["とにかく高い枕がよい", "首の自然なカーブを保ち、寝姿勢が無理なく支えられる高さがよい", "枕は使わないほうがよい"], answerIndex: 1,
+      explanation: "枕は高すぎても低すぎても、首や肩に負担がかかりやすくなります。あおむけや横向きで首の自然なカーブが保たれ、呼吸がしやすい高さが望ましいとされています。体格や寝方によって合う高さは異なります。",
+      onepoint: "朝起きて首や肩がこわばっているなら、枕を見直すサインかも。タオルを重ねて高さを微調整するだけでも、合う高さを探せます。自分に心地よい一点を見つけましょう。" },
+    { id: "q32", difficulty: 2, category: "姿勢に関すること",
+      question: "マットレスや敷き寝具の硬さについて、一般的に望ましいとされるのはどれですか？",
+      choices: ["とにかく柔らかいほど体に良い", "体が沈み込みすぎず、自然な姿勢を保てる適度な硬さがよい", "硬ければ硬いほど良い"], answerIndex: 1,
+      explanation: "柔らかすぎると体が沈み込み、硬すぎると一部に圧力が集中して、どちらも寝姿勢が崩れたり体に負担がかかりやすくなります。背骨の自然なラインを保てる適度な硬さが望ましいとされています。",
+      onepoint: "朝に腰や背中が痛むなら、寝具が合っていないのかも。買い替えが難しければ、敷きパッドで調整するのも手。寝具は毎日のことだから、少しずつ自分仕様に整えていきましょう。" },
+    { id: "q33", difficulty: 2, category: "姿勢に関すること",
+      question: "日中のデスクワークでの姿勢が、夜の睡眠に影響することがあるのはなぜですか？",
+      choices: ["日中の姿勢と睡眠は無関係だから", "前かがみ姿勢などによる首・肩のこりや緊張が、夜のリラックスを妨げることがあるから", "悪い姿勢ほどよく眠れるから"], answerIndex: 1,
+      explanation: "長時間の前かがみ姿勢は首や肩のこり、体の緊張を招きやすく、それが夜になっても残ると心身がリラックスしにくくなることがあります。日中の姿勢ケアも、めぐりめぐって睡眠の質に関わります。",
+      onepoint: "1時間に一度は立ち上がって、肩を回したり伸びをひとつ。日中のこまめなリセットが、夜の「ほぐれやすい体」につながります。仕事の合間に、自分の体を労ってあげましょう。" },
+    { id: "q34", difficulty: 1, category: "姿勢に関すること",
+      question: "睡眠中の「寝返り」の役割について、適切なものはどれですか？",
+      choices: ["寝返りは眠りが浅い証拠で、少ないほどよい", "体の血流や体圧の偏りをやわらげ、体温の調整にも役立つ", "寝返りは睡眠とは関係がない"], answerIndex: 1,
+      explanation: "寝返りには、体の一部にかかる圧力（体圧）の偏りをやわらげたり、血流や寝床内の温度・湿度を整えたりする役割があると考えられています。また、日中の活動で生じた体のこわばりや骨格の偏りをリセットし、体のバランスを整えるはたらきもあるとされています。『寝返り＝眠りが浅い』と思われがちですが、適度な寝返りはむしろ自然で大切な動きです。",
+      onepoint: "寝返りを我慢する必要はありません。打ちやすい環境を整えるほうが、体は楽に休まります。" },
+    { id: "q35", difficulty: 2, category: "姿勢に関すること",
+      question: "「寝返りのしやすさ」から考えた寝具選びで、おすすめの考え方はどれですか？",
+      choices: ["やわらかく深く沈み込むほど体によい", "適度な硬さがあり、寝返りが打ちやすい寝具がおすすめ", "硬ければ硬いほどよい"], answerIndex: 1,
+      explanation: "やわらかすぎる寝具は体が沈み込み、寝返りが打ちにくくなることがあります。適度な硬さで体を支え、スムーズに寝返りができる寝具のほうが、体への負担を分散しやすいと考えられています。",
+      onepoint: "寝具選びは『寝返りがしやすいか』を一つの目安に。実際に寝返りを打ってみて、軽くスムーズに動ける硬さを探してみましょう。" },
+    { id: "q36", difficulty: 1, category: "睡眠の質が悪いサイン",
+      question: "睡眠の質が十分でないときに見られやすいサインはどれですか？",
+      choices: ["朝すっきり目覚め、日中も元気", "朝の目覚めが悪く、日中に強い眠気やだるさが残る", "夜になると元気いっぱいになる"], answerIndex: 1,
+      explanation: "十分な時間眠っていても、朝すっきり起きられない・日中に強い眠気やだるさが続く場合は、眠りの質が低下しているサインかもしれません。「時間」だけでなく「目覚めの感じ」も大切な手がかりです。",
+      onepoint: "毎朝の目覚めを、自分への小さな問診に。「すっきり度」を10点満点で振り返るだけでも、睡眠の変化に気づきやすくなります。自分の感覚を大切にしてあげましょう。" },
+    { id: "q37", difficulty: 2, category: "睡眠の質が悪いサイン",
+      question: "夜中に何度も目が覚めてしまう「中途覚醒」が続く場合、どう捉えるとよいですか？",
+      choices: ["まったく気にしなくてよい", "眠りの質に関わるサインの可能性があり、生活習慣の見直しや必要に応じ相談も検討する", "目が覚めるほど健康な証拠"], answerIndex: 1,
+      explanation: "夜中に何度も目が覚める状態が続くと、深い眠りが妨げられ、休息感が得られにくくなります。カフェイン・お酒・ストレス・環境などの見直しが助けになることがあり、つらさが続く場合は専門家への相談も選択肢です。",
+      onepoint: "「また目が覚めた」と焦るとかえって眠れなくなることも。まずは飲み物や寝室の環境を見直してみて。それでも続いてつらいときは、我慢せず専門家に相談する勇気も大切です。" },
+    { id: "q38", difficulty: 2, category: "睡眠の質が悪いサイン",
+      question: "「布団に入ってからなかなか寝つけない日が続く」状態は、何のサインと考えられますか？",
+      choices: ["まったく問題のない普通の状態", "心身が休息モードに切り替わりにくくなっているサインのことがある", "体力があり余っている健康の証"], answerIndex: 1,
+      explanation: "寝つくまでに時間がかかる日が続くのは、交感神経が高ぶっていたり、就寝前の習慣が眠りを妨げていたりするサインのことがあります。寝る前の過ごし方や環境を整えることで改善する場合があります。",
+      onepoint: "なかなか眠れない夜は、無理に「寝なきゃ」と力まないで。一度布団を出て、薄明かりで深呼吸し、眠気が来てから戻るのも手。眠りは追いかけるより、迎えに来てもらうものです。" },
+    { id: "q39", difficulty: 2, category: "睡眠の質が悪いサイン",
+      question: "「しっかり寝たはずなのに疲れが取れない」と感じるとき、まず見直すとよいのはどれですか？",
+      choices: ["睡眠の質に関わる生活習慣や環境（光・カフェイン・寝具など）", "見直すことは何もない", "もっと夜更かしすること"], answerIndex: 0,
+      explanation: "睡眠時間は足りているのに疲れが取れない場合、眠りの「質」が下がっている可能性があります。就寝前の光・カフェイン・お酒、寝室の環境、寝具など、質に関わる要素を一つずつ見直すことが手がかりになります。",
+      onepoint: "「時間は足りているのに…」というときは、量より質の番。まずは一つだけ、変えやすいところ（例：寝る前のスマホ）から試してみましょう。小さな一歩で十分です。" },
+    { id: "q40", difficulty: 3, category: "睡眠の質が悪いサイン",
+      question: "大きないびきや、睡眠中に呼吸が止まっているような様子が続く場合、どう対応するのが適切ですか？",
+      choices: ["よく眠れている証拠なので放置してよい", "睡眠の質や健康に関わることがあるため、気になる場合は医療機関への相談を検討する", "枕を高くすれば必ず治る"], answerIndex: 1,
+      explanation: "大きないびきや睡眠中に呼吸が止まるような様子は、日中の眠気や健康に関わることがあります。自己判断だけで済ませず、気になる症状が続く場合は医療機関への相談を検討することが大切です。",
+      onepoint: "いびきや息の乱れは、体からの大切なメッセージのことも。「いつものこと」と流さず、気になるなら一度専門家に診てもらう安心を。あなたの体を守れるのは、あなた自身の気づきです。" },
+    ].map(Object.freeze));
+
+    // §13.3 出題順: 難易度 易→難。同難易度内は固定シードで軽くシャッフル（ランダム感・決定論）。
+    // FNV風の決定論ハッシュで各問にシード値を割り当て、安定ソートで並べる。
+    function seedOf(id) {
+      let h = 2166136261;
+      for (let i = 0; i < id.length; i++) { h ^= id.charCodeAt(i); h = (h * 16777619) >>> 0; }
+      return h;
+    }
+    function quizOrder() {
+      return QUIZ_BANK.slice().sort((a, b) =>
+        (a.difficulty - b.difficulty) || (seedOf(a.id) - seedOf(b.id)) || (a.id < b.id ? -1 : 1));
+    }
+    function getQuizById(id) { return QUIZ_BANK.find((q) => q.id === id) || null; }
+
+    // §13.4 ボーナスクイズ（5問・成長の節目で各1回）。通常より少し踏み込んだ特別問題。
+    // 温かい専門トーン・医療断定を避ける・「個性心理学」非言及。報酬はアイテム2個。
+    // milestone: どの成長の節目で出すか（決定論で1対1対応）。
+    //   sprout=孵化 / leaf=若葉 / bud=つぼみ / bloom=満開 / rebirth=新しい子誕生
+    const BONUS_BANK = Object.freeze([
+      { id: "b01", milestone: "sprout", question: "ぐっすり眠れた朝のサインとして、より参考になりやすいのはどれでしょう？",
+        choices: ["夜中に何度も目が覚めた", "起きたとき「よく眠れた」と感じ日中の強い眠気が少ない", "とにかく睡眠時間が長い"],
+        answerIndex: 1,
+        explanation: "睡眠の質は時間の長さだけでは測れないとされています。朝の満足感（休まった感覚）と、日中に強い眠気で困らないかどうかが、眠りが足りているかの目安になりやすいと言われています。",
+        onepoint: "「何時間眠れたか」より「朝どう感じたか」に耳を傾けてみてください🌱 数字に追われず、自分の感覚を信じてあげるのも、整える第一歩です。" },
+      { id: "b02", milestone: "leaf", question: "朝の光を浴びることが、夜の眠りにつながりやすいのはなぜと考えられていますか？",
+        choices: ["朝の光が体内時計を整える助けになるとされるから", "朝の光が直接、夜の眠気を作るから", "光を浴びると体力を消耗して疲れるから"],
+        answerIndex: 0,
+        explanation: "朝に光を浴びると体内時計が整いやすく、夜に自然な眠気を促すリズムにつながると考えられています。即効ではなく、毎朝の積み重ねでリズムが安定しやすくなるとされています。",
+        onepoint: "起きたらまずカーテンを開けて、ひと呼吸🌿 たった数十秒でも続けると、夜の眠りがそっと変わっていきます。今日から「朝の光の習慣」を一緒に。" },
+      { id: "b03", milestone: "bud", question: "夕方以降のカフェインについて、睡眠の観点でより穏やかな付き合い方はどれでしょう？",
+        choices: ["眠れないので夜こそ多めに摂る", "個人差はあるが午後遅め以降は控えめにする", "時間帯は睡眠と全く関係しない"],
+        answerIndex: 1,
+        explanation: "カフェインの感じ方には大きな個人差がありますが、効果が数時間続くことがあるとされ、午後遅め以降は控えめにすると夜の入眠の妨げになりにくいと言われています。",
+        onepoint: "「午後3時を過ぎたらカフェインはひと休み」など、自分なりの線引きを🌷 我慢ではなく、夜の自分へのやさしい贈りものと考えてみてくださいね。" },
+      { id: "b04", milestone: "bloom", question: "女性ホルモンのゆらぎと眠りの関係として、より適切なのはどれでしょう？",
+        choices: ["ホルモンの変化と眠りは無関係", "時期によって眠りが浅く感じることがあるとされる", "ゆらぐ時期は誰でも必ず不眠になる"],
+        answerIndex: 1,
+        explanation: "月経前や更年期など、女性ホルモンが変化する時期に眠りが浅く感じられることがあるとされています。誰もが必ずそうなるわけではなく、感じ方には個人差があると言われています。",
+        onepoint: "眠りにくい時期があっても、それはあなたが怠けているからではありません🌸 体のリズムのせいかも、と知るだけで心がふっと軽くなります。自分を責めないで。" },
+      { id: "b05", milestone: "rebirth", question: "眠れない夜が続くとき、まず試しやすい穏やかな工夫はどれでしょう？",
+        choices: ["眠くなくても長く布団で頑張り続ける", "就寝・起床の時刻をなるべく一定に保つ", "昼間に長く仮眠して夜に備える"],
+        answerIndex: 1,
+        explanation: "就寝・起床の時刻をできるだけ一定に保つことは、体内リズムを整えやすくする基本的な工夫とされています。眠れないまま布団で粘りすぎたり、長い昼寝をしたりは、かえって夜の眠りを妨げることがあると言われています。",
+        onepoint: "整えの土台は「起きる時間を揃える」こと🌙 眠れた日も眠れない日も同じ時刻に起きると、リズムが少しずつ戻ってきます。完璧でなくて大丈夫、続けることが力です。" },
+    ].map(Object.freeze));
+
+    function getBonusById(id) { return BONUS_BANK.find((q) => q.id === id) || null; }
+    function getBonusByMilestone(key) { return BONUS_BANK.find((q) => q.milestone === key) || null; }
+
+    // §13.3/§13.4 クイズ状態（端末内のみ・Storage経由・決定論）。
+    // QUIZ_KEY 構造: { lastYmd, answered:{id:1}, correct:{id:1}, bonusDone:{milestone:1} }
+    //   lastYmd  : 最後に回答した日（同日2問目を出さない＝決定論）
+    //   answered : 一度でも回答した問題id集合 / correct: 正解した問題id集合
+    //   bonusDone: 出題済みボーナス節目集合（同じ節目で再出現させない＝§13.4）
+    const QUIZ_KEY = "quiz";
+    function initQuiz() { return { lastYmd: null, answered: {}, correct: {}, bonusDone: {} }; }
+    function readQuiz() {
+      const v = Storage.get(QUIZ_KEY);
+      if (!v || typeof v !== "object") return initQuiz();
+      return { lastYmd: v.lastYmd || null,
+        answered: v.answered && typeof v.answered === "object" ? v.answered : {},
+        correct: v.correct && typeof v.correct === "object" ? v.correct : {},
+        bonusDone: v.bonusDone && typeof v.bonusDone === "object" ? v.bonusDone : {} };
+    }
+    function quizCounts(state) {
+      const s = state || readQuiz();
+      return { answered: Object.keys(s.answered).length,
+        correct: Object.keys(s.correct).length, total: QUIZ_BANK.length };
+    }
+    function isQuizComplete(state) { return quizCounts(state).correct >= QUIZ_BANK.length; }
+
+    // 次に出す問題（決定論・純関数）。一巡前は未回答を出題順で、一巡後は未正解を復習として出す。
+    // returns { question, mode:"new"|"review" } または null（全問正解＝コンプリート）。
+    function pickQuizQuestion(state) {
+      const s = state || readQuiz();
+      const order = quizOrder();
+      const unanswered = order.find((q) => !s.answered[q.id]);
+      if (unanswered) return { question: unanswered, mode: "new" };
+      const unmastered = order.find((q) => !s.correct[q.id]);
+      if (unmastered) return { question: unmastered, mode: "review" };
+      return null;
+    }
+    // 当日まだ回答していなければ「今日の1問」、回答済みなら null（また明日）。決定論。
+    function todaysQuiz(today = todayYmd()) {
+      const s = readQuiz();
+      if (s.lastYmd === today) return null;         // 当日回答済み：2問目は出さない
+      return pickQuizQuestion(s);
+    }
+
+    // §13.3 正解で付与する「今集められるアイテム」を決定論的に1つ選ぶ。
+    // 対象: 通年(all)は常時／季節ものは currentSeason 一致時のみ。未所持の先頭1個。
+    // 全部揃っていれば null（コンプリート済み表示）。special(gold_crown)は対象外（全問正解で別途）。
+    function grantableItem(today = new Date()) {
+      const season = currentSeason(today).key;
+      const inv = getInventory();
+      return ITEM_CATALOG.find((it) =>
+        !it.special && (it.season === "all" || it.season === season) && !inv.includes(it.id)) || null;
+    }
+
+    // §13.3 回答を記録し、結果を返す（Storage更新・決定論的な副作用）。
+    // returns { correct, item, completed, allCollected }。item は新規付与したアイテム（無ければ null）。
+    function answerQuiz(id, choiceIndex, today = todayYmd()) {
+      const q = getQuizById(id);
+      if (!q) return { correct: false, item: null, completed: false, allCollected: false };
+      const s = readQuiz();
+      const isCorrect = choiceIndex === q.answerIndex;
+      s.answered[id] = 1;
+      if (isCorrect) s.correct[id] = 1;
+      s.lastYmd = today;
+      Storage.set(QUIZ_KEY, s);
+
+      let item = null, allCollected = false, completed = false;
+      if (isCorrect) {
+        const next = grantableItem();
+        if (next) { grantItem(next.id); item = next; } else { allCollected = true; }
+        if (isQuizComplete(s)) { grantItem("gold_crown"); completed = true; }
+      }
+      return { correct: isCorrect, item, completed, allCollected };
+    }
+
+    // §13.4 成長状態から「到達済みの節目」を決定論で判定。
+    // 段階（孵化/若葉/つぼみ/満開）は現在のopenDaysが境界に達していれば到達。
+    // 新しい子誕生(rebirth)は巣立ち（collectionが1体以上）で到達。
+    function reachedMilestones(growState) {
+      const s = growState || Storage.get(GROW_KEY) || initGrow(todayYmd());
+      const open = Number.isFinite(s.openDays) ? s.openDays : 0;
+      const reached = {};
+      if (open >= 3)  reached.sprout = true;   // 孵化
+      if (open >= 7)  reached.leaf = true;     // 若葉
+      if (open >= 12) reached.bud = true;      // つぼみ
+      if (open >= 18) reached.bloom = true;    // 満開
+      if (Array.isArray(s.collection) && s.collection.length > 0) reached.rebirth = true;
+      return reached;
+    }
+
+    // §13.4 いま出せるボーナス問題を1つ返す（到達済み＆未消化の節目・BONUS_BANK順で先頭）。
+    // 無ければ null。決定論（同じ状態→同じ結果）。
+    function availableBonus(growState) {
+      const reached = reachedMilestones(growState);
+      const done = readQuiz().bonusDone;
+      return BONUS_BANK.find((b) => reached[b.milestone] && !done[b.milestone]) || null;
+    }
+
+    // §13.4 ボーナス回答：正解でアイテム2個付与（季節考慮・未所持の先頭から）。
+    // 正誤に関わらず当該節目を消化済みにし再出現を防ぐ。
+    // returns { correct, items:[item...], allCollected }。items は新規付与した最大2個。
+    function answerBonus(milestone, choiceIndex) {
+      const q = getBonusByMilestone(milestone);
+      if (!q) return { correct: false, items: [], allCollected: false };
+      const s = readQuiz();
+      const isCorrect = choiceIndex === q.answerIndex;
+      s.bonusDone[milestone] = 1;
+      Storage.set(QUIZ_KEY, s);
+      const items = [];
+      if (isCorrect) {
+        for (let n = 0; n < 2; n++) {
+          const next = grantableItem();
+          if (!next) break;
+          grantItem(next.id); items.push(next);
+        }
+      }
+      return { correct: isCorrect, items, allCollected: isCorrect && items.length < 2 };
+    }
+
+    return {
+      CHARACTERS, PHASES, PERIOD_KEY, SWEET_KEY, SWEET_LEVELS, MENOPAUSE_KEY,
+      GROW_KEY, GROWTH_STAGES, MATURE_DAYS,
+      ITEM_CATALOG, SEASONS, INVENTORY_KEY, OUTFIT_KEY,
+      getCharacter, getCharacterById, charaIndexOf,
+      isValidDate, isNotFuture, toYmd, todayYmd,
+      getPhaseByDay, getPhaseFromStart, latestPeriodStart, addPeriodStart,
+      isSweetLevel, setSweetCraving, getSweetLevel, computeSweetInsight,
+      getDailyRhythm, getDailyMessage,
+      isMenopause, setMenopause, getMenopauseMessage,
+      growthStage, initGrow, advanceGrow, growthMicro,
+      currentSeason, getItemById, getInventory, getOutfit, hasItem,
+      grantItem, wearItem, takeOff, outfitAccessories,
+      QUIZ_BANK, QUIZ_KEY, quizOrder, getQuizById,
+      readQuiz, quizCounts, isQuizComplete, pickQuizQuestion, todaysQuiz,
+      grantableItem, answerQuiz,
+      BONUS_BANK, getBonusById, getBonusByMilestone,
+      reachedMilestones, availableBonus, answerBonus,
+    };
+  })();
+  </script>
+
+  <!-- [4] ルーター: タブ切替 + 初回オンボーディング分岐 -->
   <script>
   "use strict";
   const App = (() => {
-    const PROFILE_KEY = "profile";       // { birthdate, charaId } を保持予定（Phase 4）
-    const views = {};
+    const PROFILE_KEY = "profile";       // { birthdate, charaId } を保持
+    const showHooks = {};                // ビュー表示時コールバック（複数登録可）
     let navButtons = [];
 
+    // ビューが表示される直前に呼ぶ処理を登録（最新storageでの再描画用）。
+    // 同一ビューに複数モジュールが登録できるよう配列で保持（登録順に実行）。
+    function onShow(name, fn) {
+      (showHooks[name] || (showHooks[name] = [])).push(fn);
+    }
+
     function showView(name) {
+      (showHooks[name] || []).forEach((fn) => { try { fn(); } catch (_) {} });
       Dom.qsa(".view").forEach((v) => v.classList.toggle("is-active", v.dataset.view === name));
       navButtons.forEach((b) => b.classList.toggle("is-active", b.dataset.nav === name));
       const main = Dom.qs("#app");
@@ -310,7 +2047,7 @@
 
     function isOnboarded() {
       const p = Storage.get(PROFILE_KEY);
-      return !!(p && p.charaId);          // キャラ判定済みか
+      return !!(p && Number.isInteger(p.charaId)); // キャラ判定済みか（charaId 0 も有効）
     }
 
     function start() {
@@ -326,10 +2063,1063 @@
       }
     }
 
-    return { start, showView, isOnboarded, PROFILE_KEY };
+    return { start, showView, onShow, isOnboarded, PROFILE_KEY };
   })();
 
   document.addEventListener("DOMContentLoaded", App.start);
+  </script>
+
+  <!-- [4b] もりのこ描画ヘルパー: 段階別SVGを自前構築（innerHTML不使用・色はvar()）。
+       着せ替えレイヤー(accessories)を後から重ねられる構造。F でアクセサリ定義を渡す。 -->
+  <script>
+  "use strict";
+  const Morinoko = (() => {
+    const NS = "http://www.w3.org/2000/svg";
+
+    // 宣言的スペック → SVG要素。{ t:"path"|"ellipse"|..., ...attrs, children:[...] }
+    function build(spec) {
+      const el = document.createElementNS(NS, spec.t);
+      for (const k in spec) {
+        if (k === "t" || k === "children") continue;
+        el.setAttribute(k, spec[k]);
+      }
+      (spec.children || []).forEach((c) => el.appendChild(build(c)));
+      return el;
+    }
+
+    // 共通パーツ（mockup流用・適応）。色は CSS変数で塗る（直書き禁止）。
+    const body = (cx, cy, rx, ry) => ({
+      t: "ellipse", cx, cy, rx, ry, fill: "var(--m-body)", stroke: "var(--m-body-ln)",
+    });
+    const eye = (x, y) => ({
+      t: "path", d: "M" + x + " " + y + " q3 3 6 0",
+      fill: "none", stroke: "var(--m-face)", "stroke-width": "1.7", "stroke-linecap": "round",
+    });
+    const mouth = (x, y) => ({
+      t: "path", d: "M" + x + " " + y + " q3 2.2 6 0",
+      fill: "none", stroke: "var(--m-face)", "stroke-width": "1.5", "stroke-linecap": "round",
+    });
+    const cheek = (x, y) => ({
+      t: "ellipse", cx: x, cy: y, rx: "3.2", ry: "1.9", fill: "var(--m-cheek)", opacity: ".5",
+    });
+    const leafL = { t: "path", d: "M39 30 C36 22 31 21 29 23 C31 26 35 30 38 32", fill: "var(--m-leaf-2)" };
+    const leafR = { t: "path", d: "M39 30 C42 22 47 21 49 23 C47 26 43 30 40 32", fill: "var(--m-leaf)" };
+
+    // 段階別パーツ列（viewBox 0 0 78 78 基準で統一）。
+    function stageParts(stageKey) {
+      if (stageKey === "egg") {
+        return [
+          body(39, 44, 22, 26),
+          { t: "path", d: "M20 38 q6 5 10 0 q5 5 10 0 q5 5 10 0",
+            fill: "none", stroke: "var(--m-shell)", "stroke-width": "1.8" },
+        ];
+      }
+      if (stageKey === "sprout") {
+        return [
+          body(39, 48, 21, 23),
+          { t: "path", d: "M39 34 C36 26 31 25 29 27 C31 30 35 33 38 35", fill: "var(--m-leaf)" },
+          eye(29, 49), eye(43, 49), mouth(36, 55),
+        ];
+      }
+      if (stageKey === "leaf") {
+        return [leafL, leafR, body(39, 50, 22, 22), eye(31, 49), eye(43, 49), mouth(36, 56)];
+      }
+      if (stageKey === "bud") {
+        // つぼみ：閉じた蕾を頭頂に
+        return [
+          leafL, leafR,
+          { t: "ellipse", cx: 39, cy: 18, rx: 4, ry: 6, fill: "var(--m-bud)" },
+          { t: "path", d: "M39 12 L39 22", fill: "none", stroke: "var(--m-leaf)", "stroke-width": "1.2" },
+          body(39, 52, 22, 22), eye(31, 51), eye(43, 51), cheek(32, 57), cheek(46, 57), mouth(36, 58),
+        ];
+      }
+      // bloom：開いた小花
+      return [
+        leafL, leafR,
+        { t: "g", transform: "translate(39,18)", children: [
+          { t: "circle", r: "4.5", fill: "var(--m-petal)" },
+          { t: "circle", cx: "-5", cy: "-2", r: "3.4", fill: "var(--m-petal-2)" },
+          { t: "circle", cx: "5", cy: "-2", r: "3.4", fill: "var(--m-petal-2)" },
+          { t: "circle", cx: "-3", cy: "4", r: "3.4", fill: "var(--m-petal-2)" },
+          { t: "circle", cx: "3", cy: "4", r: "3.4", fill: "var(--m-petal-2)" },
+          { t: "circle", r: "2", fill: "var(--m-pollen)" },
+        ] },
+        body(39, 52, 22, 22), eye(31, 51), eye(43, 51), cheek(32, 57), cheek(46, 57), mouth(36, 58),
+      ];
+    }
+
+    // 朝露のきらめき（毎日の小変化・決定論）。micro.dewSpot で位置が変わる。
+    function dewPart(micro) {
+      if (!micro || !micro.dew) return null;
+      const spots = [[20, 30], [58, 28], [22, 60]];
+      const p = spots[micro.dewSpot % spots.length];
+      return { t: "circle", cx: p[0], cy: p[1], r: "2.2", fill: "var(--m-dew)", opacity: ".85" };
+    }
+
+    // 着せ替えレイヤー（Fで実装）。accessories: [{ parts:[spec...] }] を体の上に重ねる。
+    function accessoryParts(accessories) {
+      const out = [];
+      (accessories || []).forEach((a) => { if (a && Array.isArray(a.parts)) out.push(...a.parts); });
+      return out;
+    }
+
+    // 描画: targetEl を空にして指定段階のもりのこSVGを構築・挿入。
+    function render(targetEl, opts) {
+      if (!targetEl) return;
+      const o = opts || {};
+      const stage = o.stage || "egg";
+      const svg = document.createElementNS(NS, "svg");
+      svg.setAttribute("viewBox", "0 0 78 78");
+      svg.setAttribute("class", "morinoko-svg");
+      const parts = stageParts(stage).slice();
+      const dew = dewPart(o.micro);
+      if (dew) parts.push(dew);
+      parts.push(...accessoryParts(o.accessories));   // 着せ替えは最前面に重ねる
+      parts.forEach((p) => svg.appendChild(build(p)));
+      targetEl.textContent = "";
+      targetEl.appendChild(svg);
+    }
+
+    return { render };
+  })();
+  </script>
+
+  <!-- [5] オンボーディング制御: 生年月日入力 → 判定 → 保存 → トップ遷移 -->
+  <script>
+  "use strict";
+  (() => {
+    const els = {};
+    function ref() {
+      [
+        "ob-input", "ob-year", "ob-month", "ob-day", "ob-error", "ob-judge",
+        "ob-result", "ob-emoji", "ob-name", "ob-personality", "ob-rhythm", "ob-start",
+      ].forEach((id) => { els[id] = document.getElementById(id); });
+    }
+
+    // セレクトに option を生成（先頭は「--」プレースホルダ、value="" で未選択を表す）。
+    // from→to は昇順・降順どちらも可（年は新しい年から並べたいので降順を許容）。
+    function fillSelect(sel, from, to, suffix) {
+      const ph = document.createElement("option");
+      ph.value = ""; ph.textContent = "--"; sel.appendChild(ph);
+      const step = from <= to ? 1 : -1;
+      for (let n = from; step > 0 ? n <= to : n >= to; n += step) {
+        const o = document.createElement("option");
+        o.value = String(n);
+        Dom.setText(o, n + suffix);
+        sel.appendChild(o);
+      }
+    }
+    function buildSelects() {
+      const thisYear = new Date().getFullYear();
+      fillSelect(els["ob-year"], thisYear, 1940, "年");   // 新しい年から（降順）
+      fillSelect(els["ob-month"], 1, 12, "月");
+      fillSelect(els["ob-day"], 1, 31, "日");
+    }
+
+    function showError(msg) { Dom.setText(els["ob-error"], msg); els["ob-error"].hidden = false; }
+    function clearError() { els["ob-error"].hidden = true; }
+
+    function readDob() {
+      const y = parseInt(els["ob-year"].value, 10);
+      const m = parseInt(els["ob-month"].value, 10);
+      const d = parseInt(els["ob-day"].value, 10);
+      return { y, m, d };
+    }
+
+    function validate({ y, m, d }) {
+      if (![y, m, d].every(Number.isInteger)) return "生年月日をすべて選んでください。";
+      if (!Domain.isValidDate(y, m, d)) return "その日付は存在しません。選び直してください。";
+      if (!Domain.isNotFuture(y, m, d)) return "未来の日付は選べません。";
+      return null;
+    }
+
+    function showResult(chara) {
+      Dom.setText(els["ob-emoji"], chara.emoji);
+      Dom.setText(els["ob-name"], chara.name);
+      Dom.setText(els["ob-personality"], chara.personality);
+      Dom.setText(els["ob-rhythm"], chara.rhythm);
+      els["ob-input"].hidden = true;
+      els["ob-result"].hidden = false;
+      const app = Dom.qs("#app"); if (app) app.scrollTop = 0;
+    }
+
+    function onJudge() {
+      clearError();
+      const dob = readDob();
+      const err = validate(dob);
+      if (err) { showError(err); return; }
+      const chara = Domain.getCharacter(dob.y, dob.m, dob.d);
+      const birthdate = [dob.y, String(dob.m).padStart(2, "0"), String(dob.d).padStart(2, "0")].join("-");
+      Storage.set(App.PROFILE_KEY, { birthdate, charaId: chara.id });
+      showResult(chara);
+    }
+
+    function onStart() {
+      document.body.classList.remove("onboarding");
+      App.showView("top");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      ref();
+      if (!els["ob-judge"]) return;       // オンボード画面が無い場合は何もしない
+      buildSelects();
+      els["ob-judge"].addEventListener("click", onJudge);
+      els["ob-start"].addEventListener("click", onStart);
+    });
+  })();
+  </script>
+
+  <!-- [6] P-001 トップ描画: キャラ / フェーズ / 今日のひとこと（決定論・storage読取のみ） -->
+  <script>
+  "use strict";
+  (() => {
+    const els = {};
+    function ref() {
+      [
+        "top-emoji", "top-name", "top-rhythm",
+        "top-grow-art", "top-grow-stage", "top-grow-msg", "top-grow-go",
+        "top-phase", "top-phase-name",
+        "top-msg", "top-msg-body", "top-no-record", "top-to-record", "top-line-banner",
+      ].forEach((id) => { els[id] = document.getElementById(id); });
+    }
+
+    // 今日のもりのこ（小表示）：今日ぶん前進＋現在段階を描画。導線は「そだてる」へ。
+    function renderGrowWidget() {
+      const state = Grow.touchToday();
+      const stage = Domain.growthStage(state.openDays);
+      Morinoko.render(els["top-grow-art"],
+        { stage: stage.key, accessories: Domain.outfitAccessories(), micro: Domain.growthMicro() });
+      Dom.setText(els["top-grow-stage"], stage.label + "（来訪 " + state.openDays + "日目）");
+      Dom.setText(els["top-grow-msg"], Grow.heroMessage(stage.key));
+    }
+
+    function renderChara(chara) {
+      Dom.setText(els["top-emoji"], chara.emoji);
+      Dom.setText(els["top-name"], chara.name);
+      Dom.setText(els["top-rhythm"], chara.rhythm);
+    }
+
+    // フェーズ別アクセント色トークンを CSS変数 --phase に差し込む
+    function phaseColor(phaseId) {
+      return "var(--c-phase-" + phaseId + ")";
+    }
+
+    function renderPhase(chara, birthdate) {
+      // 閉経モード：フェーズ・未記録誘導を隠し、閉経世代向けの今日のひとことを表示（日替わり）
+      if (Domain.isMenopause()) {
+        els["top-phase"].hidden = true;
+        els["top-no-record"].hidden = true;
+        els["top-line-banner"].hidden = true;
+        els["top-msg"].hidden = false;
+        Dom.setText(els["top-msg-body"], Domain.getMenopauseMessage(chara.id, birthdate));
+        return;
+      }
+
+      const starts = Storage.get(Domain.PERIOD_KEY, []);
+      const start = Domain.latestPeriodStart(starts);
+      const phase = start ? Domain.getPhaseFromStart(start) : null;
+
+      const recorded = !!phase;
+      els["top-phase"].hidden = !recorded;
+      els["top-msg"].hidden = !recorded;
+      els["top-no-record"].hidden = recorded;
+      els["top-line-banner"].hidden = !(recorded && phase.id === Domain.PHASES.luteal.id);
+      if (!recorded) return;
+
+      els["top-phase"].style.setProperty("--phase", phaseColor(phase.id));
+      Dom.setText(els["top-phase-name"], phase.label);
+      Dom.setText(els["top-msg-body"], Domain.getDailyMessage(chara.id, phase.id, birthdate));
+    }
+
+    function render() {
+      const profile = Storage.get(App.PROFILE_KEY);
+      const chara = profile ? Domain.getCharacterById(profile.charaId) : null;
+      if (!chara) return;                 // 未判定なら描画しない（ルーターが判定画面へ）
+      renderChara(chara);
+      renderGrowWidget();
+      renderPhase(chara, profile.birthdate);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      ref();
+      if (!els["top-emoji"]) return;
+      els["top-to-record"].addEventListener("click", () => App.showView("record"));
+      els["top-grow-go"].addEventListener("click", () => App.showView("grow"));
+      els["top-line-banner"].addEventListener("click", () => App.showView("forecast"));
+      App.onShow("top", render);         // トップ表示のたび最新storageで再描画
+      Grow.onRedraw(renderGrowWidget);   // 着せ替え変更時にトップwidgetへ即反映
+      if (App.isOnboarded()) render();   // 初回がトップ直行のケース
+    });
+  })();
+  </script>
+
+  <!-- [7] P-002 記録: 生理開始日の保存 / 甘いもの欲タップ / グラフ描画（Storage経由のみ） -->
+  <script>
+  "use strict";
+  (() => {
+    const CHART_DAYS = 14;               // グラフに表示する直近日数
+    const els = {};
+    function ref() {
+      [
+        "rec-date", "rec-save", "rec-error", "rec-done",
+        "rec-period-input", "rec-meno-state", "rec-meno-on", "rec-meno-off",
+        "rec-sweet-list",
+        "rec-chart", "rec-chart-wrap", "rec-chart-empty",
+        "rec-insight-body", "rec-insight-nudge", "rec-insight-nudge-text",
+      ].forEach((id) => { els[id] = document.getElementById(id); });
+    }
+
+    // 甘いもの欲ボタンを SWEET_LEVELS から生成（縦並び・単一の源・innerHTML不使用）
+    let sweetButtons = [];
+    function buildSweetButtons() {
+      els["rec-sweet-list"].textContent = "";
+      sweetButtons = Domain.SWEET_LEVELS.map((item) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "rec-sweet";
+        btn.dataset.level = String(item.level);
+        btn.setAttribute("aria-pressed", "false");
+        const face = document.createElement("span");
+        face.className = "face"; face.setAttribute("aria-hidden", "true");
+        Dom.setText(face, item.emoji);
+        const label = document.createElement("span");
+        Dom.setText(label, item.label);
+        btn.appendChild(face); btn.appendChild(label);
+        btn.addEventListener("click", () => onSweet(item.level));
+        els["rec-sweet-list"].appendChild(btn);
+        return btn;
+      });
+    }
+
+    // "YYYY-MM-DD" 文字列を {y,m,d} に分解（input type=date の value 前提）
+    function parseYmd(value) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value || "");
+      if (!m) return null;
+      return { y: +m[1], m: +m[2], d: +m[3] };
+    }
+    function showErr(msg) { Dom.setText(els["rec-error"], msg); els["rec-error"].hidden = false; }
+    function clearErr() { els["rec-error"].hidden = true; }
+
+    // 生理開始日の記録（Domain.PERIOD_KEY へ追記 → P-001へ即反映）
+    function onSavePeriod() {
+      clearErr();
+      els["rec-done"].hidden = true;
+      const p = parseYmd(els["rec-date"].value);
+      if (!p) { showErr("日付を選んでください。"); return; }
+      if (!Domain.isValidDate(p.y, p.m, p.d)) { showErr("その日付は存在しません。"); return; }
+      if (!Domain.isNotFuture(p.y, p.m, p.d)) { showErr("未来の日付は記録できません。"); return; }
+      const ymd = Domain.toYmd(p.y, p.m, p.d);
+      const next = Domain.addPeriodStart(Storage.get(Domain.PERIOD_KEY, []), ymd);
+      Storage.set(Domain.PERIOD_KEY, next);
+      const phase = Domain.getPhaseFromStart(new Date(p.y, p.m - 1, p.d));
+      const label = phase ? phase.label : "—";
+      Dom.setText(els["rec-done"], "記録しました。今日のリズムは「" + label + "」です🌙");
+      els["rec-done"].hidden = false;
+    }
+
+    // 甘いもの欲: 当日分を上書き保存しUI反映
+    function onSweet(level) {
+      const ymd = Domain.todayYmd();
+      const next = Domain.setSweetCraving(Storage.get(Domain.SWEET_KEY, []), ymd, level);
+      Storage.set(Domain.SWEET_KEY, next);
+      syncSweetButtons(level);
+      renderChart();
+      renderInsight();
+    }
+    function syncSweetButtons(active) {
+      sweetButtons.forEach((btn) => {
+        const lv = parseInt(btn.dataset.level, 10);
+        btn.setAttribute("aria-pressed", lv === active ? "true" : "false");
+      });
+    }
+
+    // 直近 CHART_DAYS 日分の {ymd, level} 配列を作る（古い→新しい・決定論）
+    function buildSeries(records) {
+      const map = {};
+      (records || []).forEach((r) => { if (r && r.date) map[r.date] = r.level; });
+      const out = [];
+      const base = new Date();
+      for (let i = CHART_DAYS - 1; i >= 0; i--) {
+        const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() - i);
+        const ymd = Domain.toYmd(d.getFullYear(), d.getMonth() + 1, d.getDate());
+        out.push({ ymd, level: map[ymd] || 0, day: d.getDate() });
+      }
+      return out;
+    }
+
+    // CSS bar グラフ描画（外部ライブラリ非依存・innerHTML不使用）
+    function renderChart() {
+      const records = Storage.get(Domain.SWEET_KEY, []);
+      const has = Array.isArray(records) && records.length > 0;
+      els["rec-chart-wrap"].hidden = !has;
+      els["rec-chart-empty"].hidden = has;
+      els["rec-chart"].textContent = "";
+      if (!has) return;
+      buildSeries(records).forEach((pt) => els["rec-chart"].appendChild(barCell(pt)));
+    }
+    function barCell(pt) {
+      const cell = document.createElement("div"); cell.className = "rec-bar-cell";
+      const track = document.createElement("div"); track.className = "rec-bar-track";
+      const bar = document.createElement("div");
+      bar.className = "rec-bar " + (pt.level ? "lv" + pt.level : "empty");
+      const max = Domain.SWEET_LEVELS.length;
+      bar.style.height = pt.level ? Math.round((pt.level / max) * 100) + "%" : "3px";
+      track.appendChild(bar);
+      const day = document.createElement("div"); day.className = "rec-bar-day";
+      Dom.setText(day, pt.day);
+      cell.appendChild(track); cell.appendChild(day);
+      return cell;
+    }
+
+    // §13.7 傾向インサイト：最新の記録から決定論で算出し、グラフ下のカードに表示。
+    // 記録不足なら優しい促し（導線なし）。傾向が出たら控えめな一言＋LINE/講座導線。
+    function renderInsight() {
+      const records = Storage.get(Domain.SWEET_KEY, []);
+      const starts = Storage.get(Domain.PERIOD_KEY, []);
+      const r = Domain.computeSweetInsight(records, starts, Domain.isMenopause());
+      if (!r.enough) {
+        Dom.setText(els["rec-insight-body"],
+          "あと " + (r.need - r.count) + " 回ほど甘いもの欲を記録すると、傾向が見えてきます🌿");
+        els["rec-insight-nudge"].hidden = true;
+        return;
+      }
+      Dom.setText(els["rec-insight-body"], r.message);
+      Dom.setText(els["rec-insight-nudge-text"],
+        "自分のリズムが分かると、整え方も見えてきます。もっと深く知りたくなったら🌱");
+      els["rec-insight-nudge"].hidden = false;
+    }
+
+    // 閉経状態に応じて生理開始日UIの表示/非表示を切替（甘いもの欲には影響しない）
+    function renderMenopause() {
+      const meno = Domain.isMenopause();
+      els["rec-period-input"].hidden = meno;
+      els["rec-meno-state"].hidden = !meno;
+    }
+    function onMenoOn() { Domain.setMenopause(true); renderMenopause(); }
+    function onMenoOff() { Domain.setMenopause(false); renderMenopause(); }
+
+    function render() {
+      els["rec-error"].hidden = true;
+      els["rec-done"].hidden = true;
+      if (!els["rec-date"].value) els["rec-date"].value = Domain.todayYmd();
+      renderMenopause();
+      syncSweetButtons(Domain.getSweetLevel(Storage.get(Domain.SWEET_KEY, []), Domain.todayYmd()));
+      renderChart();
+      renderInsight();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      ref();
+      if (!els["rec-save"]) return;
+      els["rec-date"].max = Domain.todayYmd();   // 未来日をピッカーでも抑止
+      buildSweetButtons();                       // 4段階ボタンを SWEET_LEVELS から生成
+      els["rec-save"].addEventListener("click", onSavePeriod);
+      els["rec-meno-on"].addEventListener("click", onMenoOn);
+      els["rec-meno-off"].addEventListener("click", onMenoOff);
+      App.onShow("record", render);              // 記録タブ表示のたび最新stateで再描画
+    });
+  })();
+  </script>
+
+  <!-- [8] P-003 予告: ロックカードは静的。LINE案内を黄体期/記録蓄積で強調（Storage読取のみ） -->
+  <script>
+  "use strict";
+  (() => {
+    // §4 特典文言（一字一句固定・真実の源はここ）。末尾 → @l.hidamari は anchor 側に固定表示。
+    const LINE_BODY = [
+      "📲LINEに登録すると今すぐ受け取れます🌿",
+      "🧭 睡眠の羅針盤（独自の睡眠診断）",
+      "🌱 今夜から使えるケア6選",
+      "🎓 眠りの森学園 体験入学",
+    ].join("\n");
+    const EMPHASIS_DAYS = 3;             // 記録がこの日数以上貯まったら強調
+
+    const els = {};
+    function ref() {
+      ["fc-line", "fc-line-flag", "fc-line-body"].forEach((id) => {
+        els[id] = document.getElementById(id);
+      });
+    }
+
+    // 黄体期に入った、または記録が一定数貯まったら強調する（§4 自動表示条件）
+    function shouldEmphasize() {
+      const start = Domain.latestPeriodStart(Storage.get(Domain.PERIOD_KEY, []));
+      const phase = start ? Domain.getPhaseFromStart(start) : null;
+      if (phase && phase.id === Domain.PHASES.luteal.id) return "luteal";
+      const periods = Storage.get(Domain.PERIOD_KEY, []);
+      const sweets = Storage.get(Domain.SWEET_KEY, []);
+      const records = (Array.isArray(periods) ? periods.length : 0)
+        + (Array.isArray(sweets) ? sweets.length : 0);
+      if (records >= EMPHASIS_DAYS) return "records";
+      return null;
+    }
+
+    function flagText(reason) {
+      if (reason === "luteal") return "🌙 ゆらぎやすい時期。今がおすすめ";
+      return "🌱 記録おつかれさま。続きはLINEで";
+    }
+
+    function render() {
+      Dom.setText(els["fc-line-body"], LINE_BODY);   // 常設で文言表示
+      const reason = shouldEmphasize();
+      els["fc-line"].classList.toggle("is-emphasized", !!reason);
+      if (reason) Dom.setText(els["fc-line-flag"], flagText(reason));
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      ref();
+      if (!els["fc-line"]) return;
+      App.onShow("forecast", render);    // 予告表示のたび最新stateで再評価
+      render();                          // 初期描画（文言は常設のため即時）
+    });
+  })();
+  </script>
+
+  <!-- [9] もりのこ育成: 「今日ひらく」で前進 → お庭・段階を再描画（Storage経由のみ） -->
+  <script>
+  "use strict";
+  const Grow = (() => {
+    // 着せ替え変更時にもりのこ描画箇所（hero/top widget）を再描画させるための購読口。
+    const redrawHooks = [];
+    function onRedraw(fn) { if (typeof fn === "function") redrawHooks.push(fn); }
+    function redraw() { redrawHooks.forEach((fn) => { try { fn(); } catch (_) {} }); }
+
+    // 今日の来訪を反映した育成状態を返し、保存もする（同日2回目は不変＝決定論）。
+    // 全ページ共通の入口。トップ表示・そだてるタブ表示の双方から呼ぶ。
+    function touchToday() {
+      const ymd = Domain.todayYmd();
+      const cur = Storage.get(Domain.GROW_KEY) || Domain.initGrow(ymd);
+      const next = Domain.advanceGrow(cur, ymd);
+      Storage.set(Domain.GROW_KEY, next);
+      return next;
+    }
+    // 段階内の小メッセージ（毎日少し育った実感・固定文＋段階味付け）
+    function heroMessage(stageKey) {
+      if (stageKey === "egg")    return "今日も見守りました。そっと温めています🥚";
+      if (stageKey === "sprout") return "ぴょこっと芽が出ました。今日も少し育ちました🌱";
+      if (stageKey === "leaf")   return "若葉がのびのび。毎日のひらきが力になっています🍃";
+      if (stageKey === "bud")    return "つぼみがふくらんできました。満開までもう少し🌷";
+      return "満開です🌸 また明日ひらくと、新しい子がお庭にやってきます。";
+    }
+    return { touchToday, heroMessage, onRedraw, redraw };
+  })();
+
+  (() => {
+    const els = {};
+    function ref() {
+      [
+        "grow-hero-art", "grow-stage-label", "grow-stage-step", "grow-hero-msg",
+        "grow-garden", "grow-garden-empty",
+      ].forEach((id) => { els[id] = document.getElementById(id); });
+    }
+
+    // お庭のコレクション（巣立った満開の子）を小さく並べる
+    function renderGarden(collection) {
+      const list = Array.isArray(collection) ? collection : [];
+      els["grow-garden"].textContent = "";
+      els["grow-garden-empty"].hidden = list.length > 0;
+      els["grow-garden"].hidden = list.length === 0;
+      list.forEach((c) => {
+        const cell = document.createElement("div");
+        cell.className = "grow-garden-item";
+        const art = document.createElement("div");
+        art.className = "morinoko"; art.setAttribute("aria-hidden", "true");
+        Morinoko.render(art, { stage: (c && c.stage) || "bloom", accessories: [] });
+        cell.appendChild(art);
+        els["grow-garden"].appendChild(cell);
+      });
+    }
+
+    function render() {
+      const state = Grow.touchToday();              // 今日ぶんを前進させてから描画
+      const stage = Domain.growthStage(state.openDays);
+      const micro = Domain.growthMicro();
+      Morinoko.render(els["grow-hero-art"],
+        { stage: stage.key, accessories: Domain.outfitAccessories(), micro });
+      Dom.setText(els["grow-stage-label"], stage.label);
+      Dom.setText(els["grow-stage-step"], stage.step + "・来訪 " + state.openDays + "日目");
+      Dom.setText(els["grow-hero-msg"], Grow.heroMessage(stage.key));
+      renderGarden(state.collection);
+    }
+
+    // お庭heroのもりのこだけ着せ替えを反映して再描画（来訪日数は進めない＝冪等）。
+    function redrawHero() {
+      if (!els["grow-hero-art"]) return;
+      const state = Storage.get(Domain.GROW_KEY) || Domain.initGrow(Domain.todayYmd());
+      const stage = Domain.growthStage(state.openDays);
+      Morinoko.render(els["grow-hero-art"],
+        { stage: stage.key, accessories: Domain.outfitAccessories(), micro: Domain.growthMicro() });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      ref();
+      if (!els["grow-hero-art"]) return;
+      App.onShow("grow", render);        // そだてるタブ表示のたび最新stateで再描画
+      Grow.onRedraw(redrawHero);         // 着せ替え変更時にheroへ即反映
+    });
+  })();
+  </script>
+
+  <!-- [10] 着せ替え・アイテム: 図鑑タイル生成 / 装着切替 / hero・top widget へ反映 -->
+  <script>
+  "use strict";
+  (() => {
+    const els = {};
+    function ref() {
+      ["du-grid", "du-now-season"].forEach((id) => { els[id] = document.getElementById(id); });
+    }
+
+    // 現在季節の見出し（今の季節のアイテムが分かるように明示）
+    function renderSeasonHead() {
+      const s = Domain.currentSeason();
+      Dom.setText(els["du-now-season"], "");
+      const lead = document.createElement("span");
+      Dom.setText(lead, "いまの季節は ");
+      const strong = document.createElement("strong");
+      Dom.setText(strong, s.label);
+      const tail = document.createElement("span");
+      Dom.setText(tail, " 🌿 季節のアイテムは今だけ集められます");
+      els["du-now-season"].append(lead, strong, tail);
+    }
+
+    // アイテムの装着可否（所持していれば可）。季節は図鑑には常時表示する。
+    function tileState(item, inv, outfit) {
+      const owned = inv.includes(item.id);
+      return { owned, worn: outfit.includes(item.id) };
+    }
+
+    // サムネ：芽生え期のもりのこにそのアイテムだけ着せて表示（文脈が分かる）
+    function buildThumb(item) {
+      const thumb = document.createElement("div");
+      thumb.className = "du-tile-thumb";
+      Morinoko.render(thumb, { stage: "sprout", accessories: [item.svg] });
+      return thumb;
+    }
+
+    // 季節/限定バッジ（今の季節=強調・限定=金）
+    function buildBadge(item, nowSeasonKey) {
+      const badge = document.createElement("span");
+      badge.className = "du-badge";
+      if (item.special) { badge.classList.add("is-special"); Dom.setText(badge, "限定"); return badge; }
+      if (item.season === "all") { Dom.setText(badge, "通年"); return badge; }
+      const isNow = item.season === nowSeasonKey;
+      if (isNow) badge.classList.add("is-now");
+      const map = { spring: "春", summer: "夏", autumn: "秋", winter: "冬" };
+      Dom.setText(badge, map[item.season] + (isNow ? "・今" : ""));
+      return badge;
+    }
+
+    function lockLabel(item) {
+      if (item.special) return "全問正解で解放";
+      return "未獲得";
+    }
+
+    // タイル1枚を生成（装着中ハイライト／未所持はロック＋鍵）
+    function buildTile(item, st, nowSeasonKey) {
+      const tile = document.createElement("button");
+      tile.type = "button";
+      tile.className = "du-tile" + (st.worn ? " is-worn" : "") + (st.owned ? "" : " is-locked");
+      const thumb = buildThumb(item);
+      if (!st.owned) {
+        const key = document.createElement("span");
+        key.className = "du-lock-key"; key.setAttribute("aria-hidden", "true");
+        Dom.setText(key, "🔒"); thumb.appendChild(key);
+      }
+      const name = document.createElement("span");
+      name.className = "du-tile-name";
+      Dom.setText(name, st.owned ? item.name : lockLabel(item));
+      tile.append(buildBadge(item, nowSeasonKey), thumb, name);
+      if (st.owned) tile.addEventListener("click", () => onToggle(item));
+      else tile.disabled = true;
+      return tile;
+    }
+
+    // タップで装着/解除を切替 → 保存後に hero・top widget・図鑑を再描画
+    function onToggle(item) {
+      if (Domain.getOutfit().includes(item.id)) Domain.takeOff(item.id);
+      else Domain.wearItem(item.id);
+      Grow.redraw();      // hero と top widget へ即反映
+      render();           // 図鑑タイルのハイライト更新
+    }
+
+    function render() {
+      if (!els["du-grid"]) return;
+      renderSeasonHead();
+      const inv = Domain.getInventory();
+      const outfit = Domain.getOutfit();
+      const nowKey = Domain.currentSeason().key;
+      els["du-grid"].textContent = "";
+      Domain.ITEM_CATALOG.forEach((item) => {
+        els["du-grid"].appendChild(buildTile(item, tileState(item, inv, outfit), nowKey));
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      ref();
+      if (!els["du-grid"]) return;
+      App.onShow("grow", render);        // そだてるタブ表示のたび最新の所持/装着で再描画
+      if (typeof Quiz !== "undefined") Quiz.onChange(render);  // クイズ正解で所持更新→図鑑へ即反映
+    });
+  })();
+  </script>
+
+  <!-- [11] 睡眠ミニクイズ: 今日の1問描画 / 回答 / 解説・ワンポイント・アイテム付与（Storage経由のみ） -->
+  <script>
+  "use strict";
+  const Quiz = (() => {
+    // クイズ正解で所持/装着が変わったとき、図鑑タイル等へ再描画を通知する購読口。
+    const hooks = [];
+    function onChange(fn) { if (typeof fn === "function") hooks.push(fn); }
+    function notify() { hooks.forEach((fn) => { try { fn(); } catch (_) {} }); }
+    return { onChange, notify };
+  })();
+
+  (() => {
+    const slot = document.getElementById("grow-quiz-slot");
+
+    // §13.6 節目の導線メッセージ（押し売りしない・節目で控えめに1つ）。
+    // 正解数の節目（10/25/40）でのみ温かいリフレクション＋LINE/講座導線を返す。null=出さない。
+    function nudgeFor(correct) {
+      if (correct === 10) return "知識がぐんと増えましたね🌱 でも“知っている”と“できている”は別もの。今夜ひとつ試せそう？";
+      if (correct === 25) return "ここまで続けたあなたなら、もっと深く整えられます。伴走できる場所があります。";
+      return null;
+    }
+    function appendNudge(host, text) {
+      if (!text) return;
+      const box = document.createElement("div");
+      box.className = "qz-nudge";
+      const p = document.createElement("span");
+      Dom.setText(p, text);
+      const link = document.createElement("a");
+      link.href = "https://line.me/R/ti/p/@l.hidamari";
+      link.rel = "noreferrer noopener";
+      Dom.setText(link, "→ LINE / 体験入学を見る");
+      box.append(p, document.createElement("br"), link);
+      host.appendChild(box);
+    }
+
+    // 進捗（◯/40 正解）を控えめに表示
+    function progressEl(counts) {
+      const p = document.createElement("p");
+      p.className = "qz-progress";
+      const lead = document.createElement("span");
+      Dom.setText(lead, "クイズ進捗　");
+      const strong = document.createElement("strong");
+      Dom.setText(strong, counts.correct + " / " + counts.total + " 正解");
+      p.append(lead, strong);
+      return p;
+    }
+
+    // 3択ボタン群を生成（回答前＝押下可、回答後は色付けして固定）
+    function buildChoices(q, answeredIndex, mode) {
+      const wrap = document.createElement("div");
+      wrap.className = "qz-choices";
+      const marks = ["A", "B", "C"];
+      q.choices.forEach((text, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "qz-choice";
+        const mk = document.createElement("span");
+        mk.className = "mk"; Dom.setText(mk, marks[i]);
+        const label = document.createElement("span");
+        Dom.setText(label, text);
+        btn.append(mk, label);
+        if (answeredIndex == null) {
+          btn.addEventListener("click", () => onAnswer(q, i, mode));
+        } else {
+          decorateAnswered(btn, i, answeredIndex, q.answerIndex);
+        }
+        wrap.appendChild(btn);
+      });
+      return wrap;
+    }
+    function decorateAnswered(btn, i, chosen, correct) {
+      btn.disabled = true;
+      if (i === correct) btn.classList.add("is-correct");
+      else if (i === chosen) btn.classList.add("is-wrong");
+      else btn.classList.add("is-dim");
+    }
+
+    // カテゴリ見出しバッジ（復習モードは色を変える）
+    function catEl(q, mode) {
+      const c = document.createElement("span");
+      c.className = "qz-cat" + (mode === "review" ? " is-review" : "");
+      Dom.setText(c, mode === "review" ? "復習・" + q.category : q.category);
+      return c;
+    }
+
+    // 出題カード（カテゴリ＋問題文＋3択）。answeredIndex 指定時は回答後表示。
+    function questionCard(pick, answeredIndex) {
+      const frag = document.createDocumentFragment();
+      frag.appendChild(catEl(pick.question, pick.mode));
+      const q = document.createElement("p");
+      q.className = "qz-q"; Dom.setText(q, pick.question.question);
+      frag.appendChild(q);
+      frag.appendChild(buildChoices(pick.question, answeredIndex, pick.mode));
+      return frag;
+    }
+
+    // もらったアイテム表示（サムネ＋名前）
+    function rewardEl(item) {
+      const box = document.createElement("div");
+      box.className = "qz-reward";
+      const thumb = document.createElement("div");
+      thumb.className = "du-tile-thumb";
+      Morinoko.render(thumb, { stage: "sprout", accessories: [item.svg] });
+      const meta = document.createElement("div");
+      meta.className = "qz-reward-meta";
+      const lbl = document.createElement("p");
+      lbl.className = "qz-reward-label"; Dom.setText(lbl, "🎁 アイテムをもらいました");
+      const nm = document.createElement("p");
+      nm.className = "qz-reward-name"; Dom.setText(nm, item.name);
+      meta.append(lbl, nm);
+      box.append(thumb, meta);
+      return box;
+    }
+
+    // 解説 or ワンポイントの1ブロック
+    function infoBlock(title, body, onepoint) {
+      const block = document.createElement("div");
+      block.className = "qz-block";
+      const ttl = document.createElement("p");
+      ttl.className = "qz-block-ttl"; Dom.setText(ttl, title);
+      const b = document.createElement("p");
+      b.className = "qz-block-body" + (onepoint ? " qz-onepoint" : "");
+      Dom.setText(b, body);
+      block.append(ttl, b);
+      return block;
+    }
+
+    // 回答結果（正誤・解説・ワンポイント・アイテム・節目導線）を組み立てる
+    function buildResult(q, res) {
+      const frag = document.createDocumentFragment();
+      const v = document.createElement("p");
+      v.className = "qz-verdict " + (res.correct ? "ok" : "ng");
+      Dom.setText(v, res.correct ? "🌸 正解です！" : "🌙 おしい！また復習で会いましょう");
+      frag.appendChild(v);
+      if (res.item) frag.appendChild(rewardEl(res.item));
+      else if (res.correct && res.allCollected) {
+        frag.appendChild(infoBlock("🎀 アイテム", "今集められるアイテムはコンプリート済みです。よく集めましたね🌿", false));
+      }
+      frag.appendChild(infoBlock("📖 解説", q.explanation, false));
+      frag.appendChild(infoBlock("💬 先生のワンポイント", q.onepoint, true));
+      return frag;
+    }
+
+    // 全問正解（コンプリート）のお祝い表示
+    function completeCard() {
+      const box = document.createElement("div");
+      box.className = "qz-complete";
+      const ico = document.createElement("span");
+      ico.className = "ico"; ico.setAttribute("aria-hidden", "true"); Dom.setText(ico, "👑");
+      const ttl = document.createElement("p");
+      ttl.className = "qz-complete-ttl"; Dom.setText(ttl, "全40問コンプリート、おめでとうございます！");
+      const body = document.createElement("p");
+      body.className = "qz-complete-body";
+      Dom.setText(body, "記念の限定アイテム「金の花冠」をプレゼントしました🌸 ここまで学びを重ねたあなたは、もう立派な眠りの番人。着せ替えからもりのこに飾ってあげてくださいね。");
+      box.append(ico, ttl, body);
+      return box;
+    }
+
+    // 当日回答済み（また明日）の表示
+    function tomorrowCard() {
+      const p = document.createElement("p");
+      p.className = "qz-tomorrow";
+      Dom.setText(p, "今日のクイズは回答済みです。次の問題はまた明日お届けします🌙");
+      return p;
+    }
+
+    // 回答処理：状態更新 → 結果を差し込み → 図鑑・もりのこへ反映
+    function onAnswer(q, choiceIndex, mode) {
+      const res = Domain.answerQuiz(q.id, choiceIndex);
+      Quiz.notify();         // 図鑑タイル再描画
+      Grow.redraw();         // hero・top widget へ反映（新アイテムは未装着なので見た目は不変だが安全に）
+      renderResult(q, choiceIndex, res, mode);
+    }
+
+    // 回答後の画面（カード差し替え）：進捗 → 回答後の問題 → 結果 →（節目で）導線 →（完了で）祝い
+    function renderResult(q, choiceIndex, res, mode) {
+      const counts = Domain.quizCounts();
+      slot.textContent = "";
+      slot.appendChild(progressEl(counts));
+      slot.appendChild(questionCard({ question: q, mode: mode }, choiceIndex));
+      const result = document.createElement("div");
+      result.className = "qz-result";
+      result.appendChild(buildResult(q, res));
+      slot.appendChild(result);
+      if (res.completed) slot.appendChild(completeCard());
+      else appendNudge(slot, nudgeFor(counts.correct));
+    }
+
+    // §13.4 ボーナス：もらった2アイテム（無ければ温かいメッセージ）
+    function bonusReward(items, allCollected) {
+      if (items && items.length > 0) {
+        const wrap = document.createElement("div");
+        wrap.className = "qz-reward-multi";
+        items.forEach((it) => wrap.appendChild(rewardEl(it)));
+        return wrap;
+      }
+      const msg = allCollected
+        ? "今集められるアイテムはすべて揃っています。たくさん集めましたね🌿 気持ちだけ2個ぶん、受け取ってくださいね。"
+        : "今は集められるアイテムがありません。また季節がめぐったら新しい子が届きます🌿";
+      return infoBlock("🎀 アイテム", msg, false);
+    }
+
+    // §13.4 ボーナス回答結果（正誤・2アイテム・解説・ワンポイント）
+    function buildBonusResult(q, res) {
+      const frag = document.createDocumentFragment();
+      const v = document.createElement("p");
+      v.className = "qz-verdict " + (res.correct ? "bonus" : "ng");
+      Dom.setText(v, res.correct ? "✨ 正解！ ボーナスで2つ受け取りました" : "🌙 おしい！でも特別な学びを一つ");
+      frag.appendChild(v);
+      if (res.correct) frag.appendChild(bonusReward(res.items, res.allCollected));
+      frag.appendChild(infoBlock("📖 解説", q.explanation, false));
+      frag.appendChild(infoBlock("💬 先生のワンポイント", q.onepoint, true));
+      return frag;
+    }
+
+    // §13.4 ボーナス出題カード（特別な見た目で通常クイズと区別）。回答後は固定表示。
+    function bonusCard(q, answeredIndex, res) {
+      const box = document.createElement("div");
+      box.className = "qz-bonus";
+      const flag = document.createElement("span");
+      flag.className = "qz-bonus-flag"; Dom.setText(flag, "✨ ボーナスクイズ ✨");
+      const lead = document.createElement("p");
+      lead.className = "qz-bonus-lead";
+      Dom.setText(lead, "成長の節目のごほうび問題。正解でアイテム2個🎁");
+      const qp = document.createElement("p");
+      qp.className = "qz-q"; Dom.setText(qp, q.question);
+      box.append(flag, lead, qp, buildBonusChoices(q, answeredIndex));
+      if (answeredIndex != null && res) {
+        const result = document.createElement("div");
+        result.className = "qz-result";
+        result.appendChild(buildBonusResult(q, res));
+        box.appendChild(result);
+      }
+      return box;
+    }
+
+    // ボーナス用3択（通常と同体裁・回答前は押下可）
+    function buildBonusChoices(q, answeredIndex) {
+      const wrap = document.createElement("div");
+      wrap.className = "qz-choices";
+      const marks = ["A", "B", "C"];
+      q.choices.forEach((text, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button"; btn.className = "qz-choice";
+        const mk = document.createElement("span");
+        mk.className = "mk"; Dom.setText(mk, marks[i]);
+        const label = document.createElement("span");
+        Dom.setText(label, text);
+        btn.append(mk, label);
+        if (answeredIndex == null) btn.addEventListener("click", () => onBonusAnswer(q, i));
+        else decorateAnswered(btn, i, answeredIndex, q.answerIndex);
+        wrap.appendChild(btn);
+      });
+      return wrap;
+    }
+
+    // ボーナス回答処理：状態更新 → 図鑑・もりのこへ反映 → 再描画（回答後表示）
+    function onBonusAnswer(q, choiceIndex) {
+      const res = Domain.answerBonus(q.milestone, choiceIndex);
+      Quiz.notify();
+      Grow.redraw();
+      render({ bonus: { q, choiceIndex, res } });
+    }
+
+    // 初期描画：（節目なら）ボーナス → 今日の1問 or また明日 or コンプリート
+    function render(opts) {
+      if (!slot) return;
+      const counts = Domain.quizCounts();
+      slot.textContent = "";
+      slot.appendChild(progressEl(counts));
+      // §13.4 節目到達時はボーナスを優先表示（通常クイズと併存）
+      const answered = opts && opts.bonus;
+      if (answered) {
+        slot.appendChild(bonusCard(answered.q, answered.choiceIndex, answered.res));
+      } else {
+        const bonus = Domain.availableBonus();
+        if (bonus) slot.appendChild(bonusCard(bonus, null, null));
+      }
+      if (Domain.isQuizComplete()) { slot.appendChild(completeCard()); return; }
+      const pick = Domain.todaysQuiz();
+      if (!pick) { slot.appendChild(tomorrowCard()); return; }
+      slot.appendChild(questionCard(pick, null));
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!slot) return;
+      App.onShow("grow", render);        // そだてるタブ表示のたび最新stateで再描画
+    });
+  })();
+  </script>
+
+  <!-- [12] トップのクイズ誘導: 当日未回答なら「今日のクイズがあります」を表示（Storage読取のみ） -->
+  <script>
+  "use strict";
+  (() => {
+    const els = {};
+    function ref() {
+      ["top-quiz-nudge", "top-quiz-nudge-sub"].forEach((id) => {
+        els[id] = document.getElementById(id);
+      });
+    }
+    // 当日未回答かつ未コンプリートのときだけ誘導を出す（既存導線を壊さない最小限）
+    function render() {
+      if (!els["top-quiz-nudge"]) return;
+      const pick = Domain.todaysQuiz();
+      const show = !!pick && !Domain.isQuizComplete();
+      els["top-quiz-nudge"].hidden = !show;
+      if (show && pick) {
+        const label = pick.mode === "review" ? "復習クイズで知識を定着🌿" : "睡眠のミニ知識を1問🌿";
+        Dom.setText(els["top-quiz-nudge-sub"], label);
+      }
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+      ref();
+      if (!els["top-quiz-nudge"]) return;
+      els["top-quiz-nudge"].addEventListener("click", () => App.showView("grow"));
+      App.onShow("top", render);
+      if (App.isOnboarded()) render();
+    });
+  })();
+  </script>
+
+  <!-- [13] やり直す（データリセット）: 2段階確認 → アプリの全storageキーを削除 → 最初から -->
+  <script>
+  "use strict";
+  (() => {
+    // 削除対象＝アプリが使う nemorino 名前空間のキー全て（単一の源）。
+    // Domain が公開する KEY 定数 ＋ プロフィールキーを集約（漏れ防止・潔癖に消し切る）。
+    const RESET_KEYS = [
+      App.PROFILE_KEY, Domain.PERIOD_KEY, Domain.SWEET_KEY, Domain.MENOPAUSE_KEY,
+      Domain.GROW_KEY, Domain.QUIZ_KEY, Domain.INVENTORY_KEY, Domain.OUTFIT_KEY,
+    ];
+    const els = {};
+    function ref() {
+      ["top-reset-link", "top-reset-confirm", "top-reset-no", "top-reset-yes"]
+        .forEach((id) => { els[id] = document.getElementById(id); });
+    }
+    function showConfirm(show) {
+      els["top-reset-confirm"].hidden = !show;       // 確認カードの開閉
+      els["top-reset-link"].hidden = show;           // リンクは確認中は隠す
+      if (show) { const a = Dom.qs("#app"); if (a) a.scrollTop = a.scrollHeight; }
+    }
+    // 全キー削除 → オンボーディングへ戻す（reload で全モジュール state も初期化）。
+    function doReset() {
+      RESET_KEYS.forEach((k) => Storage.remove(k));
+      try { window.location.reload(); }
+      catch (_) { document.body.classList.add("onboarding"); App.showView("onboarding"); }
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+      ref();
+      if (!els["top-reset-link"]) return;
+      els["top-reset-link"].addEventListener("click", () => showConfirm(true));
+      els["top-reset-no"].addEventListener("click", () => showConfirm(false));
+      els["top-reset-yes"].addEventListener("click", doReset);
+      App.onShow("top", () => showConfirm(false));   // タブ離脱で確認状態をリセット
+    });
+  })();
   </script>
 </body>
 </html>

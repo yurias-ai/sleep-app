@@ -728,6 +728,8 @@
     background: var(--c-accent); border-radius: 999px; padding: 7px 12px;
   }
   .top-quiz-nudge:active { filter: brightness(.98); }
+  /* hidden 属性を尊重（class の display:flex が UA の [hidden]{display:none} を上書きするのを防ぐ） */
+  .top-quiz-nudge[hidden] { display: none; }
 
   /* ============================================================
      ボーナスクイズ（§13.4・節目で出る特別問題・通常クイズと区別）

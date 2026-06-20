@@ -50,14 +50,20 @@
   .ba .lbl.a{background:var(--green); color:#fff;}
   .ba .aft{color:var(--ink); font-weight:600;}
   .ba .aft b{color:var(--green-d);}
-  /* doors */
-  .doors{margin-top:10px;}
-  .door{display:flex; align-items:baseline; gap:10px; padding:13px 14px; margin:9px 0; background:#f6efe0; border-radius:13px; border:1px solid var(--line);}
-  .door.first{border:1.5px solid var(--green); background:#eef3e6;}
-  .door .nm{font-weight:700; font-size:1rem; flex:none; width:5.4em;}
-  .door .pr{color:var(--green-d); font-weight:700; flex:none;}
-  .door .ds{color:var(--muted); font-size:.86rem;}
-  .door .badge{display:inline-block; font-size:.7rem; color:#fff; background:var(--green); border-radius:20px; padding:1px 9px; margin-left:6px;}
+  /* 比較表 */
+  .cmp{margin:14px 0;}
+  .cmp table{width:100%; border-collapse:collapse; font-size:.76rem; table-layout:fixed;}
+  .cmp th,.cmp td{padding:8px 3px; text-align:center; border-bottom:1px solid var(--line); vertical-align:middle; line-height:1.35;}
+  .cmp td:first-child,.cmp th:first-child{text-align:left; width:36%; font-size:.72rem;}
+  .cmp thead th{font-weight:700; border-bottom:2px solid var(--line);}
+  .cmp thead th small{display:block; font-weight:400; font-size:.6rem; color:var(--muted);}
+  .cmp .hl{background:#eef3e6;}
+  .cmp thead th.hl{color:var(--green-d); border-radius:10px 10px 0 0;}
+  .cmp tbody tr:last-child td{border-bottom:none;}
+  .cmp .sub{font-size:.62rem; color:var(--muted);}
+  .cmp .yes{color:var(--green-d); font-weight:700;}
+  .cmp .no{color:#c9bda3;}
+  .cmp .val{font-size:.7rem; font-weight:600; color:var(--green-d);}
   /* 声 */
   .voice-ph{border:1.5px dashed #c9bda3; background:#f6efe0; border-radius:13px; padding:18px; text-align:center; color:var(--muted); font-size:.92rem;}
   /* why now */
@@ -87,7 +93,7 @@
   <div class="card">
     <p class="sec-ttl"><span aria-hidden="true">🌙</span>その一歩、ためらって当然です</p>
     <p>個別相談を受けて。3回のミニ講座で学んで。アプリを毎日ひらいて。——ここまで来たのに、本科に進む最後の一歩だけが、どうしても踏み出せなかった。</p>
-    <p>30万、50万、80万。決して小さくない金額です。「本当に変われるの?」「私にできるの?」——その不安で立ち止まるのは、弱さではありません。<span class="em">迷えるのは、あなたが本気で「変わりたい」と願っているからこそ</span>です。</p>
+    <p>決して小さくない決断です。「本当に変われるの?」「私にできるの?」——その不安で立ち止まるのは、弱さではありません。<span class="em">迷えるのは、あなたが本気で「変わりたい」と願っているからこそ</span>です。</p>
     <p class="soft">本当にどうでもいい人は、迷いもしません。あなたは、ちゃんと前を向いています。</p>
   </div>
 
@@ -159,25 +165,36 @@
     </ul>
   </div>
 
-  <!-- 崖を下げる：松竹梅 -->
+  <!-- 崖を下げる：3プラン比較（金額非表示） -->
   <div class="card">
     <p class="sec-ttl"><span aria-hidden="true">🚪</span>「全部を一度に」じゃなくていい</p>
-    <p>本科には、サポートの厚さが違う<span class="em">3つの入口</span>があります。あなたは80万円を断ったのではありません。<span class="em">入口は、もっと手前にもある</span>のです。</p>
-    <div class="doors">
-      <div class="door first">
-        <span class="nm">梅</span><span class="pr">30万円</span>
-        <span class="ds">まずはここから、あなたのペースで<span class="badge">迷う方の入口</span></span>
-      </div>
-      <div class="door">
-        <span class="nm">竹</span><span class="pr">50万円</span>
-        <span class="ds">サポートを手厚く、伴走を増やして</span>
-      </div>
-      <div class="door">
-        <span class="nm">松</span><span class="pr">80万円</span>
-        <span class="ds">いちばん手厚く、最短で変わりたい方へ</span>
-      </div>
+    <p>本科には<span class="em">3つのプラン</span>があります。いちばん軽い<span class="em">ベーシック＝はじめの一歩</span>から選べます。全部を一度に背負う必要はありません。</p>
+    <div class="cmp">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>ベーシック<small>はじめの一歩</small></th>
+            <th class="hl">スタンダード<small>おすすめ</small></th>
+            <th>プレミアム<small>フルサポート</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>個別セッション（Zoom）</td><td><span class="val">月1回<br>60分</span></td><td class="hl"><span class="val">月2回<br>90分</span></td><td><span class="val">月2回<br>90分</span></td></tr>
+          <tr><td>睡眠ロードマップ設計</td><td><span class="yes">✓</span></td><td class="hl"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>姿勢改善サポート</td><td><span class="no">—</span></td><td class="hl"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>マインドリセット</td><td><span class="no">—</span></td><td class="hl"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>栄養サポート<br><span class="sub">Lコンドロイチン・ビタミン・HMB</span></td><td><span class="no">—</span></td><td class="hl"><span class="val">3ヶ月分</span></td><td><span class="val">6ヶ月分</span></td></tr>
+          <tr><td>骨盤パンツ・BCB・PA</td><td><span class="no">—</span></td><td class="hl"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>矯正マット・枕・シーツ</td><td><span class="no">—</span></td><td class="hl"><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>完全個別設計</td><td><span class="no">—</span></td><td class="hl"><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>AI睡眠アプリ活用</td><td><span class="no">—</span></td><td class="hl"><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>終了後のフォロー</td><td><span class="no">—</span></td><td class="hl"><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>リアル施術</td><td><span class="no">—</span></td><td class="hl"><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+        </tbody>
+      </table>
     </div>
-    <p class="soft">どの入口でも、6ヶ月の伴走がついています。ひとりで頑張るのではなく、一緒に進みます。</p>
+    <p class="soft">全プラン共通：<span class="em">LINE相談 無制限</span>。迷った瞬間に、いつでも相談できます。ひとりで頑張るのではなく、一緒に進みます。どのプランが合うかは、面談で一緒に選べます。</p>
   </div>
 
   <!-- お客様の声（実物を後ではめ込む） -->

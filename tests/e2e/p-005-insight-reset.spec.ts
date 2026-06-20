@@ -215,7 +215,7 @@ test('P005-INS-06 傾向表示時はLINE/体験入学導線が出る', async ({ 
   await expect(page.locator('#rec-insight-link'))
     .toHaveText('→ LINE / 体験入学を見る');
   await expect(page.locator('#rec-insight-link'))
-    .toHaveAttribute('href', 'https://line.me/R/ti/p/@l.hidamari');
+    .toHaveAttribute('href', 'https://s.lmes.jp/landing-qr/2006353028-ZkXRAR0K?uLand=HfZHgJ');
 });
 
 test('P005-INS-07 同条件は決定論で同一文', async ({ page }) => {
@@ -319,7 +319,7 @@ test('P005-INS-11 閉経時も傾向出れば導線表示', async ({ page }) => 
   await expect(page.locator('#rec-insight-link'))
     .toHaveText('→ LINE / 体験入学を見る');
   await expect(page.locator('#rec-insight-link'))
-    .toHaveAttribute('href', 'https://line.me/R/ti/p/@l.hidamari');
+    .toHaveAttribute('href', 'https://s.lmes.jp/landing-qr/2006353028-ZkXRAR0K?uLand=HfZHgJ');
 });
 
 // =====================================================================

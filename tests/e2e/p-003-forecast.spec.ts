@@ -12,7 +12,7 @@ import { test, expect, type Page } from '@playwright/test';
  *   黄体期（最新生理開始日から17日目以降） または
  *   (periodStarts.length + sweetCravings.length) >= 3
  *
- * 特典文言・@l.hidamari は実装内 LINE_BODY / anchor に固定。期待値は仕様書 P-003 と
+ * 特典文言・体験入学リンク は実装内 LINE_BODY / anchor に固定。期待値は仕様書 P-003 と
  * 一字一句一致で検証する（捏造禁止・各テスト独立・自前 storage 投入）。
  * フェーズ境界は「今日(2026-06-18)」起点の相対日（D-offset）で算出する。
  */
@@ -123,9 +123,9 @@ test('E2E-FC-002 ロックカードをタップしても遷移・機能起動な
 });
 
 // ---------------------------------------------------------------------------
-// E2E-FC-003: LINE特典文言が一字一句表示・@l.hidamari
+// E2E-FC-003: LINE特典文言が一字一句表示・体験入学リンク
 // ---------------------------------------------------------------------------
-test('E2E-FC-003 LINE特典4行一字一句一致・@l.hidamari/href/rel', async ({ page }) => {
+test('E2E-FC-003 LINE特典4行一字一句一致・体験入学リンク/href/rel', async ({ page }) => {
   await seed(page, { [PROFILE_KEY]: profileJson(0) });
   await page.goto('/');
   await openForecast(page);
@@ -145,8 +145,8 @@ test('E2E-FC-003 LINE特典4行一字一句一致・@l.hidamari/href/rel', async
 
   // リンク文言・href・rel。
   const link = page.locator('#fc-line-id');
-  await expect(link).toHaveText('→ @l.hidamari');
-  await expect(link).toHaveAttribute('href', 'https://line.me/R/ti/p/@l.hidamari');
+  await expect(link).toHaveText('→ LINE / 体験入学を見る');
+  await expect(link).toHaveAttribute('href', 'https://s.lmes.jp/landing-qr/2006353028-ZkXRAR0K?uLand=HfZHgJ');
   await expect(link).toHaveAttribute('rel', 'noreferrer noopener');
 });
 
@@ -159,9 +159,9 @@ test('E2E-FC-004 記録なし・非黄体期では常設だが非強調', async 
   await page.goto('/');
   await openForecast(page);
 
-  // 常設: 本文・@l.hidamari は表示される。
+  // 常設: 本文・体験入学リンク は表示される。
   await expect(page.locator('#fc-line-body')).toHaveText(/📲LINEに登録すると今すぐ受け取れます🌿/);
-  await expect(page.locator('#fc-line-id')).toHaveText('→ @l.hidamari');
+  await expect(page.locator('#fc-line-id')).toHaveText('→ LINE / 体験入学を見る');
 
   // 強調なし: is-emphasized が付かない。
   await expect(page.locator('#fc-line')).not.toHaveClass(/is-emphasized/);
@@ -197,9 +197,9 @@ test('E2E-FC-005 黄体期で is-emphasized・黄体期フラグ文言', async (
   expect(parseFloat(styles.border)).toBeGreaterThan(1);
   expect(styles.shadow).not.toBe('none');
 
-  // 本文・@l.hidamari は引き続き表示。
+  // 本文・体験入学リンク は引き続き表示。
   await expect(page.locator('#fc-line-body')).toHaveText(/📲LINEに登録すると今すぐ受け取れます🌿/);
-  await expect(page.locator('#fc-line-id')).toHaveText('→ @l.hidamari');
+  await expect(page.locator('#fc-line-id')).toHaveText('→ LINE / 体験入学を見る');
 });
 
 // ---------------------------------------------------------------------------
@@ -235,9 +235,9 @@ test('E2E-FC-006 非黄体期でも記録合計3件以上で is-emphasized・記
   await expect(page.locator('#fc-line-flag')).toBeVisible();
   await expect(page.locator('#fc-line-flag')).toHaveText('🌱 記録おつかれさま。続きはLINEで');
 
-  // 本文・@l.hidamari は引き続き表示。
+  // 本文・体験入学リンク は引き続き表示。
   await expect(page.locator('#fc-line-body')).toHaveText(/📲LINEに登録すると今すぐ受け取れます🌿/);
-  await expect(page.locator('#fc-line-id')).toHaveText('→ @l.hidamari');
+  await expect(page.locator('#fc-line-id')).toHaveText('→ LINE / 体験入学を見る');
 });
 
 // ---------------------------------------------------------------------------
@@ -266,5 +266,5 @@ test('E2E-FC-007 トップ黄体期バナータップで予告へ遷移・強調
   await expect(page.locator('#fc-line')).toHaveClass(/is-emphasized/);
   await expect(page.locator('#fc-line-flag')).toHaveText('🌙 ゆらぎやすい時期。今がおすすめ');
   await expect(page.locator('#fc-line-body')).toHaveText(/📲LINEに登録すると今すぐ受け取れます🌿/);
-  await expect(page.locator('#fc-line-id')).toHaveText('→ @l.hidamari');
+  await expect(page.locator('#fc-line-id')).toHaveText('→ LINE / 体験入学を見る');
 });

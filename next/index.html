@@ -19,18 +19,19 @@
   }
   .wrap{max-width:560px; margin:0 auto; padding:0 22px 64px;}
   .eyebrow{text-align:center; color:var(--moon); font-size:.82rem; letter-spacing:.18em; margin:34px 0 6px;}
-  h1{
-    text-align:center; font-size:1.62rem; line-height:1.5; font-weight:700;
-    margin:.2em 0 .5em; letter-spacing:.01em;
-  }
+  h1{text-align:center; font-size:1.62rem; line-height:1.5; font-weight:700; margin:.2em 0 .5em;}
   .lead{text-align:center; color:var(--muted); font-size:1.02rem; margin:0 auto 8px; max-width:30em;}
   .card{
     background:var(--card); border:1px solid var(--line); border-radius:18px;
     padding:24px 22px; margin:22px 0; box-shadow:var(--shadow);
   }
-  .sec-ttl{font-size:1.16rem; font-weight:700; margin:0 0 10px; display:flex; align-items:center; gap:.4em;}
+  .sec-ttl{font-size:1.16rem; font-weight:700; margin:0 0 12px; display:flex; align-items:center; gap:.4em; line-height:1.5;}
   p{margin:.6em 0;}
   .soft{color:var(--muted); font-size:.95rem;}
+  .em{color:var(--green-d); font-weight:700;}
+  .quietlist{margin:.4em 0; padding-left:1.1em; color:var(--ink);}
+  .quietlist li{margin:.3em 0;}
+  /* 進級フレーム */
   .grade{display:flex; gap:12px; align-items:stretch; margin:14px 0;}
   .grade .col{flex:1; background:#f6efe0; border-radius:14px; padding:14px; text-align:center;}
   .grade .now{border:1.5px dashed #c9bda3;}
@@ -38,42 +39,41 @@
   .grade .tag{font-size:.74rem; color:var(--muted); letter-spacing:.08em;}
   .grade .big{font-size:1.05rem; font-weight:700; margin:.25em 0;}
   .grade .arrow{align-self:center; color:var(--green); font-weight:700;}
-  ul.future{list-style:none; padding:0; margin:8px 0 0;}
-  ul.future li{padding:11px 0; border-top:1px solid var(--line); display:flex; gap:.6em;}
-  ul.future li:first-child{border-top:none;}
-  ul.future .ico{font-size:1.15rem; flex:none;}
-  ul.future b{display:block;}
+  /* before→after */
+  .ba{border-top:1px solid var(--line); padding:15px 0;}
+  .ba:first-of-type{border-top:none;}
+  .ba .h{font-weight:700; display:flex; gap:.45em; align-items:center; margin-bottom:7px;}
+  .ba .now2{color:var(--muted); font-size:.92rem;}
+  .ba .row{display:flex; gap:.5em; align-items:flex-start; margin:3px 0;}
+  .ba .lbl{flex:none; font-size:.66rem; border-radius:20px; padding:1px 8px; margin-top:.35em;}
+  .ba .lbl.n{background:#efe7d6; color:var(--muted);}
+  .ba .lbl.a{background:var(--green); color:#fff;}
+  .ba .aft{color:var(--ink); font-weight:600;}
+  .ba .aft b{color:var(--green-d);}
+  /* doors */
   .doors{margin-top:10px;}
-  .door{
-    display:flex; align-items:baseline; gap:10px; padding:13px 14px; margin:9px 0;
-    background:#f6efe0; border-radius:13px; border:1px solid var(--line);
-  }
+  .door{display:flex; align-items:baseline; gap:10px; padding:13px 14px; margin:9px 0; background:#f6efe0; border-radius:13px; border:1px solid var(--line);}
   .door.first{border:1.5px solid var(--green); background:#eef3e6;}
   .door .nm{font-weight:700; font-size:1rem; flex:none; width:5.4em;}
   .door .pr{color:var(--green-d); font-weight:700; flex:none;}
   .door .ds{color:var(--muted); font-size:.86rem;}
-  .door .badge{display:inline-block; font-size:.7rem; color:#fff; background:var(--green); border-radius:20px; padding:1px 9px; margin-left:6px; vertical-align:middle;}
-  .voice-ph{
-    border:1.5px dashed #c9bda3; background:#f6efe0; border-radius:13px;
-    padding:18px; text-align:center; color:var(--muted); font-size:.92rem;
-  }
-  .cta{
-    background:linear-gradient(180deg,#eef3e6,#e7efdb); border:1px solid #cdd9bd;
-    border-radius:20px; padding:26px 22px; text-align:center; margin-top:26px; box-shadow:var(--shadow);
-  }
-  .cta h2{font-size:1.22rem; margin:.1em 0 .5em;}
+  .door .badge{display:inline-block; font-size:.7rem; color:#fff; background:var(--green); border-radius:20px; padding:1px 9px; margin-left:6px;}
+  /* 声 */
+  .voice-ph{border:1.5px dashed #c9bda3; background:#f6efe0; border-radius:13px; padding:18px; text-align:center; color:var(--muted); font-size:.92rem;}
+  /* why now */
+  .why{background:#f6efe0; border-left:4px solid var(--moon); border-radius:10px; padding:16px 18px; margin:6px 0;}
+  /* CTA */
+  .cta{background:linear-gradient(180deg,#eef3e6,#e7efdb); border:1px solid #cdd9bd; border-radius:20px; padding:26px 22px; text-align:center; margin-top:26px; box-shadow:var(--shadow);}
+  .cta h2{font-size:1.24rem; margin:.1em 0 .5em; line-height:1.5;}
   .cta p{color:var(--muted);}
-  .btn{
-    display:block; background:#06c755; color:#fff; text-decoration:none; font-weight:700;
-    font-size:1.08rem; padding:16px; border-radius:14px; margin:16px 0 8px;
-    box-shadow:0 6px 16px rgba(6,199,85,.28);
-  }
+  .btn{display:block; background:#06c755; color:#fff; text-decoration:none; font-weight:700; font-size:1.08rem; padding:16px; border-radius:14px; margin:16px 0 8px; box-shadow:0 6px 16px rgba(6,199,85,.28);}
   .btn span{font-weight:400; font-size:.86rem; display:block; opacity:.95; margin-top:2px;}
   .promise{font-size:.86rem; color:var(--muted); margin-top:6px;}
-  .author{text-align:center; color:var(--muted); font-size:.9rem; margin:30px 0 0;}
+  .ps{background:var(--card); border:1px dashed var(--line); border-radius:14px; padding:16px 18px; margin-top:20px; font-size:.95rem;}
+  .ps b{color:var(--green-d);}
+  .author{text-align:center; color:var(--muted); font-size:.9rem; margin:28px 0 0;}
   .author .nm{color:var(--ink); font-weight:700;}
   .free{text-align:center; font-size:.8rem; color:var(--muted); margin-top:22px;}
-  .em{color:var(--green-d); font-weight:700;}
 </style>
 </head>
 <body>
@@ -83,16 +83,17 @@
   <h1>迷っているあなたへ。<br>迷うのは、本気だからです。</h1>
   <p class="lead">アプリを続けているあなたは、もう“眠りの基礎の学年”を歩いています。</p>
 
-  <!-- 肯定 -->
+  <!-- 共感（深堀り） -->
   <div class="card">
     <p class="sec-ttl"><span aria-hidden="true">🌙</span>その一歩、ためらって当然です</p>
-    <p>個別相談も、3回のミニ講座も受けて、それでも本科に進む一歩がためらわれた——。その気持ちは、痛いほど自然なものです。</p>
-    <p>大きな決断だから、怖くて当たり前。<span class="em">迷えるのは、あなたが本気で「変わりたい」と願っている証拠</span>です。だからこのページは、急かすためではなく、その気持ちをもう一度そっと整理するために用意しました。</p>
+    <p>個別相談を受けて。3回のミニ講座で学んで。アプリを毎日ひらいて。——ここまで来たのに、本科に進む最後の一歩だけが、どうしても踏み出せなかった。</p>
+    <p>30万、50万、80万。決して小さくない金額です。「本当に変われるの?」「私にできるの?」——その不安で立ち止まるのは、弱さではありません。<span class="em">迷えるのは、あなたが本気で「変わりたい」と願っているからこそ</span>です。</p>
+    <p class="soft">本当にどうでもいい人は、迷いもしません。あなたは、ちゃんと前を向いています。</p>
   </div>
 
   <!-- 進級フレーム -->
   <div class="card">
-    <p class="sec-ttl"><span aria-hidden="true">🎓</span>あなたは、次の学年の入口にいます</p>
+    <p class="sec-ttl"><span aria-hidden="true">🎓</span>あなたは今、次の学年の入口にいます</p>
     <div class="grade">
       <div class="col now">
         <div class="tag">いまのあなた</div>
@@ -106,25 +107,62 @@
         <div class="soft">眠れない“原因そのもの”を理解し、自分で整えられるようになる段階</div>
       </div>
     </div>
-    <p class="soft">アプリで積み上げてきた毎日は、ちゃんと“修了証”になっています。次は、その土台の上に本当の変化を載せる番です。</p>
+    <p class="soft">アプリで積み上げた毎日は、もう立派な“修了証”です。次は、その土台の上に本当の変化を載せる番です。</p>
   </div>
 
-  <!-- 未来の再点火 -->
+  <!-- 6ヶ月後、こんな日々に（ビフォーアフター） -->
   <div class="card">
-    <p class="sec-ttl"><span aria-hidden="true">🌅</span>6ヶ月後、こんな朝を迎えるために</p>
-    <ul class="future">
-      <li><span class="ico" aria-hidden="true">🧠</span><span><b>マインドセット</b>眠れない夜に、焦らなくなる自分へ</span></li>
-      <li><span class="ico" aria-hidden="true">📚</span><span><b>睡眠の基礎知識</b>自分の眠りを、自分の言葉で説明できる</span></li>
-      <li><span class="ico" aria-hidden="true">🧍</span><span><b>姿勢改善・体操</b>体がゆるみ、自然と眠くなる流れをつくる</span></li>
-      <li><span class="ico" aria-hidden="true">🥣</span><span><b>栄養の実アドバイス</b>日中の浮き沈みが減り、夜に向けて整う</span></li>
-    </ul>
-    <p class="soft">この5つを6ヶ月かけて、ひとつずつ。根性ではなく“仕組み”で、眠りを変えていきます。</p>
+    <p class="sec-ttl"><span aria-hidden="true">🌅</span>6ヶ月後、こんな日々に</p>
+    <p class="soft">本科は、5つの柱で「眠れない毎日」を「整う毎日」へ変えていきます。</p>
+
+    <div class="ba">
+      <div class="h"><span aria-hidden="true">🧠</span>マインドセット</div>
+      <div class="row"><span class="lbl n">いま</span><span class="now2">「頑張らなきゃ」「〇〇しなきゃ」に追われ、眠れない自分を責めてしまう</span></div>
+      <div class="row"><span class="lbl a">6ヶ月後</span><span class="aft">「私は本当はどうしたい?」から動ける自分に。<b>ネガティブモードが、自分で選ぶ毎日へ</b>変わる</span></div>
+    </div>
+
+    <div class="ba">
+      <div class="h"><span aria-hidden="true">📚</span>睡眠の基礎知識</div>
+      <div class="row"><span class="lbl n">いま</span><span class="now2">ネットの断片情報に振り回され、何が正しいのか分からず不安</span></div>
+      <div class="row"><span class="lbl a">6ヶ月後</span><span class="aft">自分の眠りの仕組みを理解し、<b>「分からない不安」が「分かる安心」へ</b>。自分の言葉で説明できる</span></div>
+    </div>
+
+    <div class="ba">
+      <div class="h"><span aria-hidden="true">🧍</span>姿勢改善</div>
+      <div class="row"><span class="lbl n">いま</span><span class="now2">体がこわばったまま布団へ入り、力が抜けず目が冴える</span></div>
+      <div class="row"><span class="lbl a">6ヶ月後</span><span class="aft">日中の姿勢から整い、<b>夜には自然と力が抜ける体</b>に。眠りに入りやすくなる</span></div>
+    </div>
+
+    <div class="ba">
+      <div class="h"><span aria-hidden="true">🤸</span>体操</div>
+      <div class="row"><span class="lbl n">いま</span><span class="now2">何をどう動かせばいいか分からず、結局なにもできていない</span></div>
+      <div class="row"><span class="lbl a">6ヶ月後</span><span class="aft">寝る前のひと習慣が身につき、<b>体がゆるんで“自然な眠気”が戻る</b></span></div>
+    </div>
+
+    <div class="ba">
+      <div class="h"><span aria-hidden="true">🥣</span>栄養の実アドバイス</div>
+      <div class="row"><span class="lbl n">いま</span><span class="now2">何を食べれば眠りに良いのか分からず、日中もぐったり</span></div>
+      <div class="row"><span class="lbl a">6ヶ月後</span><span class="aft">食べ方が整い、<b>日中の浮き沈みが減り、夜にちゃんと眠くなる</b>リズムへ</span></div>
+    </div>
+
+    <p class="soft" style="margin-top:14px;">この5つを、根性ではなく“仕組み”で。6ヶ月かけて、ひとつずつ。気づけば、眠れない夜を数えるより、眠れた朝を喜ぶ日が増えています。</p>
   </div>
 
-  <!-- 怖さを溶かす + 松竹梅 -->
+  <!-- 価値の理由 -->
+  <div class="card">
+    <p class="sec-ttl"><span aria-hidden="true">🌿</span>なぜ「6ヶ月」「伴走」なのか</p>
+    <p>眠りは、一晩の裏ワザでは変わりません。だからこそ本科は、<span class="em">体・心・知識・食を6ヶ月かけて少しずつ整える設計</span>になっています。</p>
+    <ul class="quietlist">
+      <li>独学で挫折するのは、意志が弱いからではなく“伴走者がいない”から</li>
+      <li>つまずいた時に相談できる人がいるだけで、続く確率は大きく変わります</li>
+      <li>あなたはもう、アプリで「続けられる人」だと証明しています</li>
+    </ul>
+  </div>
+
+  <!-- 崖を下げる：松竹梅 -->
   <div class="card">
     <p class="sec-ttl"><span aria-hidden="true">🚪</span>「全部を一度に」じゃなくていい</p>
-    <p>本科には、サポートの厚さが違う<span class="em">3つの入口</span>があります。80万円を断った、のではありません。<span class="em">入口は、もっと手前にもある</span>のです。</p>
+    <p>本科には、サポートの厚さが違う<span class="em">3つの入口</span>があります。あなたは80万円を断ったのではありません。<span class="em">入口は、もっと手前にもある</span>のです。</p>
     <div class="doors">
       <div class="door first">
         <span class="nm">梅</span><span class="pr">30万円</span>
@@ -142,7 +180,7 @@
     <p class="soft">どの入口でも、6ヶ月の伴走がついています。ひとりで頑張るのではなく、一緒に進みます。</p>
   </div>
 
-  <!-- お客様の声（実物を後ではめ込む・捏造しない） -->
+  <!-- お客様の声（実物を後ではめ込む） -->
   <div class="card">
     <p class="sec-ttl"><span aria-hidden="true">💬</span>同じところで迷った先輩の声</p>
     <div class="voice-ph">
@@ -151,15 +189,29 @@
     </div>
   </div>
 
+  <!-- なぜ今 -->
+  <div class="card">
+    <p class="sec-ttl"><span aria-hidden="true">⏳</span>なぜ、今なのか</p>
+    <div class="why">
+      <p style="margin:.2em 0;">迷っているこの瞬間も、眠れない夜は静かに続いています。そして「いつか」は、待っていても来ません。</p>
+      <p style="margin:.4em 0 .2em;">アプリを毎日ひらいている<span class="em">今のあなたの熱</span>が、いちばん動きやすい時です。冷めてしまう前に、次の一歩を。</p>
+    </div>
+  </div>
+
   <!-- CTA -->
   <div class="cta">
     <h2>迷ったまま、ひとりで決めなくて大丈夫</h2>
-    <p>「進級面談」で、あなたの<b>怖さ</b>も、<b>今のあなたに合う入口</b>も、先生と一緒に整理します。決めるのは、そのあとで大丈夫です。</p>
+    <p>「進級面談」は、申し込む場ではなく<b>“決めるための場”</b>です。あなたの<b>怖さ</b>も、<b>今のあなたに合う入口</b>も、先生と一緒に整理します。合わなければ、無理に進む必要はありません。</p>
     <a class="btn" href="https://line.me/R/oaMessage/@657cfxmf/?%E9%80%B2%E7%B4%9A%E9%9D%A2%E8%AB%87%E5%B8%8C%E6%9C%9B" rel="noreferrer noopener">
       🌙 進級面談を申し込む
       <span>LINEが開きます／「進級面談希望」と送るだけ</span>
     </a>
     <p class="promise">無料の面談です。売り込みはしません。話したくないことは話さなくて大丈夫です。</p>
+  </div>
+
+  <!-- PS -->
+  <div class="ps">
+    <p style="margin:.2em 0;"><b>P.S.</b> ずっと心の中で「いつか変わりたい」と思っているなら——その<b>「いつか」を、今日の面談で「いつ」に変えませんか。</b>決めるのは、話してからで大丈夫です。</p>
   </div>
 
   <p class="author">

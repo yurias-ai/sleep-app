@@ -50,20 +50,13 @@
   .ba .lbl.a{background:var(--green); color:#fff;}
   .ba .aft{color:var(--ink); font-weight:600;}
   .ba .aft b{color:var(--green-d);}
-  /* 比較表 */
-  .cmp{margin:14px 0;}
-  .cmp table{width:100%; border-collapse:collapse; font-size:.76rem; table-layout:fixed;}
-  .cmp th,.cmp td{padding:8px 3px; text-align:center; border-bottom:1px solid var(--line); vertical-align:middle; line-height:1.35;}
-  .cmp td:first-child,.cmp th:first-child{text-align:left; width:36%; font-size:.72rem;}
-  .cmp thead th{font-weight:700; border-bottom:2px solid var(--line);}
-  .cmp thead th small{display:block; font-weight:400; font-size:.6rem; color:var(--muted);}
-  .cmp .hl{background:#eef3e6;}
-  .cmp thead th.hl{color:var(--green-d); border-radius:10px 10px 0 0;}
-  .cmp tbody tr:last-child td{border-bottom:none;}
-  .cmp .sub{font-size:.62rem; color:var(--muted);}
-  .cmp .yes{color:var(--green-d); font-weight:700;}
-  .cmp .no{color:#c9bda3;}
-  .cmp .val{font-size:.7rem; font-weight:600; color:var(--green-d);}
+  /* 3プラン（抽象・金額非表示） */
+  .tiers{margin:14px 0; display:flex; flex-direction:column; gap:10px;}
+  .tier{background:#f6efe0; border:1px solid var(--line); border-radius:13px; padding:13px 15px;}
+  .tier.rec{border:1.5px solid var(--green); background:#eef3e6;}
+  .tier .tn{display:block; font-weight:700; font-size:1.04rem;}
+  .tier .tn em{font-style:normal; font-size:.66rem; color:#fff; background:var(--green); border-radius:20px; padding:1px 9px; margin-left:8px; vertical-align:middle;}
+  .tier .td{display:block; color:var(--muted); font-size:.9rem; margin-top:3px;}
   /* 声 */
   .voice-ph{border:1.5px dashed #c9bda3; background:#f6efe0; border-radius:13px; padding:18px; text-align:center; color:var(--muted); font-size:.92rem;}
   /* why now */
@@ -146,7 +139,7 @@
     </div>
 
     <div class="ba">
-      <div class="h"><span aria-hidden="true">🥣</span>栄養の実アドバイス</div>
+      <div class="h"><span aria-hidden="true">🥣</span>栄養</div>
       <div class="row"><span class="lbl n">いま</span><span class="now2">何を食べれば眠りに良いのか分からず、日中もぐったり</span></div>
       <div class="row"><span class="lbl a">6ヶ月後</span><span class="aft">食べ方が整い、<b>日中の浮き沈みが減り、夜にちゃんと眠くなる</b>リズムへ</span></div>
     </div>
@@ -169,32 +162,21 @@
   <div class="card">
     <p class="sec-ttl"><span aria-hidden="true">🚪</span>「全部を一度に」じゃなくていい</p>
     <p>本科には<span class="em">3つのプラン</span>があります。いちばん軽い<span class="em">ベーシック＝はじめの一歩</span>から選べます。全部を一度に背負う必要はありません。</p>
-    <div class="cmp">
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>ベーシック<small>はじめの一歩</small></th>
-            <th class="hl">スタンダード<small>おすすめ</small></th>
-            <th>プレミアム<small>フルサポート</small></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>個別セッション（Zoom）</td><td><span class="val">月1回<br>60分</span></td><td class="hl"><span class="val">月2回<br>90分</span></td><td><span class="val">月2回<br>90分</span></td></tr>
-          <tr><td>睡眠ロードマップ設計</td><td><span class="yes">✓</span></td><td class="hl"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>姿勢改善サポート</td><td><span class="no">—</span></td><td class="hl"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>マインドリセット</td><td><span class="no">—</span></td><td class="hl"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>栄養サポート<br><span class="sub">Lコンドロイチン・ビタミン・HMB</span></td><td><span class="no">—</span></td><td class="hl"><span class="val">3ヶ月分</span></td><td><span class="val">6ヶ月分</span></td></tr>
-          <tr><td>骨盤パンツ・BCB・PA</td><td><span class="no">—</span></td><td class="hl"><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>矯正マット・枕・シーツ</td><td><span class="no">—</span></td><td class="hl"><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>完全個別設計</td><td><span class="no">—</span></td><td class="hl"><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>AI睡眠アプリ活用</td><td><span class="no">—</span></td><td class="hl"><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>終了後のフォロー</td><td><span class="no">—</span></td><td class="hl"><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>リアル施術</td><td><span class="no">—</span></td><td class="hl"><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
-        </tbody>
-      </table>
+    <div class="tiers">
+      <div class="tier">
+        <span class="tn">ベーシック</span>
+        <span class="td">まずはここから、無理なく。はじめの一歩に</span>
+      </div>
+      <div class="tier rec">
+        <span class="tn">スタンダード<em>人気</em></span>
+        <span class="td">バランスよく、しっかり整えたい方へ</span>
+      </div>
+      <div class="tier">
+        <span class="tn">プレミアム</span>
+        <span class="td">最短で・フルサポートで変わりたい方へ</span>
+      </div>
     </div>
-    <p class="soft">全プラン共通：<span class="em">LINE相談 無制限</span>。迷った瞬間に、いつでも相談できます。ひとりで頑張るのではなく、一緒に進みます。どのプランが合うかは、面談で一緒に選べます。</p>
+    <p class="soft">全プラン共通：<span class="em">LINE相談 無制限</span>。迷った瞬間に、いつでも相談できます。<span class="em">どのプランがあなたに合うかは、面談で一緒に選びます。</span></p>
   </div>
 
   <!-- お客様の声（実物を後ではめ込む） -->
